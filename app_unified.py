@@ -23,12 +23,12 @@ except Exception:
 app = Flask(__name__)
 app.secret_key = os.environ.get('FLASK_SECRET_KEY', 'dev-only-secret')
 
-TIMING_APP_URL = os.environ.get('TIMING_APP_URL', 'http://127.0.0.1:8501')
+TIMING_APP_URL = os.environ.get('TIMING_APP_URL', 'http://192.168.1.237:5001')
 
 def get_timing_app_url() -> str:
     url = (os.environ.get('TIMING_APP_URL') or TIMING_APP_URL or '').strip()
     if not url:
-        url = 'http://127.0.0.1:8501'
+        url = TIMING_APP_URL
     if not re.match(r'^https?://', url):
         url = 'http://' + url.lstrip('/')
     return url.rstrip('/')
