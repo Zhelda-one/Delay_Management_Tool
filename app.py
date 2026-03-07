@@ -47,7 +47,7 @@ def _ensure_state():
     if "cal_mode" not in st.session_state:
         st.session_state.cal_mode = CAL_NONE
 
-def _num_input(key: str, label: str, default: float, help_text: str | None = None) -> float:
+def _num_input(key: str, label: str, default: float, help_text: str | None = None, *, disabled: bool = False) -> float:
     """
     Streamlit number_input 안정화:
     - key가 없으면 default로 초기화
@@ -55,7 +55,51 @@ def _num_input(key: str, label: str, default: float, help_text: str | None = Non
     """
     if key not in st.session_state:
         st.session_state[key] = float(default)
-    return st.number_input(label, key=key, value=float(st.session_state[key]), help=help_text)
+    return st.number_input(
+        label,
+        key=key,
+        value=float(st.session_state[key]),
+        help=help_text,
+        format="%.2f",
+        step=0.01,
+        disabled=disabled,
+    )
+
+
+def _to_float_micro(value) -> float:
+    s = str(value).strip()
+    s = s.replace(',', '').replace('Hz', '').replace('hz', '').strip()
+    return float(s) / 1000.0
+
+
+def _read_profile_cfg_upload(file_obj) -> dict[str, float]:
+    name = (file_obj.name or '').lower()
+    if name.endswith('.csv'):
+        df = pd.read_csv(file_obj)
+    else:
+        df = pd.read_excel(file_obj)
+
+    if df.empty:
+        raise ValueError('Uploaded profile data file is empty.')
+
+    row = df.iloc[0]
+    normalized = {str(col).strip().lower(): row[col] for col in df.columns}
+
+    def pick(*keys):
+        for k in keys:
+            if k in normalized and pd.notna(normalized[k]):
+                return normalized[k]
+        raise ValueError(f"Missing required column. Expected one of: {', '.join(keys)}")
+
+    return {
+        't2a_min_up': _to_float_micro(pick('t2a min up', 't2a_min_up')),
+        't2a_max_up': _to_float_micro(pick('t2a max up', 't2a_max_up')),
+        'tcp_adv_dl': _to_float_micro(pick('tcp adv dl', 'tcp_adv_dl')),
+        'ta3_min': _to_float_micro(pick('ta3 min', 'ta3_min')),
+        'ta3_max': _to_float_micro(pick('ta3 max', 'ta3_max')),
+        't2a_min_cp_ul': _to_float_micro(pick('t2a min cp ul', 't2a_min_cp_ul')),
+        't2a_max_cp_ul': _to_float_micro(pick('t2a max cp ul', 't2a_max_cp_ul')),
+    }
 
 
 _ensure_state()
@@ -121,25 +165,65 @@ with st.sidebar:
     st.divider()
 
     st.header("3) RU/DU Config (Master)")
-    st.caption("Note: t12_max/min is negative in the original Excel file (e.g., -10, -5).")
+    st.caption("Import the downloaded delay row file (CSV/XLSX). Only t12_max/min are editable.")
 
     # cfg UI inputs (key 기반)
     cfg = dict(st.session_state.cfg)
 
-    # RU parameters
-    cfg["t2a_min_up"] = _num_input("cfg_t2a_min_up", "t2a_min_up (E4)", cfg["t2a_min_up"])
-    cfg["t2a_max_up"] = _num_input("cfg_t2a_max_up", "t2a_max_up (E5)", cfg["t2a_max_up"])
-    cfg["tcp_adv_dl"] = _num_input("cfg_tcp_adv_dl", "tcp_adv_dl (E8)", cfg["tcp_adv_dl"])
-    cfg["ta3_min"] = _num_input("cfg_ta3_min", "ta3_min (E9)", cfg["ta3_min"])
-    cfg["ta3_max"] = _num_input("cfg_ta3_max", "ta3_max (E10)", cfg["ta3_max"])
-    cfg["t2a_min_cp_ul"] = _num_input("cfg_t2a_min_cp_ul", "t2a_min_cp_ul (E11)", cfg["t2a_min_cp_ul"])
-    cfg["t2a_max_cp_ul"] = _num_input("cfg_t2a_max_cp_ul", "t2a_max_cp_ul (E12)", cfg["t2a_max_cp_ul"])
+    # # RU parameters
+    # cfg["t2a_min_up"] = _num_input("cfg_t2a_min_up", "t2a_min_up (E4)", cfg["t2a_min_up"])
+    # cfg["t2a_max_up"] = _num_input("cfg_t2a_max_up", "t2a_max_up (E5)", cfg["t2a_max_up"])
+    # cfg["tcp_adv_dl"] = _num_input("cfg_tcp_adv_dl", "tcp_adv_dl (E8)", cfg["tcp_adv_dl"])
+    # cfg["ta3_min"] = _num_input("cfg_ta3_min", "ta3_min (E9)", cfg["ta3_min"])
+    # cfg["ta3_max"] = _num_input("cfg_ta3_max", "ta3_max (E10)", cfg["ta3_max"])
+    # cfg["t2a_min_cp_ul"] = _num_input("cfg_t2a_min_cp_ul", "t2a_min_cp_ul (E11)", cfg["t2a_min_cp_ul"])
+    # cfg["t2a_max_cp_ul"] = _num_input("cfg_t2a_max_cp_ul", "t2a_max_cp_ul (E12)", cfg["t2a_max_cp_ul"])
 
-    # DU parameters (Excel uses negative)
-    # UI에서는 양수로 입력받고 내부에서 음수로 강제 (엑셀 방식과 동일하게 맞춤)
-    st.number_input("t12_max (µs) (enter positive)", key="t12_max_ui", value=10.0)
-    st.number_input("t12_min (µs) (enter positive)", key="t12_min_ui", value=5.0)
+    # # DU parameters (Excel uses negative)
+    # # UI에서는 양수로 입력받고 내부에서 음수로 강제 (엑셀 방식과 동일하게 맞춤)
+    # st.number_input("t12_max (µs) (enter positive)", key="t12_max_ui", value=10.0)
+    # st.number_input("t12_min (µs) (enter positive)", key="t12_min_ui", value=5.0)
+    profile_cfg_file = st.file_uploader(
+        "Import profile delay row (Bandwidth/SCS/T2a... columns)",
+        type=["csv", "xlsx"],
+        accept_multiple_files=False,
+        key="profile_cfg_file",
+    )
 
+    if profile_cfg_file is not None:
+        try:
+            imported_cfg = _read_profile_cfg_upload(profile_cfg_file)
+            if st.button("Apply imported RU config", type="primary"):
+                cfg.update(imported_cfg)
+                st.session_state.cfg = cfg
+                st.session_state["cfg_t2a_min_up"] = cfg["t2a_min_up"]
+                st.session_state["cfg_t2a_max_up"] = cfg["t2a_max_up"]
+                st.session_state["cfg_tcp_adv_dl"] = cfg["tcp_adv_dl"]
+                st.session_state["cfg_ta3_min"] = cfg["ta3_min"]
+                st.session_state["cfg_ta3_max"] = cfg["ta3_max"]
+                st.session_state["cfg_t2a_min_cp_ul"] = cfg["t2a_min_cp_ul"]
+                st.session_state["cfg_t2a_max_cp_ul"] = cfg["t2a_max_cp_ul"]
+                st.success("Imported RU config applied.")
+                st.rerun()
+        except Exception as e:
+            st.error(str(e))
+
+    cfg["t2a_min_up"] = _num_input("cfg_t2a_min_up", "t2a_min_up (E4)", cfg["t2a_min_up"], disabled=True)
+    cfg["t2a_max_up"] = _num_input("cfg_t2a_max_up", "t2a_max_up (E5)", cfg["t2a_max_up"], disabled=True)
+    cfg["tcp_adv_dl"] = _num_input("cfg_tcp_adv_dl", "tcp_adv_dl (E8)", cfg["tcp_adv_dl"], disabled=True)
+    cfg["ta3_min"] = _num_input("cfg_ta3_min", "ta3_min (E9)", cfg["ta3_min"], disabled=True)
+    cfg["ta3_max"] = _num_input("cfg_ta3_max", "ta3_max (E10)", cfg["ta3_max"], disabled=True)
+    cfg["t2a_min_cp_ul"] = _num_input("cfg_t2a_min_cp_ul", "t2a_min_cp_ul (E11)", cfg["t2a_min_cp_ul"], disabled=True)
+    cfg["t2a_max_cp_ul"] = _num_input("cfg_t2a_max_cp_ul", "t2a_max_cp_ul (E12)", cfg["t2a_max_cp_ul"], disabled=True)
+
+    if "t12_max_ui" not in st.session_state:
+        st.session_state["t12_max_ui"] = abs(float(cfg["t12_max"]))
+    if "t12_min_ui" not in st.session_state:
+        st.session_state["t12_min_ui"] = abs(float(cfg["t12_min"]))
+
+    st.number_input("t12_max (µs) (enter positive)", key="t12_max_ui", format="%.2f", step=0.01)
+    st.number_input("t12_min (µs) (enter positive)", key="t12_min_ui", format="%.2f", step=0.01)
+    
     cfg["t12_max"] = -abs(float(st.session_state["t12_max_ui"]))
     cfg["t12_min"] = -abs(float(st.session_state["t12_min_ui"]))
 

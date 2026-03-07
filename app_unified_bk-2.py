@@ -22,7 +22,7 @@ except Exception:
 
 app = Flask(__name__)
 app.secret_key = os.environ.get('FLASK_SECRET_KEY', 'dev-only-secret')
-
+TIMING_APP_URL = os.environ.get("TIMING_APP_URL", "http://192.168.1.237:5001")
 # ------------------------- eCPRI 분석 함수 -------------------------
 def analyze_ecpri_data(file_path):
     """eCPRI 데이터 분석 함수"""
@@ -1625,6 +1625,9 @@ def profile_index():
     error = session.get('profile_error', None)
     return render_template("index_profile.html", results=results, error=error)
 
+@app.route("/timing/")
+def timing_index():
+    return render_template("timing_embed.html", timing_url=TIMING_APP_URL)
 @app.route("/profile/analyze", methods=["POST"])
 def profile_analyze():
     if 'file' not in request.files:

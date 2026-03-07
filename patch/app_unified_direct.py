@@ -1646,47 +1646,39 @@ def profile_index():
     error = session.get('profile_error', None)
     return render_template("index_profile.html", results=results, error=error)
 
-@app.route("/profile/export", methods=["POST"])
-def profile_export():
-    results = session.get('profile_results', None)
-    if not results:
-        return jsonify({'error': 'No profile results to export'}), 400
+@app.route("/profile/analyze", methods=["POST"])
+def profile_analyze():
+    if 'file' not in request.files:
+        return jsonify({'error': 'No file uploaded'}), 400
 
-    selected_bandwidth = (request.form.get('bandwidth') or '').strip()
-    if not selected_bandwidth:
-        return jsonify({'error': 'Bandwidth is required'}), 400
+    file = request.files['file']
+    if file.filename == '':
+        return jsonify({'error': 'No file selected'}), 400
 
-    selected_row = next((row for row in results if str(row.get('bandwidth', '')).strip() == selected_bandwidth), None)
-    if not selected_row:
-        return jsonify({'error': 'Selected bandwidth was not found'}), 400
+    temp_path = None
+    try:
+        with tempfile.NamedTemporaryFile(delete=False, suffix='.txt') as tmp:
+            temp_path = tmp.name
+        file.save(temp_path)
 
-    export_row = {
-        'Bandwidth': selected_row.get('bandwidth', ''),
-        'SCS': selected_row.get('scs', ''),
-        'T2a Min Up': selected_row.get('t2a-min-up', 'N/A'),
-        'T2a Max Up': selected_row.get('t2a-max-up', 'N/A'),
-        'T2a Min CP DL': selected_row.get('t2a-min-cp-dl', 'N/A'),
-        'T2a Max CP DL': selected_row.get('t2a-max-cp-dl', 'N/A'),
-        'TCP Adv DL': selected_row.get('tcp-adv-dl', 'N/A'),
-        'Ta3 Min': selected_row.get('ta3-min', 'N/A'),
-        'Ta3 Max': selected_row.get('ta3-max', 'N/A'),
-        'T2a Min CP UL': selected_row.get('t2a-min-cp-ul', 'N/A'),
-        'T2a Max CP UL': selected_row.get('t2a-max-cp-ul', 'N/A'),
-    }
+        analysis_output = extract_delay_profile_data(temp_path)
 
-    df = pd.DataFrame([export_row])
-    output = BytesIO()
-    output.write(df.to_csv(index=False).encode('utf-8-sig'))
-    output.seek(0)
+        if "error" in analysis_output:
+            session['profile_results'] = None
+            session['profile_error'] = analysis_output["error"]
+            session.modified = True
+            return jsonify({'success': False, 'error': analysis_output["error"]})
 
-    safe_bandwidth = re.sub(r'[^0-9A-Za-z._-]+', '_', selected_bandwidth)
-    filename = f"profile_{safe_bandwidth}_{dt.datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"
-    return send_file(
-        output,
-        as_attachment=True,
-        download_name=filename,
-        mimetype='text/csv'
-    )
+        session['profile_results'] = analysis_output["data"]
+        session['profile_error'] = None
+        session.modified = True
+        return jsonify({'success': True, 'count': analysis_output["count"]})
+
+    except Exception as e:
+        return jsonify({'error': f'Analysis failed: {str(e)}'}), 500
+    finally:
+        if temp_path and os.path.exists(temp_path):
+            os.remove(temp_path)
 
 @app.route("/profile/clear")
 def profile_clear():
