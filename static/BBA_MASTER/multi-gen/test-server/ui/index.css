@@ -1,0 +1,254 @@
+:root, body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.grouping {
+    border: 2px solid black;
+    padding: 0.5rem;
+    box-sizing: border-box;
+}
+
+.grouping h1 {
+    text-decoration: underline;
+    font-size: 1.2rem;
+}
+
+.gapped > * {
+    margin: 0.5em;
+}
+
+.grouping-flex-row {
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.grouping-flex-col {
+    display: flex;
+    flex-flow: column wrap;
+}
+
+.grouping-main {
+    height: 100%;
+    width: 100%;
+}
+
+.mono {
+    font-size: 1rem;
+    font-family: monospace;
+}
+
+.block {
+    display: block;
+}
+
+.error {
+    max-width: calc(100% - 1rem);
+    display: inline-block;
+    font-weight: bold;
+    background-color: red;
+    color: black;
+    padding: 1px;
+    border: 2px solid black;
+    text-align: center;
+    width: fit-content;
+    overflow-wrap: break-word;
+    box-sizing: border-box;
+}
+
+.error[hidden] {
+    display: none;
+}
+
+.dashboard {
+    display: block;
+    overflow-y: auto;
+    /* height: 35rem; */
+    /* align-items: flex-start; */
+    flex: 0 calc(100% - 4.2rem);
+}
+
+.result {
+    border: 2px solid black;
+    margin: 1px 0;
+    height: 1.2rem;
+    line-height: 1.2rem;
+    flex-shrink: 0;
+}
+
+.result-succeeded {
+    background-color: seagreen;
+}
+
+.result-failed {
+    background-color: crimson;
+}
+
+.result-pending {
+    background-color: gold;
+}
+
+.scrollable {
+    overflow: auto;
+}
+
+.icon-container > * {
+    vertical-align: middle;
+}
+
+.icon {
+    width: 1rem;
+    height: 1rem;
+    padding: 1px;
+    margin-right: 5px;
+}
+
+.modal {
+    width: 80%;
+    height: 80%;
+}
+
+.modal::backdrop {
+    opacity: 75;
+}
+
+.close-button {
+    float: right;
+}
+
+.inline {
+    display: inline;
+}
+
+.center-text {
+    text-align: center;
+}
+
+.center {
+    margin: auto;
+}
+
+.half-w {
+    box-sizing: border-box;
+    width: calc(50% - 0.5rem);
+    max-width: calc(50% - 0.5rem);
+}
+
+.half-h {
+    box-sizing: border-box;
+    height: calc(50% - 0.5rem);
+    max-height: calc(50% - 0.5rem);
+}
+
+.half-f {
+    flex: 0 calc(50% - 1rem);
+}
+
+.expand {
+    flex-grow: 999;
+}
+
+.copy {
+    background-color: #F0F0F0;
+}
+
+.copy:hover {
+    background-color: #D0D0D0;
+}
+
+.hover-pointer:hover {
+    cursor: pointer;
+}
+
+.p30 {
+    width: 30%;
+}
+
+.p70 {
+    width: 70%;
+}
+
+.m0 {
+    margin: 0;
+}
+
+.m-bot {
+    margin-bottom: 0.5rem;
+}
+
+button.m-bot {
+    margin-bottom: calc(0.5rem + 2px);
+}
+
+.log-msg {
+    margin: 0 0 2px 0;
+    border: 2px solid black;
+}
+
+.log-msg-debug {
+    background: #34eb6e;
+}
+
+.log-msg-error {
+    background: #eb4034;
+}
+
+.log-msg-info {
+    background: #34c0eb;
+}
+
+#log-destination {
+    height: 10rem;
+    overflow-y: auto;
+}
+
+#test-result-dashboard {
+    flex: 0 0 calc(40% - 1rem);
+}
+
+#test-result-details {
+    flex: 0 0 calc(60% - 1rem);
+}
+
+table,
+td,
+th {
+    border: 2px solid black;
+    border-collapse: collapse;
+}
+
+input {
+    background-color: #F0F0F0;
+}
+
+button {
+    border: 1px solid black;
+    box-shadow: 2px 2px black;
+}
+
+button:hover {
+    cursor: pointer;
+}
+
+button:active {
+    box-shadow: 0px 0px black;
+    transform: translate(2px, 2px);
+}
+
+textarea {
+    padding: 0.5rem;
+    border: 2px solid black;
+    color: black;
+    border: 2px solid black;
+    background-color: #F0F0F0;
+    resize: none;
+    font-size: 0.8rem;
+}
+
+textarea:disabled {
+    cursor: default;
+    border: 2px solid black;
+    color: black;
+    background-color: #F0F0F0;
+}

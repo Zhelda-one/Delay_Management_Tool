@@ -1,0 +1,91 @@
+@import "colourPalette.css";
+
+#generatorTab {
+    overflow: auto;
+}
+
+#generatorTable {
+    font-size: 75%;
+    height: 100%;
+    display: grid;
+    grid-template-rows: 20fr 1fr;
+}
+
+.generatorParams {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1.5fr;
+}
+
+.tab_header {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    place-self: center;
+}
+
+.table_config {
+    margin: auto;
+}
+
+.global_config {
+    background-color: #d6e6ff;
+    border: 3px solid #fff;
+}
+
+.ecpri_config {
+    background-color: #eff9ff;
+    border: 3px solid var(--white);
+}
+
+.cell_config {
+    background-color: #ddf2ff;
+    border: 3px solid var(--white);
+}
+
+.common_config {
+    border-right: 3px solid var(--white);
+    width: 60%;
+}
+
+.ecpri_config table, .cell_config table {
+    margin: auto;
+}
+
+.frame_config input[type=button] {
+    border: 1px solid #000207;
+}
+
+#generatorTab {
+    background-color: var(--light-blue);
+}
+
+#ui_frame_structure {
+    margin: auto;
+    display: block;
+    font-size: 90%;
+}
+
+#generatorTable th {
+    text-transform: uppercase;
+    padding: 8px;
+    border-bottom: 2px solid #fff;
+}
+
+#generatorTable td {
+    box-sizing: border-box;
+    padding: 3px;
+}
+
+#generatorTab input[type=radio], #generatorTab input[type=checkbox] {
+    margin-right: 5px;
+}
+
+#ui_log {
+    background-color: #fff;
+    font-size: 70%;
+    color: #969696;
+    width: auto;
+    height: 110px;
+    box-sizing: border-box;
+    overflow-y: auto;
+    padding: 5px;
+}

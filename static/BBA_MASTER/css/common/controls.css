@@ -1,0 +1,107 @@
+/* Table of contents */
+/* 1. Toggle slider - Modern looking checkbox */
+/* 2. Table Button  */
+/* 3. Selectable List */
+
+/* 1. Toggle slider */
+/* The switch - the box around the slider */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 3.75em;
+    height: 2.125em;
+    vertical-align: top;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 1.625em;
+    width: 1.625em;
+    left: 0.25em;
+    bottom: 0.25em;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+input:checked + .slider {
+    background-color: #2196F3;
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+    -webkit-transform: translateX(1.625em);
+    -ms-transform: translateX(1.625em);
+    transform: translateX(1.625em);
+}
+
+/* Rounded sliders */
+.slider.round {
+    border-radius: 2.125em;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+/* ------------------------------------------------- */
+
+/* 2. Table Button  */
+.tableButton {
+    width: 95%;
+}
+
+/* ------------------------------------------------- */
+
+/* A scrollable list with selectable single item */
+/* An alternative to <option> field, but without the dropdown*/
+/* 3. Selectable List */
+.scrollable-list {
+    width: 100%;
+    height: 200px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.scrollable-list ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.scrollable-list li {
+    padding: 8px;
+    cursor: pointer;
+}
+
+.scrollable-list li:hover {
+    background-color: #f0f0f0;
+}
+
+.scrollable-list li.selected {
+    background-color: #d0e0ff;
+}

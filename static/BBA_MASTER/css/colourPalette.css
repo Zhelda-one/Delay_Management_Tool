@@ -1,0 +1,63 @@
+:root {
+    /* 21 kolorów w palecie*/
+    --white: #ffffff; /* 11/46 found */
+    --oleksandr-white: #f8f8f8; /* 1 found */
+
+    --light-gray: #c2c2c2; /* 2 found */
+    --light-gray4: rgb(202, 202, 202); /* 1 found */
+    --light-gray5: rgb(200, 200, 200); /* 1 found */
+    --oleksandr-white2: #DDD; /* 1/3 found */
+    
+    --light-gray2: #909090; /* 1/2 found */
+
+    --gray: #444; /* 1/4 found */
+    --light-gray3: #615e5e; /* 1/2 found */
+    --gray2: #303030; /* 1/1 found */
+    
+    --cream: #feffec; /* 1/2 found */
+
+    --light-cyan: #dae7ff; /* 1/1 found */
+    --light-cyan2: #e7e9ff; /* 6/8 found */
+    --lighter-cyan: #F0F5FF; /* 3/3 found */
+    
+    --black: #000000; /* 3/20 found */
+
+    --light-blue: #30629c; /* 5/11 found */
+    --light-blue-hover: #254e7c; /* 5/11 found */
+    --border-light-blue: #32569e; /* 2/3 found */
+    --border-light-blue3: #4072ac; /* 2/3 found */
+    --navy2: #295281; /* 7/7 found */
+
+    --blue: blue; /* 3 found */
+
+    --dark-blue: #0c214d; /* 1/3 found */
+    --blue2: #1e4186; /* 1/3 found */
+    
+    --teal: #a1bfe2; /* 2/4 found */
+    
+    --navy: #162c46; /* 2/2 found */
+    --navy3: #162c46; /* 2/2 found */
+
+    --loader-blue: #324a51; /* 3/3 found */
+
+    --loader-navy: #01012b; /* 3/3 found */
+
+    --mask-black: rgb(0, 0, 0); /* 1/3 found */
+
+    --mask-black-transparent: rgba(0, 0, 0, 0); /* 1/5 found */
+
+    --box-shadow: rgba(255, 255, 255, 0.13); /* 1/1 found */
+    
+    --box-shadow2: rgba(255, 255, 255, 0.699); /* 1 found */
+
+    --red: red; /* 1 found */
+    
+    --orange: #FF8800; /* 1/1 found */
+
+    --aqua: aqua; /* 1 found */
+
+    --green: green; /* 1 found */
+
+    --checkbox-on: #9fd1f3;
+
+}

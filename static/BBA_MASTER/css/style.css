@@ -1,0 +1,778 @@
+@import "colourPalette.css";
+
+* {
+    margin: 0;
+    border-spacing: 0;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    /* transition: all 0.2s; */
+}
+
+[hidden] {
+    display: none !important;
+}
+
+body {
+    border: 5px solid var(--gray);
+    width: calc(100vw - 10px);
+    height: calc(100vh - 10px);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background-color: var(--white);
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+#root_header {
+    border-bottom: 5px solid #070954;
+    display: flex;
+    justify-content: space-around;
+    background-color: var(--light-cyan);
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+#root_header input[type=radio] + label {
+    color: #070954;
+    background-color: var(--light-cyan);
+    border: 1px solid #070954;
+    border-top: none;
+    border-bottom: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+#root_header input[type=radio]:hover + label {
+    background-color: var(--white);
+    color: #070954;
+}
+
+#root_header input[type=radio]:checked + label {
+    background-color: #070954;
+    color: var(--light-cyan);
+}
+
+#root_header_file_name {
+    font-size: 70%;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 220px;
+    overflow: hidden;
+    margin: auto 5px;
+}
+
+#buttons_header {
+    margin: auto;
+    text-align: center;
+}
+
+#root_header .container {
+    position: relative;
+    min-width: 20px;
+    margin-right: 5px;
+}
+
+.ger-icon {
+    margin: 0;
+    top: 50%;
+    position: absolute;
+    transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+}
+
+#root_header input[type=button], #root_header button {
+    font-size: 90%;
+    color: #070954;
+    background-color: var(--light-cyan);
+    border: 1px solid #070954;
+    border-radius: 0.3vw;
+    cursor: pointer;
+    padding: 3px 10px;
+    margin: 2px 2px;
+    text-transform: uppercase;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+#root_header input[type=button]:hover, #root_header button:hover {
+    margin: 1px 1px;
+    padding: 4px 11px;
+    background-color: var(--white);
+}
+
+#root_header input[type=button]:active, #root_header button:active {
+    background-color: #070954;
+    color: var(--light-cyan);
+}
+
+#root_header_logStats span:nth-child( 1 ) { color: red }
+
+#root_header_logStats span:nth-child( 2 ) { color: var(--orange) }
+
+#root_header_logStats span:nth-child( 4 ) { color: var(--light-gray2) }
+
+#root_body {
+    flex-grow: 1;
+}
+
+#mainTab, #packetsTab, #iqTab, #generatorTab, #tab5GMax {
+    width: 100%;
+    height: 100%;
+}
+
+.tooltip {
+    display: inline-block;
+    color: blue;
+    margin: auto 3px;
+}
+
+.tooltip .tooltip_text {
+    visibility: hidden;
+    width: auto;
+    background-color: var(--gray);
+    color: white;
+    padding: 5px;
+    border-radius: 6px;
+    position: absolute;
+    z-index: 1;
+    opacity: 0;
+    transition: opacity .25s;
+}
+
+.tooltip:hover .tooltip_text {
+    opacity: 1;
+    visibility: visible;
+}
+
+.moveCursor {
+    cursor: move;
+}
+
+.like_href {
+    cursor: pointer;
+    color: blue;
+    text-decoration: underline;
+}
+
+.dialog {
+    position: absolute;
+    border: 2px solid var(--black);
+    border-radius: 5px;
+    z-index: 2;
+    background-color: var(--light-cyan);
+    resize: both;
+    overflow:auto;
+}
+
+.dialog_header {
+    width: 100%;
+    position: sticky;
+    z-index: 1;
+    top: 0;
+    box-sizing: border-box;
+    border-radius: 2px 2px 0 0;
+    border-bottom: 1px solid black;
+    padding: 1px 1px 1px 12px;
+    display: flex;
+    justify-content: space-between;
+    cursor: move;
+    background-color: var(--light-blue);
+    text-transform: uppercase;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 95%;
+    color: var(--white);
+    text-align: center;
+}
+
+.dialog_header span {
+    margin: 1px 5px 0 0;
+}
+
+.dialog_body {
+    padding: 5px;
+    max-width: 80vw;
+    max-height: 90vh;
+    overflow: visible;
+    font-size: 90%;
+}
+
+.dialog_body input[type=button] {
+    color: var(--white);
+}
+
+#dialog_body_checkboxes{
+    justify-content: center;
+    display: flex; 
+    background-color: var(--light-cyan);
+    border: 1px solid black;
+    border-radius: 2px;
+}
+
+.dialog_body_checkboxes_div{
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+#layer_context {
+    display: none;
+    position: absolute;
+    left: 50px;
+    top: 50px;
+    width: 250px;
+    background-color: var(--light-cyan);
+    border: 2px solid var(--light-blue);
+    z-index: 1111;
+    border-radius: 5px;
+    padding: 0 8px 4px 8px;
+}
+
+#layer_context_p {
+    margin: 10px;
+}
+
+#layer_context_p p {
+    border-radius: 4px;
+}
+
+#layer_context_p p:hover {
+    background-color: #d1dffa; /* one occurance */
+}
+
+#layer_context_p p:active {
+    background-color: #b2c9f8; /* one occurance */
+}
+
+#dialog_body_tools{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.horiz-radio {
+    display: inline-flex;
+    flex-direction: row;
+    text-transform: uppercase;
+}
+
+.vert-radio {
+    display: inline-flex;
+    flex-direction: column;
+}
+
+.horiz-radio input[type=radio], .vert-radio input[type=radio] {
+    display: none;
+}
+
+.horiz-radio input[type=radio] + label, .vert-radio input[type=radio] + label {
+    display: inline-block;
+    padding: 3px 10px;
+    background-color: #f8f8f8;
+    border: 1px solid var(--black);
+    cursor: pointer;
+}
+
+.horiz-radio input[type=radio] + label {
+    margin: 0 -1px 0 0;
+}
+
+.vert-radio input[type=radio] + label {
+    margin: -1px 0 0 0;
+}
+
+.horiz-radio input[type=radio]:first-of-type + label {
+    border-top-left-radius: 0.25rem;
+    border-bottom-left-radius: 0.25rem;
+}
+
+.horiz-radio input[type=radio]:last-of-type + label {
+    border-top-right-radius: 0.25rem;
+    border-bottom-right-radius: 0.25rem;
+    margin: 0;
+}
+
+.vert-radio input[type=radio]:first-of-type + label {
+    border-top-left-radius: 0.25rem;
+    border-top-right-radius: 0.25rem;
+    margin: 0;
+}
+
+.vert-radio input[type=radio]:last-of-type + label {
+    border-bottom-right-radius: 0.25rem;
+    border-bottom-left-radius: 0.25rem;
+}
+
+.horiz-radio input[type=radio]:checked + label, .vert-radio input[type=radio]:checked + label {
+    background-color: var(--checkbox-on);
+}
+
+.horiz-radio input[type=radio]:disabled + label, .vert-radio input[type=radio]:disabled + label {
+    background-color: var(--light-gray);
+    color: var(--gray);
+    cursor:default
+}
+
+#tabs_menu{
+    padding:0;
+}
+
+#tabs_menu input +label{
+    border-radius: 0;
+}
+
+.separator {
+    margin: 5px 0;
+    width: 100%;
+    border-bottom: 1px solid black;
+}
+
+#bw_horiz {
+    margin-top: -15px;
+}
+
+#loadDialog_dropArea, .loadDialog_dropArea {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    width: calc( 100% - 4px - 10px );
+    min-height: 100px;
+    border: 2px solid #DDD; /* one occurance */
+    border-radius: 0.5rem;
+    background-color: var(--cream); /* one occurance */
+}
+
+#loadDialog_dropArea.highlight, .loadDialog_dropArea.highlight {
+    background-color: aqua;
+}
+
+#loadDialog_dropArea_helperText {
+    font-size: 100%;
+    text-transform: uppercase;
+}
+
+#loadDialog_dropArea_fileInfo {
+    align-self: start;
+    margin-right: auto;
+}
+
+#loadDialog table tr td * {
+    vertical-align: middle;
+}
+
+#saveDialog h3, #settingsDialog h3 {
+    margin-top: 5px;
+    border-top: 1px solid black;
+    text-align: center;
+}
+
+#saveDialog .dialog_body input[type=button] {
+    margin-top: 5px;
+    text-align: center;
+    font-size: 14px;
+}
+
+#saveDialog_iqAntenna {
+    border: 1px solid black;
+    padding: 3px;
+    max-height: 75px;
+    overflow: auto;
+    display: inline-block;
+}
+
+#logDialog_log {
+    font: 12px Courier;
+    min-width: 35vw;
+    min-height: 300px;
+    overflow-x: auto;
+    overflow-y: auto;
+    white-space: pre-wrap;
+}
+
+.logDialog_outerSpan{
+    display: block;
+}    
+
+
+@media only screen and (max-width: 750px) {
+
+    #root_header input[type=radio] + label {
+        font-size: 0.7rem;
+    }
+
+    #root_header input[type=button], #root_header button {
+        font-size: 0.7rem;
+    }
+}
+
+#loadDialog_fileType, .vert-radio, #loadDialog_iqBitWidth, #loadDialog_pcapFilter, #loadDialog_l2l1_version {
+    width: 280px;
+    box-sizing: border-box;
+}
+
+#saveDialog_filename, #saveDialog_packetsFileType,
+#saveDialog_iqFileType
+{   
+    width: 167px;
+    box-sizing: border-box;
+}
+
+#analyzeDialog_view_description_box {
+    border: dotted 1px var(--dark-blue);
+    border-radius: 3px;
+    padding: 3px;
+    margin: 5px 0;
+    background-color: white;
+    display:none;
+}
+
+.button_dialog, #columnDetailsDialog_valuesTable_container{
+    display: flex;
+    justify-content: center;
+}
+
+.button_dialog input {
+    display: block;
+    margin: 5px;
+}
+
+.sticky_button{
+    bottom:0;
+    position:sticky;
+    background-color: var(--light-cyan);
+    border-top:1px solid black;
+}
+
+.dialog_body input[type=button]:disabled{
+    color: var(--white);
+    text-transform: uppercase;
+    padding: 5px 15px;
+    border: 1px solid var(--teal) !important;
+    background-color: var(--teal) !important;
+    cursor: not-allowed !important;
+    border-radius: 8px;
+    margin: 5px;
+}
+
+#configDialog_body input[type=text]:disabled{
+    background-color: var(--light-gray);
+    color: var(--gray);
+}
+
+#loadDialog_fileTypeHelpButton{ 
+    text-transform: none;
+    background-color: rgb(202, 202, 202);
+    padding: 2px 10px;
+    border: 1px solid gray;
+    color:black;
+}
+
+#loadDialog_fileTypeHelpButton:hover{
+    background-color: rgb(200, 200, 200)
+}
+
+#packetsTabCustomizeDialog .dialog_body, #iqTabFiltersDialog .dialog_body {
+    padding-bottom: 0;
+}
+
+#fileTypeHelpDialog{
+    vertical-align: middle;
+    align-items: center;
+    display:flex;
+    flex-direction:column;
+}
+
+.fileTypeHelpTable{
+    display:table;
+    border: 10px solid green;
+}
+
+#fileTypeHelpTable td, #fileTypeHelpTable th{
+    border: 1px solid black;
+    text-align: center;
+    padding: 5px;
+}
+
+
+.dialog_body input[type=button], #configDialog #apply_config, #configDialog #apply_ssbDetection, #configDialog #apply_ssbDetection, #configDialog #getSSBFromArfcnButton,
+#configDialog #apply_prachDetection, #configDialog #apply_dciConfig, #configDialog #configureDialog_arfcn_row_button,  .dialog_body button{
+    color: var(--white);
+    text-transform: uppercase;
+    padding: 5px 15px;
+    border: 1px solid var(--light-blue);
+    background-color: var(--light-blue);
+    cursor:pointer;
+    border-radius: 8px;
+    margin: 5px;
+}
+
+.dialog_body input[type=button]:hover, #configDialog #apply_config:hover, #configDialog #apply_ssbDetection:hover,
+#configDialog #apply_ssbDetection:hover,#configDialog #getSSBFromArfcnButton:hover, #configDialog #apply_prachDetection:hover, #configDialog #configureDialog_arfcn_row_button:hover, .dialog_body button:hover{
+    color: #fff;
+    text-transform: uppercase;
+    padding: 5px 15px;
+    background-color: var(--light-blue-hover);
+    border: 1px solid var(--light-blue-hover);
+    cursor:pointer;
+}
+
+.dialog_body input[type=button]:active, #configDialog #apply_config:active, .dialog_body button:active{
+    color: #fff;
+    text-transform: uppercase;
+    padding: 5px 15px;
+    background-color: var(--navy);
+    border: 1px solid var(--light-blue);
+    cursor:pointer;
+}
+
+#configDialog input[type=button]{
+    padding:0 4px;
+    border-radius: 2px;
+}
+
+#configDialog_subcellAntDiv{
+    overflow:auto;
+    max-height: 200px;
+    /* width: auto; */
+    display: inline-block;
+}
+
+#configDialog_subcellAntTable{
+    border-top: 1px solid var(--light-blue);
+    border-right: 1px solid var(--light-blue);
+}
+
+#configDialog_subcellAntTable td {
+    border-bottom: 1px solid var(--light-blue);
+    border-left: 1px solid var(--light-blue);
+    text-align: center;
+    width: 60px;
+}
+
+#configDialog_subcellAntTable input {
+    text-align: center;
+    width: 90px;
+}
+
+figure {
+    margin: 5px;
+    border: thick solid var(--light-blue);
+    border-radius: 5px;
+    position: relative;
+    width: max-content;
+    display: inline-block;
+}
+
+figure canvas {
+    display: block;
+}
+
+figcaption {
+    text-align: center;
+    background-color: #fff;
+    border-top: 2px solid var(--light-blue);
+}
+
+.tab_header {
+    width: -webkit-calc(100% - 10px);
+    width:    -moz-calc(100% - 10px);
+    width:         calc(100% - 10px);
+}
+
+.tab_header input[type=button] {
+    border-radius: 5px;
+    color: var(--light-blue);
+    background-color: var(--white);
+    border: 1px solid var(--white);
+    cursor: pointer;
+    padding: 3px 21px;
+    margin: 2px 5px;
+}
+
+.tab_header input[type=button]:hover {
+    border-radius: 5px;
+    background-color: var(--light-cyan);
+    color: var(--dark-blue);
+    border: 1px solid var(--light-blue);
+    cursor: pointer;
+    padding: 4px 22px;
+    margin: 1px 4px;
+}
+
+.tab_header input[type=button]:active {
+    background-color: var(--light-blue);
+    color: var(--white);
+    border: 1px solid var(--white);
+
+}
+
+#loadDialog input[type=text] {
+    width: 100px;
+}
+
+#loader_bgr {
+    height: 202%;
+    width: 202%;
+    left: -51%;
+    top: -51%;
+    background-image: linear-gradient(45deg, var(--loader-blue) 5%, var(--loader-navy) 100%);
+    background-image: -moz-linear-gradient(45deg, var(--loader-blue) 5%, var(--loader-navy) 100%);
+    background-image: -webkit-linear-gradient(45deg, var(--loader-blue) 5%, var(--loader-navy) 100%);
+    transform: scale3d(0.5, 0.5, 1);
+}
+
+#loader {
+    height: 100%;
+    width: 100%;
+}
+
+#loader,
+#loader_bgr {
+    position: absolute;
+    z-index: 4;
+    visibility: visible;
+    opacity: 97%;
+    text-align: center;
+}
+
+#loader:after {
+    display: inline-block;
+    height: 100%;
+    margin-right: -0.25em;
+    content: '';
+    vertical-align: middle;
+}
+
+#loader .loader_content {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 0;
+}
+
+.loader_circle {
+    height: 130px;
+    width: 130px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -65px;
+    margin-top: -65px;
+    border-radius: 50%;
+    box-shadow: inset 0 0 0 1px var(--box-shadow);
+}
+
+.loader_line_rotate {
+    width: 65px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -65px;
+    margin-top: -65px;
+    transform-origin: 65px 65px;
+    overflow: hidden;
+    animation: rotate 1.7s infinite linear;
+    -webkit-mask-image: -webkit-linear-gradient(top, var(--mask-black), var(--mask-black-transparent));
+}
+
+.loader_line_rotate .loader_line {
+    height: 130px;
+    width: 130px;
+    border-radius: 50%;
+    box-shadow: inset 0 0 0 1px var(--box-shadow2);
+}
+
+.loader_content, .loader_line_rotate, .loader_line, .loader_circle, svg, g, path {
+    transition:none;
+} 
+
+#prachDialog_info table, #decode_information table {
+    margin: 10px auto;
+    border: black 2px solid;
+    border-radius: 4px;
+}
+
+#prach_graphs {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.pdpToggleAll {
+    background-color: white;
+    border: #1e4186 1px solid;
+    border-radius: 5px;
+    margin-left: 5px;
+    width: 310px;
+}
+
+.pdpToggleAll:hover {
+    background-color: #dae7ff;
+}
+
+.pdpToggleAll:hover {
+    background-color: #90ace0;
+}
+
+.pdpLabels {
+    background-color: white;
+    border: #1e4186 1px solid;
+    border-radius: 5px;
+    margin: 5px;
+    padding: 5px;
+}
+
+.highlighted_button {
+    border: 5px solid var(--navy) !important;
+}
+
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+
+}
+
+@keyframes fade {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.2;
+    }
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+#brighten_label {
+    margin-left: 10px;
+}
+
+#brighten_slider {
+    width: 250px;
+}
+
+datalist {
+    display: flex;
+    width: 250px;
+}
+
+datalist option {
+    text-align: center;
+    font-size: 14px;
+    margin-left: 37px
+}
+
+datalist option:first-of-type {
+    margin-left: 1px;
+}

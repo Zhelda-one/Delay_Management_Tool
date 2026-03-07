@@ -1,0 +1,68 @@
+default:
+  image: alpine
+
+variables:
+  GIT_DEPTH: 1000
+
+stages:
+  - test
+  - deploy
+  - build
+
+pages:
+  stage: build
+  image: alpine
+  script:
+    - export http_proxy="http://fihel1d-proxy.emea.nsn-net.net:8080"
+    - export https_proxy="http://fihel1d-proxy.emea.nsn-net.net:8080"
+    - apk update --allow-untrusted
+    - apk --no-cache --allow-untrusted add libcurl py3-pip python3-dev make doxygen git graphviz npm ttf-freefont
+    - pip install --break-system-packages sphinx sphinx_rtd_theme sphinx-multiversion m2r2
+    - npm install -g redoc-cli
+    - sphinx-build -M html docs/source/ pages-build/
+    - mkdir public 
+    - mv pages-build/html/* public/
+  artifacts:
+    paths:
+      - public
+  only:
+    refs:
+      - master
+    changes:
+      - docs/**/*
+      - .gitlab-ci.yml
+
+
+
+before_script:
+  - export http_proxy="http://plwroag-proxy001.emea.nsn-net.net:8080"
+  - export https_proxy="http://plwroag-proxy001.emea.nsn-net.net:8080"
+  - apk update && apk add openssh-client rsync git npm
+  - mkdir -m 700 -p ~/.ssh
+  - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+  - eval $(ssh-agent -s)
+  - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+
+test:
+  stage: test
+  script:
+    - npm ci
+    - npm test
+
+deploy:
+  stage: deploy
+  only:
+    refs:
+      - master
+  script:
+    - sed -i "s/const version .*/const version = '$(echo $CI_COMMIT_SHORT_SHA)';/" js/core.js
+    - sed -i "s/const updatedAt .*/const updatedAt = formatUpdateAt( $(date +"%s")000 );/" js/core.js
+    - sed -i "s#const commitsMessages .*#const commitsMessages = \`$(git log --since=1.month --pretty --format=%s | tr '\n' '.' | tr '`' '\"' | tr -s '.')\`#" js/core.js
+    - rsync -virpc --size-only --exclude ".*" ./ bba@bba.soccloud.dyn.nesc.nokia.net:/var/www/bba
+    
+e2e_test:
+  stage: test
+  script:
+    - npm ci
+    - npm run buildNode
+    - for f in captures/e2e_inputs/*; do echo "Testing $f"; node bba.node.js "$f" none || { echo "FAILED on $f"; exit 1; }; done

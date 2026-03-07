@@ -1,0 +1,29 @@
+[package]
+name = "simulationServer"
+version = "0.1.0"
+edition = "2021"
+default-run = "simulationServer"
+
+[dependencies]
+actix-web = {version = "4.9.0", default-features = false, features = ["macros"]}
+actix-rt = "2.10.0"
+actix-cors = "0.7.0"
+actix-files = "0.6.6"
+actix-multipart = "0.7.2"
+futures = "0.3"
+sanitize-filename = "0.5.0"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+chrono = "0.4.38"
+# openssl = { version = "0.10", features = ["vendored"] }
+shared = { path = "../shared" }
+nix = { version = "0.29.0", features = ["fs", "signal"] }
+bincode = "1.3.3"
+
+[dependencies.uuid]
+version = "1.10.0"
+features = [
+    "v4",                # Lets you generate random UUIDs
+    "fast-rng",          # Use a faster (but still sufficiently random) RNG
+    "macro-diagnostics", # Enable better diagnostics for compile-time UUIDs
+]

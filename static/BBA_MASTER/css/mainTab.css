@@ -1,0 +1,534 @@
+@import "colourPalette.css";
+
+@font-face {
+    font-family: 'UTM-Nokia';
+    font-weight: normal;
+    font-style: normal;
+    src: url('webfonts_UTM-Nokia/UTM-Nokia.ttf.woff') format('woff'),
+    url('webfonts_UTM-Nokia/UTM-Nokia.ttf.svg#UTM-Nokia') format('svg'),
+    url('webfonts_UTM-Nokia/UTM-Nokia.ttf.eot'),
+    url('webfonts_UTM-Nokia/UTM-Nokia.ttf.eot?#iefix') format('embedded-opentype');
+}
+
+#mainTab h1 {
+    font-family: Verdana, sans-serif
+}
+
+#mainTab h2 {
+    font-family: Verdana, sans-serif
+}
+
+#mainTab h3 {
+    font-family: Verdana, sans-serif
+}
+
+#mainTab a {
+    font-family: Verdana, sans-serif
+}
+
+#mainTab li {
+    font-family: Verdana, sans-serif
+}
+
+#mainTab_header {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    background-color: var(--light-cyan);
+    position: relative;
+}
+
+#root_header .title {
+    margin: auto auto 0.8vw auto;
+}
+
+#root_header .bba {
+    font-family: 'UTM-Nokia', sans-serif;
+    color: #4c52aa;
+    font-size: 1.3vw;
+    letter-spacing: 0.1vw;
+    vertical-align: middle;
+    padding-left: 1em;
+    padding-right: 1em;
+    margin-top:auto;
+    margin-bottom:auto;
+    text-align: center;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+#root_header .first_letter {
+    font-family: 'UTM-Nokia', sans-serif;
+    color: #010a83;
+    font-size: 1.3vw;
+}
+
+#root_header .y_letter {
+    font-family: 'UTM-Nokia', sans-serif;
+    margin-left: -0.3vw;
+}
+
+#root_header img {
+    margin: auto 10px;
+    height: 18px;
+}
+
+#mainTab_body {
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    animation-name: slide;
+    animation-duration: 25s;
+    animation-play-state: running;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
+    animation-direction: alternate;
+    animation-delay: 0s;
+    backface-visibility: hidden;
+}
+
+#mainTab_body .hidden {
+    display: none;
+}
+
+@keyframes slide {
+    0% {
+        background-image: url(../img/1.jpg);
+    }
+    33% {
+        background-image: url(../img/2.jpg);
+    }
+    66% {
+        background-image: url(../img/3.jpg);
+    }
+    100% {
+        background-image: url(../img/4.jpg);
+    }
+}
+
+@supports (-moz-appearance:none) {
+
+    #mainTab_body img {
+        background-size: cover;
+        background-position: center center;
+        background-repeat: no-repeat;
+        position: fixed;
+        height: 100%;
+        width: 100%;
+        opacity: 0;
+        animation-name: slideFirefox;
+        animation-duration: 24s;
+        animation-iteration-count: infinite;
+        animation-timing-function: ease-in-out;
+    }
+
+    #mainTab_body img:nth-child(1) {
+        animation-delay: 0s;
+    }
+
+    #mainTab_body img:nth-child(2) {
+        animation-delay: 6s;
+    }
+
+    #mainTab_body img:nth-child(3) {
+        animation-delay: 12s;
+    }
+
+    #mainTab_body img:nth-child(4) {
+        animation-delay: 18s;
+    }
+
+    .hidden {
+        display: block !important;
+    }
+}
+
+@keyframes slideFirefox {
+    0% {
+        opacity: 0;
+    }
+    15% {
+        opacity: 1;
+    }
+    20% {
+        opacity: 1;
+    }
+    25% {
+        opacity: 1;
+    }
+    40% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+#mainTab_body .foreground_layout {
+    position: fixed;
+    right: 0;
+    left: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    background-color: #243064bc;
+    height: 100vh;
+}
+
+.middle_panel {
+    display: flex;
+}
+
+#mainTab_body .drop_area {
+    display: flex;
+    align-items: center;
+}
+
+#mainTab_body .drop_area p {
+    font-family: Verdana, sans-serif;
+    cursor: default;
+    font-size: 2.5vw;
+    color: var(--white);
+    padding: 3vw;
+    background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='23' ry='23' stroke='white' stroke-width='8' stroke-dasharray='6%2c 14' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
+    border-radius: 23px;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+#mainTab_body .right_panel h3 a {
+    color: var(--white);
+    text-decoration: none;
+}
+
+#mainTab_body .right_panel h3 a:hover {
+    color: #d3daff;
+}
+
+#mainTab_body .left_panel iframe {
+    display: block;
+    margin: auto;
+}
+
+#mainTab_body a.link_button {
+    color: var(--white);
+    text-decoration: none;
+    text-align: center;
+    font-size: 3vh;
+    padding: 2vh 1vw;
+    cursor: pointer;
+    max-width: 24vw;
+    border-radius: 1vw;
+    margin-top: 2vh;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    text-transform: uppercase;
+}
+
+#mainTab_body a.link_button:first-of-type {
+    margin-top: 2vh;
+}
+
+#mainTab_body a.link_button:last-of-type {
+    margin-bottom: 2vw;
+}
+
+#mainTab_body .left_panel .link_button {
+    background-image: linear-gradient(to right bottom, #434797, #4a84c5);
+}
+
+#mainTab_body .left_panel .link_button:hover {
+    background-image: linear-gradient(to right bottom, #373a79, var(--light-blue));
+}
+
+#mainTab_body .right_panel .link_button {
+    background-image: linear-gradient(to right bottom, #2b3188, #275486);
+}
+
+#mainTab_body .right_panel .link_button:hover {
+    background-image: linear-gradient(to right bottom, #22276d, #214369);
+}
+
+#mainTab_body .contact {
+    color: var(--white);
+    text-align: center;
+    font-size: 3vh;
+    text-transform: uppercase;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+}
+
+#mainTab_body .contact:first-of-type {
+    margin-top: 15vh;
+}
+
+#mainTab_body .mail {
+    color: var(--white);
+    text-align: center;
+    font-weight: normal;
+    font-size: 1vw;
+    margin-right: 5px;
+    text-transform: uppercase;
+    margin-block-start: 1em;
+    margin-block-end: 1em
+}
+
+#hide_foreground {
+    visibility: hidden;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 3;
+    background-color: var(--black);
+    opacity: 0.5;
+}
+
+.mainTabPopup {
+    overflow-y: auto;
+    visibility: hidden;
+    position: fixed;
+    top: 30vh;
+    left: 30vw;
+    height: 40vh;
+    width: 40vw;
+    border: 5px solid var(--white);
+    border-radius: 20px;
+    z-index: 3;
+    background-color: var(--black);
+}
+
+/* width */
+.mainTabPopup::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+.mainTabPopup::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+/* Handle */
+.mainTabPopup::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+}
+
+/* Handle on hover */
+.mainTabPopup::-webkit-scrollbar-thumb:hover {
+    background: #555;
+    border-radius: 10px;
+}
+
+.popup_header {
+    background-color: #120433;
+    display: grid;
+    grid-template-columns: 4fr 6fr 1fr;
+    border-top-right-radius: 20px;
+    border-top-left-radius: 20px;
+    text-align: center;
+    font-size: 1rem;
+    border-bottom: 4px double var(--white);
+}
+
+.tool_info {
+    color: #d5d9f8;
+    font-weight: normal;
+    padding: 10px;
+    font-size: 0.8rem;
+    text-align: center;
+    margin-block-start: 0.67em;
+    margin-block-end: 0.67em;
+}
+
+.info_type {
+    font-weight: bold;
+}
+
+.close_popup {
+    width: 25px;
+    cursor: pointer;
+    position: absolute;
+    right: 0;
+    margin: 10px 10px;
+}
+
+.close_popup:hover {
+    width: 23px;
+    cursor: pointer;
+    position: absolute;
+    right: 0;
+    margin: 11px;
+    display: block;
+}
+
+.close_dialog {
+    width: 13px;
+    height: 13px;
+    cursor: pointer;
+    right: 0;
+    margin: 3px 4px;
+}
+
+.close_dialog:hover {
+    width: 11px;
+    height: 11px;
+    cursor: pointer;
+    right: 0;
+    margin: 4px 5px;
+}
+
+.changes_group {
+    color: var(--white);
+    margin-top: 20px;
+    margin-left: 20px;
+    font-weight: normal;
+}
+
+.change {
+    color: var(--white);
+    margin-left: 50px;
+    margin-top: 5px;
+}
+
+.change:last-of-type {
+    margin-bottom: 20px;
+}
+
+.changelog_element {
+    color: var(--white);
+    margin-top: 20px;
+    margin-left: 20px;
+    font-weight: normal;
+    font-size: 1rem;
+}
+
+.changelog_element:first-of-type {
+    margin-top: 40px;
+}
+
+#mainTab .show {
+    visibility: visible;
+}
+
+/* TODO: may be nice but need to be fixed because it is blinking*/
+/*#mainTab.dropFile {*/
+/*    background-color: var(--black);*/
+/*    opacity: 0.5;*/
+/*}*/
+
+@media only screen and (max-width: 1540px) {
+    #root_header .bba {
+        padding-left: 1em;
+        padding-right: 1em;
+    }
+    .drop_area {
+        margin:10px
+    }
+}
+
+@media only screen and (max-width: 1480px) {
+    #root_header .bba {
+        padding-left: 0;
+        padding-right: 0;
+    }
+}
+
+@media only screen and (max-width: 1000px) {
+
+    #mainTab_header {
+        display: flex;
+    }
+
+    #root_header img, .bba, #displayed_packets {
+        display: none;
+    }
+
+    #mainTab_body .foreground_layout {
+        display: block;
+        overflow-y: auto;
+        overflow-x: auto;
+    }
+
+    #mainTab_body .left_panel a.link_button {
+        margin: 30px auto;
+        min-width: 40%;
+        width: 50%;
+        max-width: 80%;
+        padding-left: 3rem;
+        padding-right: 3rem;
+    }
+
+    #mainTab_body .drop_area {
+        margin-top: 15px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    #mainTab_body .drop_area p {
+        font-size: 2.3rem;
+        padding: 3rem;
+        text-align: center;
+    }
+
+    #mainTab_body a.link_button {
+        min-width: 40%;
+        width: 50%;
+        max-width: 80%;
+        padding-left: 3rem;
+        padding-right: 3rem;
+        font-size: 1.9rem;
+    }
+
+    #mainTab_body .right_panel {
+        display: block;
+        width: 100%;
+    }
+
+    #mainTab_body .contact:first-of-type {
+        margin-top: 5px;
+    }
+
+    #mainTab_body .contact, #mainTab_body .mail {
+        margin: 10px auto;
+        font-size: 2vw;
+    }
+
+    .mail {
+        padding-bottom: 40px;
+    }
+
+    #mainTab_body .mail:last-of-type {
+        margin-bottom: 50px;
+    }
+
+    #mainTab_body .left_panel iframe {
+        width: 600px;
+        height: 560px;
+    }
+}
+
+#configDialog_eAxc_field_sizes {
+    width: 100%;
+    display: flex;
+    text-align: center; /* To center it horizontally (if you want) */
+    line-height: 30px; /* To center it vertically */
+    font-size: 13px;
+}
+
+#configDialog_eAxc_field_sizes > input{
+    display: block;
+    font-size: 9px;
+    width: 50px;
+}
+
+.configDialog_eAxc_bar{
+    display: inline-table;
+    padding-left: 5px;
+    padding-right: 5px;
+    width: 25%;
+}

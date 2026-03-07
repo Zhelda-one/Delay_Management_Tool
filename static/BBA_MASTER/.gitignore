@@ -1,0 +1,11 @@
+.idea/
+js/test_ecpri.js
+notes.txt
+ecpri.pcap
+ecpri1.pcap
+bba.code-workspace
+
+node_modules
+
+js/test/all.test.js
+/docs/build/

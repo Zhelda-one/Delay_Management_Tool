@@ -1,0 +1,2603 @@
+namespace l1_common
+
+typedef absoluteHarqProcessIndex_t: uint16 range[0, 19]
+
+enumeration aggregationLevel_t
+    AL1 = 1
+    AL2 = 2
+    AL4 = 4
+    AL8 = 8
+    AL16 = 16
+end
+
+typedef beamId_t: uint8 range[0, 63]
+
+enumeration bitValue_t
+    BIT_VALUE_0 = 0
+    BIT_VALUE_1 = 1
+    BIT_VALUE_INVALID = 255
+end
+
+enumeration cceRegMappingType_t
+    INTERLEAVED = 0
+    NON_INTERLEAVED = 1
+end
+
+typedef SubCellId: uint8 range[0, 15]
+
+typedef l1subcellProcessingInstance: uint8 range[0, 3] "according to 5G_RAN_CP_3376"
+
+# TODO: Generate such constants automatically in the future from defined ranges.
+const MAX_SUBCELL_ID: SubCellId = 15 "according to 5G_RAN_UP_1154"
+
+const MAX_SUBCELL_ITEMS: uint8 = 4 "value of this parameter is equal to the maximum number of subcells per ABIK/ABIL"
+const MAX_SUBCELL_ITEMS_CSIRS: uint8 = 2 "Value of this parameter is equal to the maximum number of CSI-RS subcells per ABIL"
+
+typedef PhyCellId: uint16 range[0, 1007]
+
+enumeration cellDeleteStatus_t
+  NoError          = 0
+  SubcellNotExists = 1
+  OtherError       = 2
+end
+
+typedef codeBlockSize_t: uint16 range[24, 8448]
+
+typedef coresetFreqDomainRbShift_t: uint8 range[0, 5]
+
+enumeration coresetInterleaverSize_t
+    ROWS_2 = 2
+    ROWS_3 = 3
+    ROWS_6 = 6
+end
+
+enumeration coresetRegBundleSize_t
+    REGS_2 = 2
+    REGS_3 = 3
+    REGS_6 = 6
+end
+
+enumeration crc_t
+    OK = 0
+    NOK = 1
+end    
+
+typedef csiRsConfig_t: uint8 range[1, 18]
+
+const MAX_NUM_OF_CSIRS_RESOURCES: uint8 = 12
+
+enumeration csiRsDensity_t
+    dot5  = 0
+    one   = 1
+	three = 3
+end
+
+enumeration csiRsDensityDot5PrbLocation_t
+    evenPrbs = 0
+    oddPrbs  = 1
+end
+
+typedef csiRsNumOfPrb_t: uint16 range[24, 272]
+
+typedef csiRsScramblingSequenceInt_t: uint16 range[0, 1023]
+
+typedef csiRsStartPrb_t: uint16 range[0, 248]
+
+enumeration csiRsTrsInfo_t
+    DISABLED = 0
+	ENABLED  = 1
+end
+
+typedef dataScramblingInt_t: uint16 range[0, 1023]
+
+typedef dciSize_t: uint8 range[12, 140]
+
+typedef Delay_nSec: int32 range[-650000,650000]
+"The delay in nanoseconds between the slot boundary as seen by L1-UL and the moment in time when
+ the SyncInd message is sent towards the L2-PS."
+
+enumeration DlCodebookIndex
+    VAL_0 = 0
+    VAL_1 = 1
+    VAL_2 = 2
+    VAL_3 = 3
+    VAL_4 = 4
+    VAL_5 = 5
+end
+
+enumeration dlDmrsConfigType_t
+    DMRS_CONFIG_1 = 1
+    DMRS_CONFIG_2 = 2
+end
+
+enumeration dlMimoMode_t
+    CL_2x2_MIMO        = 0
+    CL_4x4_or_4x2_MIMO = 1
+    OL_2x2_MIMO        = 2
+    OL_4x4_or_4x2_MIMO = 3
+end
+
+enumeration dmrsLen_t
+    NR_SYMBOLS_1 = 1
+    NR_SYMBOLS_2 = 2
+end
+
+enumeration dmrsMappingType_t
+    DMRS_MAPPING_TYPE_A = 0
+    DMRS_MAPPING_TYPE_B = 1
+end
+
+enumeration dmrsReferencePoint_t
+    CORESET_START_RB = 0
+    POINT_A = 1
+end
+
+typedef DmrsScramblingSequenceInt: uint16
+
+typedef dmrsTypeAPos_t: uint8 range[2, 3]
+
+enumeration dtx_t
+  NON_DTX = 0
+  DTX = 1
+end
+
+typedef DtxThresholdPrach: uint16 range[0, 4095]
+
+const NUM_OF_DTX_THRESHOLD_PUCCH: uint8 = 22
+const NUM_OF_DTX_THRESHOLD_PUCCH_F0: uint8 = 12
+
+typedef DtxThresholdPucchSingleLayer: uint16
+typedef DtxThresholdPucchTwoLayer: uint16
+typedef DtxThresholdPucchFormat0: uint8
+
+const NUM_OF_DTX_THRESHOLD_PUSCH: uint16 = 273
+
+typedef DtxThresholdPuschSingleLayer: uint16
+typedef DtxThresholdPuschTwoLayer:    uint16
+
+typedef DtxThresholdSrsTwoAntennaPorts_t: uint16 range[0, 245]
+
+enumeration EBandwidth
+    prbs_25 = 25
+    prbs_32 = 32
+    prbs_51 = 51
+    prbs_52 = 52
+    prbs_64 = 64
+    prbs_66 = 66
+    prbs_79 = 79
+    prbs_106 = 106
+    prbs_128 = 128
+    prbs_162 = 162
+    prbs_217 = 217
+    prbs_256 = 256
+    prbs_273 = 273
+end
+
+enumeration EScs
+  UNUSED  = 0
+  khz_15  = 15
+  khz_30  = 30
+  khz_60  = 60
+  khz_120 = 120
+end
+
+enumeration EStatus_5G
+  "Generic status codes:"
+  NoError          =  0
+  UndefinedError   =  1
+  SyntaxError      =  2  # Invalid message syntax
+  OutOfSequence    =  3  # Unexpected message in current receiver state
+  ServiceBusy      =  4
+  MissingMemory    =  5
+  DataNotAvailable =  6
+  MinTimeRejection =  7
+  RxUnderflow      =  8
+  HwError          =  9  # Hardware error
+  DmaError         = 10  # DMA transfer error
+  FileError        = 11  # File open/creation error
+end
+
+typedef EvtQueueId: uint32
+
+enumeration frequencyHopping_t
+    FREQ_HOPPING_DISABLED = 0
+    FREQ_HOPPING_ENABLED = 1
+end
+
+enumeration harqProcessIndex_t
+  ID_0 = 0
+  ID_1 = 1
+  ID_2 = 2
+  ID_3 = 3
+  ID_4 = 4
+  ID_5 = 5
+  ID_6 = 6
+  ID_7 = 7
+  ID_8 = 8
+  ID_9 = 9
+  ID_10 = 10
+  ID_11 = 11
+  ID_12 = 12
+  ID_13 = 13
+  ID_14 = 14
+  ID_15 = 15
+end
+
+typedef i2Codebook4AntPorts_t: uint8 range[0, 3] 
+
+typedef InitialTa:          uint16 range [0,1536]
+
+typedef k0divZ_t: uint8 range[0, 56]
+
+structure L1DlAddresses
+    ssBlockSendReq:        l1_common::EvtQueueId
+    slotTypeReq:           l1_common::EvtQueueId
+    pdschSendReq:          l1_common::EvtQueueId
+    pdschPayloadTbSendReq: l1_common::EvtQueueId	   
+    patternConfigReq:      l1_common::EvtQueueId
+    pdcchSendReq:          l1_common::EvtQueueId
+	csiRsSendReq:          l1_common::EvtQueueId
+end
+
+structure L1UlAddresses
+    puschReceiveReq: l1_common::EvtQueueId
+    pucchReceiveReq: l1_common::EvtQueueId
+    srsReceiveReq:   l1_common::EvtQueueId
+    prachReceiveReq: l1_common::EvtQueueId
+end
+
+structure L2Addresses
+
+  syncInd:         l1_common::EvtQueueId
+  prachReceiveInd: l1_common::EvtQueueId
+  
+end
+
+enumeration ldpcBaseGraph_t
+    BG_1 = 1
+    BG_2 = 2
+end
+
+typedef liftSize_t: uint16 range[0, 384]
+
+typedef liftSizeColumnIndex_t: uint8 range[0, 7] 
+
+typedef liftSizeSetIndex_t: uint8 range[0, 7]
+
+structure longTermCfoMetric_t
+  Re: float32
+  Im: float32
+end
+
+typedef Mcs: uint8 range[0, 28]
+
+enumeration mcsTable_t
+    max64QAM  = 0
+	max256QAM = 1
+end
+
+enumeration modulationOrder_t
+    QPSK = 2
+    QAM16 = 4
+    QAM64 = 6
+    QAM256 = 8
+end
+
+typedef nShiftModNumOfRegBundles_t: uint16 range[0, 404]
+
+typedef ncb_t: uint16 range[0, 25344]
+
+typedef noisePower_t: float32
+
+typedef NscId: uint8 range[0, 1]
+
+typedef numOfCodeBlocks_t: uint8 range[1, 152]
+
+typedef numOfDmrsAddPos_t: uint8 range[0, 3]
+
+typedef numOfDmrsCdmGroupWithoutData_t: uint8 range[1, 3]
+
+typedef numOfFillerBits_t: uint16 range[0, 8447]
+
+const MAX_NUMB_OF_GRANTS: uint8 = 8
+
+typedef NumOfLayers: uint8 range[1,4]
+
+typedef numOfPdcchSymbols_t: uint8 range[1, 3]
+
+enumeration NumOfPdschSymbols
+    VAL_4_SYMBOLS = 4
+    VAL_7_SYMBOLS = 7    
+    VAL_8_SYMBOLS = 8
+    VAL_10_SYMBOLS = 10
+    VAL_11_SYMBOLS = 11
+    VAL_12_SYMBOLS = 12
+    VAL_13_SYMBOLS = 13
+end
+
+typedef numOfPrb_t: uint16 range[1, 273]
+
+typedef numOfPucchSymbols_t: uint8 range[1, 14] "Num of PUCCH symbols = 3 is not supported."
+
+const MAX_NUMBER_OF_PUSCH_UCI_CSI_PART1_BYTES: uint8 = 4
+
+typedef numOfPuschUciCsiPart1Bits_t: uint8 range[0, 26]
+
+const MAX_NUMBER_OF_PUSCH_UCI_CSI_PART2_BYTES: uint8 = 2
+
+typedef numOfPuschUciCsiPart2Bits_t: uint8 range[0, 11]
+
+enumeration numOfSrsTxAntennaPorts_t
+    NUM_OF_SRS_TX_ANT_VAL_1 = 1
+    NUM_OF_SRS_TX_ANT_VAL_2 = 2
+    NUM_OF_SRS_TX_ANT_VAL_4 = 4
+end
+
+typedef numOfXpolBeamsInPatternConfigReq_t: uint8 range[1,8]
+
+const DCI_PAYLOAD_SIZE_BYTES: uint8 = 18
+const MAX_DCI_INFO_ATTRIBUTES: uint8 = 8
+
+enumeration pdcchPrecodingOption2x2_t
+    firstPolarization  = 0
+    secondPolarization = 1
+    bothPolarizations  = 2
+end
+
+enumeration pdcchPrecodingOption4x4_t
+    repetitionTwoXPolBeams = 0
+    scdd                   = 1
+    repetitionOneXPolBeam  = 2
+end
+
+enumeration pdschClPrecodingOption4x4_t
+    typeI3Gpp                   = 0
+    typeIPortSelectionUpToRank2 = 1
+    typeIPortSelectionUpToRank4 = 2
+end
+
+const NUM_CODEBOOK_I1_PARAMETERS: uint8 = 3
+
+typedef pdschOffsetRbDmrs_t: uint8 range[0, 249]
+
+typedef pdschStartSymbol_t: uint8 range[1, 3]
+
+const NUM_OF_PNE_RB_THRESHOLD: uint8 = 29
+typedef pneRbThreshold_t: uint16
+
+enumeration prachCohCombLen_t
+    symbols_1 = 1
+    symbols_4 = 4
+end
+
+enumeration prachFormat_t
+    FORMAT_0    = 0
+    FORMAT_1    = 1
+    FORMAT_2    = 2
+    FORMAT_3    = 3
+    FORMAT_A1   = 4
+    FORMAT_A2   = 5
+    FORMAT_A3   = 6
+    FORMAT_B1   = 7
+    FORMAT_B4   = 8
+    FORMAT_A1B1 = 9
+    FORMAT_A2B2 = 10
+    FORMAT_A3B3 = 11
+    FORMAT_C0   = 12
+    FORMAT_C2   = 13
+end
+
+typedef prachPrbOffset_t: uint16 range[0, 270]
+
+typedef prachPreambleFreqOccasion_t: uint8 range[0, 7]
+
+typedef prachPreambleIndex_t: uint8 range[0, 63]
+
+typedef prachPreambleTimeOccasion_t: uint8 range[0, 13]
+
+typedef prachRootSeqIndex_t: uint16 range[0, 837]
+
+enumeration prachSequenceType_t 
+    UNRESTRICTED      = 0
+    RESTRICTED_TYPE_A = 1
+    RESTRICTED_TYPE_B = 2
+end
+
+enumeration prachStartSymbol_t
+    SYMBOL_0 = 0
+    SYMBOL_2 = 2
+    SYMBOL_5 = 5
+    SYMBOL_9 = 9
+end
+
+typedef prachZeroCorrelationZoneConfig_t: uint8 range[0, 15]
+
+enumeration precoderGranularity_t
+    REG_BUNDLE_SIZE = 0
+    NUM_OF_CONTIG_RB = 1
+end
+
+enumeration precodingVectorIndex_t
+    index_0   = 0
+    index_1   = 1
+    index_2   = 2
+    index_3   = 3
+
+end
+
+enumeration PtrsFlag
+    PTRS_OFF = 0
+    PTRS_ON = 1
+end
+
+enumeration ptrsFrequencyDensity_t
+    K_PTRS_OFF = 0
+    K_PTRS_2 = 2
+    K_PTRS_4 = 4
+end
+
+typedef ptrsNumOfPorts_t: uint8 range[1, 4]
+
+typedef ptrsResElemOffset_t: uint8 range[0, 3]
+
+enumeration ptrsTimeDensity_t
+    L_PTRS_OFF = 0
+    L_PTRS_1 = 1
+    L_PTRS_2 = 2
+    L_PTRS_4 = 4
+end
+
+enumeration pucchAdditionalDmrs_t
+    ADDITIONAL_DMRS_DISABLED = 0
+    ADDITIONAL_DMRS_ENABLED = 1
+end
+
+typedef pucchCyclicShift_t: uint8 range[0, 11]
+
+typedef pucchFirstSymbol_t: uint8 range[0, 13]
+
+enumeration pucchFormat_t
+    PUCCH_FORMAT_0 = 0
+    PUCCH_FORMAT_1 = 1
+    PUCCH_FORMAT_2 = 2
+    PUCCH_FORMAT_3 = 3 
+end
+
+typedef pucchNumOfPrb_t: uint8 range[1, 16]
+
+typedef pucchTimeDomainOcc_t: uint8 range[0, 6]
+
+enumeration puschStartSymbol_t
+    SYMBOL_0 = 0
+    SYMBOL_2 = 2
+end
+
+enumeration puschTransCoherence_t
+    nonCoherent        = 0
+    partialNonCoherent = 1
+    fullCoherent       = 2
+end
+
+typedef pwrReductionPerSymb_dB_t: uint8
+
+typedef Rnti:   uint16
+
+typedef rssi_t: float32
+
+typedef rvIndex_t: uint8 range[0, 3]
+
+typedef rxPower_t: float32
+
+typedef RxScalingFactor: int16 range [-1300,-1000]
+
+typedef SFN: uint16 range[0, 1023]
+
+typedef schPrbBundleSize_t: uint16 range[1, 273]
+
+enumeration selfContainedFlag
+  NON_SELF_CONTAINED = 0
+  SELF_CONTAINED = 1
+end
+
+structure shortTermCfoMetric_t
+  I: float32
+  Q: float32
+end
+
+typedef shortTermTaMetric_t: int16 range[-32, 112]
+
+typedef shortTermTaPeakAmp_t: float32
+
+typedef Sicad: uint32
+
+typedef sinr_t: float32
+
+const OFDM_SYMBOLS_PER_SLOT: uint8 = 14
+
+typedef Slot: uint8  range[0,79]
+
+enumeration slotType_t
+    SLOT_TYPE_PRACH = 0
+    SLOT_TYPE_RACH_FORMAT_1 = 1 "5G_RAN_UP_8825: not used"
+    SLOT_TYPE_SSBURST = 2
+    SLOT_TYPE_C2_TX = 20 "5G_RAN_UP_8825:  Dl data NR-slot C2_TX not used"
+    SLOT_TYPE_C2 = 21
+    SLOT_TYPE_B1 = 22
+    SLOT_TYPE_B1_CSC = 23 "5G_RAN_UP_8825: B1_CSC and C2_CSC are supported only for ABIK"
+    SLOT_TYPE_C2_CSC = 24 "5G_RAN_UP_8825: B1_CSC and C2_CSC are supported only for ABIK"
+    SLOT_TYPE_C3 = 26
+    SLOT_TYPE_B0 = 27
+    SLOT_TYPE_B2 = 28
+    SLOT_TYPE_C0 = 29
+    SLOT_TYPE_B3 = 30
+    SLOT_TYPE_C4 = 31
+    SLOT_TYPE_C5 = 32
+    SLOT_TYPE_B4 = 33
+    SLOT_TYPE_B5 = 34
+    SLOT_TYPE_M1 = 35
+    SLOT_TYPE_M2 = 36
+    SLOT_TYPE_M3 = 37
+    SLOT_TYPE_M4 = 38
+    SLOT_TYPE_39 = 39
+    SLOT_TYPE_40 = 40
+    SLOT_TYPE_41 = 41
+    # SLOT_TYPE_42 = 42
+    SLOT_TYPE_B1_S = 43
+    SLOT_TYPE_B3_S = 44
+    SLOT_TYPE_C2_S = 45
+    SLOT_TYPE_C3_S = 46
+    # SLOT_TYPE_47 = 47
+    # SLOT_TYPE_48 = 48
+    # SLOT_TYPE_C0_SRS = 49
+    SLOT_TYPE_50 = 50
+    SLOT_TYPE_51 = 51
+end
+
+enumeration SpatialMode
+    SINGLE_ANTENNA = 0
+    TX_DIVERSITY   = 1
+    CL_SPATIAL_MUX = 2
+    OL_SPATIAL_MUX = 3
+end
+
+enumeration srBitDetection_t
+    SRBIT_DETECTION_DISABLED = 0
+    SRBIT_DETECTION_ENABLED = 1
+    SRBIT_DETECTION_INVALID = 2
+end
+
+typedef srsBandwidth_t: uint8 range[0, 3]
+
+typedef srsBandwidthConfig_t: uint8 range[0, 63]
+
+typedef srsCyclicShift_t: uint8 range[0, 11]
+
+typedef srsFreqDomainPosition_t: uint8 range[0, 67]
+
+typedef srsFreqDomainShift_t: uint16 range[0, 268]
+
+typedef srsSequenceId_t: uint16 range[0, 1007]
+
+typedef srsSymbolPosition_t: uint8 range[8, 13]
+
+enumeration srsTransmissionComb_t
+    COMB_2 = 2
+    COMB_4 = 4
+end
+
+typedef srsTransmissionCombId_t: uint8 range[0, 3]
+
+enumeration ssBlockConfiguration_t
+    CaseA = 0
+	CaseB = 1
+	CaseC = 2
+	CaseD = 3
+	CaseE = 4
+end
+
+typedef ssBlockPrbOffset_t: uint8 range[0, 253]
+
+typedef ssBlockSubcarrierOffset_t: uint8 range[0, 11]
+
+const MIB_SIZE_BYTES: uint8 = 4
+
+const MAX_SSB_BLOCKS_PER_SLOT: uint8 = 4
+
+typedef startCce_t: uint8 range[0, 134]
+
+typedef startPrb_t: uint16 range[0, 272]
+
+enumeration subcellPosition_t
+    subcell_slot_0 = 0
+    subcell_slot_1 = 1
+    subcell_slot_2 = 2
+    subcell_slot_3 = 3
+    subcell_slot_4 = 4
+    subcell_slot_6 = 6
+end
+
+enumeration SubcellType
+  C2 = 0
+  C4 = 1
+  C8 = 2
+  D2 = 3
+  A2 = 4
+  A4 = 5
+end
+
+const SLOTS_PER_SUBFRAME_SCS_15KHZ:  uint8 = 1
+const SLOTS_PER_SUBFRAME_SCS_30KHZ:  uint8 = 2
+const SLOTS_PER_SUBFRAME_SCS_60KHZ:  uint8 = 4
+const SLOTS_PER_SUBFRAME_SCS_120KHZ: uint8 = 8
+const SLOTS_PER_SUBFRAME_SCS_240KHZ: uint8 = 16
+
+const OFDM_SYMBOLS_PER_SUBFRAME_SCS_15KHZ:  uint8 = SLOTS_PER_SUBFRAME_SCS_15KHZ * OFDM_SYMBOLS_PER_SLOT
+const OFDM_SYMBOLS_PER_SUBFRAME_SCS_30KHZ:  uint8 = SLOTS_PER_SUBFRAME_SCS_30KHZ * OFDM_SYMBOLS_PER_SLOT
+const OFDM_SYMBOLS_PER_SUBFRAME_SCS_60KHZ:  uint8 = SLOTS_PER_SUBFRAME_SCS_60KHZ * OFDM_SYMBOLS_PER_SLOT
+const OFDM_SYMBOLS_PER_SUBFRAME_SCS_120KHZ: uint8 = SLOTS_PER_SUBFRAME_SCS_120KHZ * OFDM_SYMBOLS_PER_SLOT
+const OFDM_SYMBOLS_PER_SUBFRAME_SCS_240KHZ: uint8 = SLOTS_PER_SUBFRAME_SCS_240KHZ * OFDM_SYMBOLS_PER_SLOT
+
+typedef Subframe: uint8  range[0,9]
+
+typedef symbolOfSlot_t: uint8 range[0, 13]
+
+typedef TbSize: uint32
+
+typedef threeLsbSsbIndex_t: uint8 range[0, 7]
+
+const MAX_NUMBER_OF_PRACH_PREAMBLES_PER_OCCASION: uint8 = 64
+
+typedef totalNumberOfRAPreambles_t: uint8 range[1, MAX_NUMBER_OF_PRACH_PREAMBLES_PER_OCCASION]
+
+typedef TransmitPower_dBfs: int16 range [-852,0]   #transmit power in dBFS 
+
+enumeration ulDmrsConfigType_t
+    DMRS_CONFIG_1 = 1
+    DMRS_CONFIG_2 = 2
+end
+
+typedef bbSelector_t: uint8 range[0, 3]
+
+typedef channelCorrMetric_t: float32
+
+enumeration digitalOutputRate_t
+    bitrate115dot2k = 0
+    bitrate460dot8k = 1
+    bitrate1dot92M  = 2
+end
+
+enumeration digitalOutputType_t
+    serialKeysight = 0
+    serialRs = 1
+end
+
+const MAX_NUM_OF_AN_BYTES: uint8 = 7
+
+typedef nANPucch_t: uint8 range[0, 50]
+
+const MAX_NUM_OF_UCI_BYTES: uint8 = 7
+
+typedef numOfBitsOfUciInformation_t: uint8 range[0, 50]
+
+const MAX_NUM_OF_PUCCH_LAYERS: uint8 = 2
+
+enumeration numOfPucchLayers_t
+  NUM_OF_PUCCH_LAYERS_VAL_1 = 1
+  NUM_OF_PUCCH_LAYERS_VAL_2 = 2
+end
+
+const MAX_NUM_OF_PUCCH_RESOURCES: uint8 = 16
+
+enumeration numOfPucchTxAntennaPorts_t
+  NUM_OF_PUCCH_TX_ANT_VAL_1 = 1
+  NUM_OF_PUCCH_TX_ANT_VAL_2 = 2
+end
+
+enumeration numOfPuschSymbols_t
+  PCS2 = 2
+  PCS9 = 9
+  PCS10 = 10
+  PCS11 = 11
+  PCS12 = 12
+  PCS13 = 13
+  PCS14 = 14
+end
+
+typedef pucchDtxMetric_t: uint16
+
+enumeration ulCodebookIndex_t
+    VAL_0 = 0
+    VAL_1 = 1
+    VAL_2 = 2
+    VAL_3 = 3      
+    VAL_4 = 4
+    VAL_5 = 5
+end    
+
+enumeration ulPmiRank1_t
+    UL_PMI_RANK1_VALUE_0 = 0
+    UL_PMI_RANK1_VALUE_1 = 1
+    UL_PMI_RANK1_VALUE_2 = 2
+    UL_PMI_RANK1_VALUE_3 = 3
+    UL_PMI_RANK1_VALUE_4 = 4
+    UL_PMI_RANK1_VALUE_5 = 5
+    UL_PMI_RANK1_VALUE_INVALID = 255
+end
+
+enumeration ulPmiRank2_t
+    UL_PMI_RANK2_VALUE_0 = 0
+    UL_PMI_RANK2_VALUE_1 = 1
+    UL_PMI_RANK2_VALUE_2 = 2
+    UL_PMI_RANK2_VALUE_INVALID = 255
+end
+
+enumeration ulRank_t
+  UL_RANK_1 = 1
+  UL_RANK_2 = 2
+  UL_RANK_INVALID = 255
+end
+
+enumeration numCeAxC_t
+    NUM_C_EAXC_2 = 2
+    NUM_C_EAXC_4 = 4
+end
+
+const MAX_NUM_C_EAXC_PER_SUBCELL: uint8 = 4
+
+typedef ceAxCIndex_t: uint8 range[0, (MAX_NUM_C_EAXC_PER_SUBCELL - 1)]
+
+const SSB_NUM_C_EAXC_PER_SUBCELL: uint8 = 2
+
+const PDCCH_MAX_NUM_C_EAXC_PER_SUBCELL: uint8 = 4
+
+const PDSCH_MAX_NUM_C_EAXC_PER_SUBCELL: uint8 = 4
+
+const CSIRS_MAX_NUM_C_EAXC_PER_SUBCELL: uint8 = 4
+
+const PUSCH_MAX_NUM_C_EAXC_PER_SUBCELL: uint8 = 4
+
+const PUCCH_NUM_C_EAXC_PER_SUBCELL: uint8 = 2
+
+const PRACH_NUM_C_EAXC_PER_SUBCELL: uint8 = 2
+
+const SRS_MAX_NUM_C_EAXC_PER_SUBCELL: uint8 = 4
+
+const NUM_C_EAXC_PER_PATTERN_ID: uint8 = 2
+
+const SSB_NUM_PATTERNID_PER_SUBCELL: uint8 = l1_common::MAX_SSB_BLOCKS_PER_SLOT * SSB_NUM_C_EAXC_PER_SUBCELL / NUM_C_EAXC_PER_PATTERN_ID
+
+const PDCCH_MAX_NUM_PATTERNID_PER_SUBCELL: uint8 = PDCCH_MAX_NUM_C_EAXC_PER_SUBCELL / NUM_C_EAXC_PER_PATTERN_ID
+
+const PDSCH_MAX_NUM_PATTERNID_PER_SUBCELL: uint8 = PDSCH_MAX_NUM_C_EAXC_PER_SUBCELL / NUM_C_EAXC_PER_PATTERN_ID
+
+const CSIRS_MAX_NUM_PATTERNID_PER_SUBCELL: uint8 = CSIRS_MAX_NUM_C_EAXC_PER_SUBCELL / 1
+
+const PUSCH_MAX_NUM_PATTERNID_PER_SUBCELL: uint8 = PUSCH_MAX_NUM_C_EAXC_PER_SUBCELL / NUM_C_EAXC_PER_PATTERN_ID
+
+const PUCCH_NUM_PATTERNID_PER_SUBCELL: uint8 = PUCCH_NUM_C_EAXC_PER_SUBCELL / NUM_C_EAXC_PER_PATTERN_ID
+
+const PRACH_NUM_PATTERNID_PER_SUBCELL: uint8 = PRACH_NUM_C_EAXC_PER_SUBCELL / NUM_C_EAXC_PER_PATTERN_ID
+
+const SRS_MAX_NUM_PATTERNID_PER_SUBCELL: uint8 = SRS_MAX_NUM_C_EAXC_PER_SUBCELL / NUM_C_EAXC_PER_PATTERN_ID
+
+const MAX_NUMBER_OF_PRBS_PER_CARRIER: uint16 = 273
+const NUMBER_OF_SUBCARRIERS_PER_PRB: uint8 = 12
+
+typedef numOfPuschUciCsiSymbols_t: uint16 range[0, ((OFDM_SYMBOLS_PER_SLOT - 1) * MAX_NUMBER_OF_PRBS_PER_CARRIER * NUMBER_OF_SUBCARRIERS_PER_PRB)]
+
+namespace lunum_common
+
+enumeration Bandwidth
+  prbs_6   = 6
+  prbs_15  = 15
+  prbs_25  = 25
+  prbs_50  = 50
+  prbs_75  = 75
+  prbs_100 = 100
+end
+
+const MAX_NUM_STREAMS_PER_CELL: uint8 = 100
+
+enumeration PhyChannelType__t
+  PUxCH = 0
+  PDxCH = 1
+  PRACH = 2
+  SRS   = 3
+end
+
+structure eAxcStream_t
+  eAxcId:           uint16
+  bipId:            uint16
+  phyChannelType:   PhyChannelType__t
+  inPortId:         uint16
+  egPortId:         uint16
+end
+
+structure eAxcStreamDelayMeasurement_t
+  eAxcId:           uint16
+  bipId:            uint16
+  tdOneWayMin:      uint32
+  tdOneWayMax:      uint32
+end
+
+namespace L1
+
+protocol L1
+  message PingPongReq:             PingPongReq_t             id:0x0001 end
+  message EchoReq:                 EchoReq_t                 id:0x0002 end
+  message EchoResp:                EchoResp_t                id:0x0003 end
+  message LoopReq:                 LoopReq_t                 id:0x0004 end
+  message UlMeasReq:               UlMeasReq_t               id:0x0005 end
+  message WakeupReq:               WakeupReq_t               id:0x0006 end
+  message StartupLoopReq:          StartupLoopReq_t          id:0x0007 end
+  message SnapshotFileCreationReq: SnapshotFileCreationReq_t id:0x0008 end
+  message LatencyEventReq:         LatencyEventReq_t         id:0x0009 end
+  message DmaEndInd:               DmaEndInd_t               id:0x000A end
+  message LaWakeupReq:             LaWakeupReq_t             id:0x000B end
+  message DmaStartTestReq:         DmaStartTestReq_t         id:0x000C end
+end
+
+structure DmaEndInd_t
+  data: uint32
+end
+
+structure DmaStartTestReq_t
+  data: uint32
+end
+
+structure EchoReq_t
+  const MAX_PAYLOAD_LEN: uint16 = 64
+
+  payload: uint8[MAX_PAYLOAD_LEN] attributes {no_length_field}
+end
+
+structure EchoResp_t
+  const MAX_PAYLOAD_LEN: uint16 = 64
+
+  payload: uint8[MAX_PAYLOAD_LEN] attributes {no_length_field}
+end
+
+structure LaWakeupReq_t
+  sfn:           l1_common::SFN
+  slot:          l1_common::Slot
+  subcell_index: uint32
+  type_info:     uint16
+  param:         uint8
+end
+
+structure LatencyEventReq_t
+  data: uint32
+end
+
+structure LoopReq_t
+  next_slot_config_sfn:     l1_common::SFN
+  next_slot_config_slot:    l1_common::Slot
+  next_pattern_config_sfn:  l1_common::SFN
+  next_pattern_config_slot: l1_common::Slot
+  next_pbch_sfn:            l1_common::SFN
+  next_pbch_slot:           l1_common::Slot
+  next_pucch_sfn:           l1_common::SFN
+  next_pucch_slot:          l1_common::Slot
+  next_pusch_sfn:           l1_common::SFN
+  next_pusch_slot:          l1_common::Slot
+  next_ul_meas_sfn:         l1_common::SFN
+  next_ul_meas_slot:        l1_common::Slot
+end
+
+structure PingPongReq_t
+  data: uint32
+end
+
+structure SnapshotFileCreationReq_t
+  data: uint32
+end
+
+structure StartupLoopReq_t
+  state: uint32
+  count: uint32
+end
+
+structure UlMeasReq_t
+  subCellIndex: uint32
+  queueEntry: uint32
+  measBufType: uint32
+end
+
+structure WakeupReq_t
+  subcell_index: uint32
+end
+
+namespace L1Cpri
+
+protocol L1Cpri
+  message CpriAlarmInd:                 AlarmInd_t              id:0x0a00       end
+  message CpriConfigureLinksReq:        ConfigureLinksReq_t     id:0x0a01       end
+  message CpriConfigureLinksResp:       ConfigureLinksResp_t    id:0x0a02       end
+  message CpriSetOutputReq:             SetOutputReq_t          id:0x0a05       end
+  message CpriSetOutputResp:            SetOutputResp_t         id:0x0a06       end
+  message CpriStateInd:                 StateInd_t              id:0x0a07       end
+  message CpriSubscribeReq:             SubscribeReq_t          id:0x0a08       end
+  message CpriSubscribeResp:            SubscribeResp_t         id:0x0a09       end
+  message CpriDiscoveryInd:             DiscoveryInd_t          id:0x0a0a       end
+  message CpriDelayConfigResp:          DelayConfigResp_t       id:0x0a0e       end
+  message CpriGetLinkParamReq:          GetLinkParamReq_t       id:0x0a0f       end
+  message CpriDelayConfigReq:           DelayConfigReq_t        id:0x0a11       end
+  message CpriSetDiscoveryReq:          SetDiscoveryReq_t       id:0x0a12       end
+  message CpriSetDiscoveryResp:         SetDiscoveryResp_t      id:0x0a13       end
+  message SetLinkPropertiesReq:          SetLinkPropertiesReq_t  id:0x0a14       end
+  message SetLinkPropertiesResp:         SetLinkPropertiesResp_t id:0x0a15       end
+  message CpriGetLinkParamResp:         GetLinkParamResp_t      id:0x0a16       end
+end
+
+const LINK_PARAMETER_MASK_NDL: uint16 = 1
+const LINK_PARAMETER_MASK_UPLINK_OFFSET: uint16 = 2
+const LINK_PARAMETER_MASK_DOWNLINK_OFFSET: uint16 = 4
+const LINK_PARAMETER_MASK_CPRI_LOOPBACK_DELAY: uint16 = 8
+const LINK_PARAMETER_MASK_LCV_ERROR_IN_WINDOW: uint16 = 16
+const LINK_PARAMETER_MASK_LCV_ERROR_ACCUMULATED: uint16 = 32
+const LINK_PARAMETER_MASK_BER_IN_WINDOW: uint16 = 64
+const LINK_PARAMETER_MASK_BER_ACCUMULATED: uint16 = 128
+
+const LINK_PROPERTIES_MASK_CLEAR_LCV_ERROR_COUNTER: uint16 = 1
+const LINK_PROPERTIES_MASK_SET_LCV_WINDOW: uint16 = 2
+
+enumeration ECellMap
+  ECellMap_0 = 0
+  ECellMap_1 = 1
+  ECellMap_2 = 2
+  ECellMap_3 = 3
+  ECellMap_4 = 4
+  ECellMap_5 = 5
+  ECellMap_6 = 6
+  ECellMap_7 = 7
+  ECellMap_8 = 8
+  ECellMap_9 = 9
+  ECellMap_10 = 10
+  ECellMap_11 = 11
+end 
+
+const L1CPRI_LINK_INDEX_MAX_NUM:        int32 = 9
+
+enumeration ECpriLink
+  ECpriLink_0 = 0
+  ECpriLink_1 = 1
+  ECpriLink_2 = 2
+  ECpriLink_3 = 3
+  ECpriLink_4 = 4
+  ECpriLink_5 = 5
+  ECpriLink_6 = 6
+  ECpriLink_7 = 7
+  ECpriLink_8 = 8
+  ECpriLink_9 = 9
+end
+
+enumeration EExecutionState
+  EExecutionState_NoError = 0
+  EExecutionState_InvalidParam = 1
+  EExecutionState_UndefinedError = 2
+end
+
+enumeration EOamCpriLinkState
+  EOamCpriLinkState_A = 0
+  EOamCpriLinkState_B = 1
+  EOamCpriLinkState_C = 2
+  EOamCpriLinkState_D = 3
+  EOamCpriLinkState_E = 4
+  EOamCpriLinkState_F = 5
+  EOamCpriLinkState_G = 6
+end
+
+enumeration EOutputState
+  EOutputState_Enabled = 0
+  EOutputState_Disabled = 1
+end
+
+const L1CPRI_SCRAMBLING_SEED_MAX_VALUE: int32 = 2147483647 # 0x7FFFFFFF
+const L1CPRI_CPRI_POINTER_P_MIN_VALUE:  int8  = 20
+const L1CPRI_CPRI_POINTER_P_MAX_VALUE:  int8  = 63
+const L1CPRI_OPT_LINK_LENGTH_MIN_VALUE: int32 = 0
+const L1CPRI_OPT_LINK_LENGTH_MAX_VALUE: int32 = 10000 # [m]
+
+structure SCpriLinkItem
+  cpriLink:       L1Cpri::ECpriLink
+  scramblingSeed: uint32
+  cpriPointerP:   uint32
+  optLinkLength:  uint32
+end
+
+structure AlarmInd_t
+  cpriLink:       L1Cpri::ECpriLink
+  l1AlarmStates:  uint32
+end
+
+const L1CPRI_NUM_OF_ITEMS_MIN_VALUE:    int8  = 1
+const L1CPRI_NUM_OF_ITEMS_MAX_VALUE:    int8  = 16
+
+structure ConfigureLinksReq_t
+    l1_StartupTimer:      uint32
+    numOfItems:           uint32
+    cpriLink:             SCpriLinkItem[L1CPRI_NUM_OF_ITEMS_MAX_VALUE]
+    dlCpriLinkMapConfig:  ECellMap
+    ulCpriLinkMapConfig:  ECellMap
+end
+
+const L1CPRI_NUM_OF_ITEMS_MIN_VALUE:    int8  = 1
+const L1CPRI_NUM_OF_ITEMS_MAX_VALUE:    int8  = 16
+
+structure ConfigureLinksReq_t
+    l1_StartupTimer:      uint32
+    numOfItems:           uint32
+    cpriLink:             SCpriLinkItem[L1CPRI_NUM_OF_ITEMS_MAX_VALUE]
+    dlCpriLinkMapConfig:  ECellMap
+    ulCpriLinkMapConfig:  ECellMap
+end
+
+structure ConfigureLinksResp_t
+  status:  L1Cpri::EExecutionState
+end
+
+structure DelayConfigReq_t
+    cpriLink:                           L1Cpri::ECpriLink
+    downlinkFixedDelay:                 uint32
+    uplinkFixedDelay:                   uint32
+    dlFiberLengthCompensationOffset:    uint32
+    ulFiberLengthCompensationOffset:    uint32
+    fiberDelay:                         uint32
+    Nul:                                uint16
+    ParameterMask:                      uint16
+    nTaOffset:                          uint16
+end
+
+structure DelayConfigResp_t
+    cpriLink:   L1Cpri::ECpriLink
+    state:      L1Cpri::EExecutionState
+end
+
+structure DelayConfigResp_t
+    cpriLink:   L1Cpri::ECpriLink
+    state:      L1Cpri::EExecutionState
+end
+
+const DISCOVERY_MESSAGE_SIZE: uint8 = 64
+
+structure DiscoveryInd_t
+  cpriLink:         L1Cpri::ECpriLink
+  discoveryMessage: uint8[DISCOVERY_MESSAGE_SIZE]
+end
+
+structure GetLinkParamReq_t
+    cpriLink:		L1Cpri::ECpriLink
+    parameterMask:	uint16
+end
+
+structure GetLinkParamReq_t
+    cpriLink:		L1Cpri::ECpriLink
+    parameterMask:	uint16
+end
+
+structure GetLinkParamResp_t
+    cpriLink:          L1Cpri::ECpriLink
+    state:             L1Cpri::EExecutionState
+    Ndl:               uint16
+    uplinkOffset:      int32
+    downlinkOffset:    int32
+    cpriLoopbackDelay: uint32
+    parameterMask:     uint16
+    LCVErrInWindow:    uint32
+    LCVErrAccumulated: uint32
+    BERInWindow:       float32 "range[0.0,1.0]"
+    BERAccumulated:    float32 "range[0.0,1.0]"
+end
+
+structure GetLinkParamResp_t
+    cpriLink:          L1Cpri::ECpriLink
+    state:             L1Cpri::EExecutionState
+    Ndl:               uint16
+    uplinkOffset:      int32
+    downlinkOffset:    int32
+    cpriLoopbackDelay: uint32
+    parameterMask:     uint16
+    LCVErrInWindow:    uint32
+    LCVErrAccumulated: uint32
+    BERInWindow:       float32 "range[0.0,1.0]"
+    BERAccumulated:    float32 "range[0.0,1.0]"
+end
+
+structure GetLinkParamResp_t
+    cpriLink:          L1Cpri::ECpriLink
+    state:             L1Cpri::EExecutionState
+    Ndl:               uint16
+    uplinkOffset:      int32
+    downlinkOffset:    int32
+    cpriLoopbackDelay: uint32
+    parameterMask:     uint16
+    LCVErrInWindow:    uint32
+    LCVErrAccumulated: uint32
+    BERInWindow:       float32 "range[0.0,1.0]"
+    BERAccumulated:    float32 "range[0.0,1.0]"
+end
+
+const SET_DISCOVERY_MESSAGE_SIZE: uint8 = 64
+
+structure SetDiscoveryReq_t
+  cpriLink:         L1Cpri::ECpriLink
+  bufferLen:        uint8
+  discoveryMessage: uint8[SET_DISCOVERY_MESSAGE_SIZE]
+end
+
+structure SetDiscoveryResp_t
+  cpriLink: L1Cpri::ECpriLink
+  status:   L1Cpri::EExecutionState
+end
+
+structure SetDiscoveryResp_t
+  cpriLink: L1Cpri::ECpriLink
+  status:   L1Cpri::EExecutionState
+end
+
+structure SetLinkPropertiesReq_t
+    cpriLink:          L1Cpri::ECpriLink
+    parameterMask:     uint16
+    LCVWindow:  uint32
+end
+
+structure SetLinkPropertiesResp_t
+    cpriLink:   L1Cpri::ECpriLink
+    state:      L1Cpri::EExecutionState
+end
+
+structure SetLinkPropertiesResp_t
+    cpriLink:   L1Cpri::ECpriLink
+    state:      L1Cpri::EExecutionState
+end
+
+structure SetOutputReq_t
+  cpriLink:      L1Cpri::ECpriLink
+  outputState:   EOutputState
+end
+
+structure SetOutputReq_t
+  cpriLink:      L1Cpri::ECpriLink
+  outputState:   EOutputState
+end
+
+structure SetOutputResp_t
+  cpriLink:      L1Cpri::ECpriLink
+  status:        L1Cpri::EExecutionState
+  outputState:   L1Cpri::EOutputState
+end
+
+structure SetOutputResp_t
+  cpriLink:      L1Cpri::ECpriLink
+  status:        L1Cpri::EExecutionState
+  outputState:   L1Cpri::EOutputState
+end
+
+structure SetOutputResp_t
+  cpriLink:      L1Cpri::ECpriLink
+  status:        L1Cpri::EExecutionState
+  outputState:   L1Cpri::EOutputState
+end
+
+structure StateInd_t
+  cpriLink:      L1Cpri::ECpriLink
+  cpriState:     L1Cpri::EOamCpriLinkState
+end
+
+structure StateInd_t
+  cpriLink:      L1Cpri::ECpriLink
+  cpriState:     L1Cpri::EOamCpriLinkState
+end
+
+structure SubscribeReq_t
+  cpriLink:      L1Cpri::ECpriLink
+  sicad:         l1_common::Sicad
+end
+
+structure SubscribeResp_t
+  cpriLink:      L1Cpri::ECpriLink
+  status:        L1Cpri::EExecutionState
+  sicad:         l1_common::Sicad
+end
+
+structure SubscribeResp_t
+  cpriLink:      L1Cpri::ECpriLink
+  status:        L1Cpri::EExecutionState
+  sicad:         l1_common::Sicad
+end
+
+namespace L1ECpri
+
+protocol L1ECpri
+    message ConfigureLinksReq:         ConfigureLinksReq_t         id:0x0a30       end
+    message ConfigureLinksResp:        ConfigureLinksResp_t        id:0x0a31       end
+    message SubscribeReq:              SubscribeReq_t              id:0x0a32       end
+    message SubscribeResp:             SubscribeResp_t             id:0x0a33       end
+    message SetOutputReq:              SetOutputReq_t              id:0x0a34       end
+    message SetOutputResp:             SetOutputResp_t             id:0x0a35       end
+    message StateInd:                  StateInd_t                  id:0x0a36       end
+    message DelayConfigReq:            DelayConfigReq_t            id:0x0a37       end
+    message DelayConfigResp:           DelayConfigResp_t           id:0x0a38       end
+    message ConfigureTransportReq:     ConfigureTransportReq_t     id:0x0a39       end
+    message ConfigureTransportResp:    ConfigureTransportResp_t    id:0x0a3a       end
+    message InitialDelayMeasReq:       InitialDelayMeasReq_t       id:0x0a3b       end
+    message InitialDelayMeasResp:      InitialDelayMeasResp_t      id:0x0a3c       end
+    message DelayMeasInd:              DelayMeasInd_t              id:0x0a3d       end
+    message ConfigureMeasurementsReq:  ConfigureMeasurementsReq_t  id:0x0a3e       end   
+    message ConfigureMeasurementsResp: ConfigureMeasurementsResp_t id:0x0a3f       end  
+    message MsgRcvCountersInd:         MsgRcvCountersInd_t         id:0x0a40       end  
+end
+
+enumeration EECpriLink_t
+    EECpriLink_0 = 0
+    EECpriLink_1 = 1
+    EECpriLink_2 = 2
+    EECpriLink_3 = 3
+    EECpriLink_4 = 4
+    EECpriLink_5 = 5
+    EECpriLink_6 = 6
+    EECpriLink_7 = 7
+    EECpriLink_8 = 8
+    EECpriLink_9 = 9
+end
+
+enumeration EExecutionState_t
+    NO_ERROR = 0
+    UNDEFINED_ERROR = 1
+    INVALID_PARAM = 2
+end
+
+enumeration EOutputState_t
+    ENABLED  = 0
+    DISABLED = 1
+end
+
+enumeration EPerfMeasInterval
+    EPerfMeasInterval_Disabled = 0
+    EPerfMeasInterval_5min = 1
+    EPerfMeasInterval_15min = 2
+    EPerfMeasInterval_30min = 3
+    EPerfMeasInterval_60min = 4
+    EPerfMeasInterval_360min = 5
+    EPerfMeasInterval_720min = 6
+    EPerfMeasInterval_1440min = 7
+end
+
+structure InitialDelayMeasReq_t
+    eCpriLink:          L1ECpri::EECpriLink_t
+    samplesPerMeas:     uint16
+    sampleInterval:     uint32
+    measInterval:       uint32
+    changeThreshold:    uint32 "UTU"
+end
+
+structure InitialDelayMeasResp_t
+    eCpriLink:      L1ECpri::EECpriLink_t
+    state:          L1ECpri::EExecutionState_t
+    tdOneWayMin:    uint32 "UTU"
+    tdOneWayMax:    uint32 "UTU"
+end
+
+structure SMsgRcvCountersItem
+    eCpriLink:          EECpriLink_t
+    ceAxCId:            uint32
+    msgRcvAll:          uint64
+    msgRcvOnTime:       uint64
+    msgRcvTooEarly:     uint64
+    msgRcvTooLate:      uint64
+    msgRcvCorrupt:      uint64
+    msgRcvDuplicate:    uint64
+end
+
+structure SetOutputReq_t
+    eCpriLink:   L1ECpri::EECpriLink_t
+    outputState: L1ECpri::EOutputState_t
+end
+
+structure SetOutputResp_t
+    eCpriLink:   L1ECpri::EECpriLink_t
+    state:       L1ECpri::EExecutionState_t
+    outputState: L1ECpri::EOutputState_t
+end
+
+enumeration EOamECpriLinkState_t
+    DISABLED = 0
+    ENABLED  = 1
+end
+
+structure StateInd_t
+    eCpriLink:  L1ECpri::EECpriLink_t
+    eCpriState: EOamECpriLinkState_t
+end
+
+structure SubscribeReq_t
+    eCpriLink: L1ECpri::EECpriLink_t
+    sicad:     l1_common::Sicad
+end
+
+structure SubscribeResp_t
+    eCpriLink: L1ECpri::EECpriLink_t
+    state:     L1ECpri::EExecutionState_t
+    sicad:     l1_common::Sicad
+end
+
+const SCS_15: uint8 = 15
+const SCS_30: uint8 = 30
+const SCS_120: uint8 = 120
+
+const MIN_L1ECPRI_ITEMS: uint8 = 1
+const MAX_L1ECPRI_ITEMS: uint8 = 16
+
+typedef numOfItems_t: uint32 range[1, 16]
+
+structure ConfigureLinksReq_t
+    numOfItems: numOfItems_t
+    eCpriLink:  SECpriLinkItem_t[MAX_L1ECPRI_ITEMS]
+    scs:        uint8
+end
+
+structure SECpriLinkItem_t
+    eCpriLink:  L1ECpri::EECpriLink_t
+end
+
+structure ConfigureLinksResp_t
+    state: L1ECpri::EExecutionState_t
+end
+
+structure ConfigureMeasurementsReq_t
+    sicad:              l1_common::Sicad
+    measIntervalMsgRcv: EPerfMeasInterval
+end
+
+structure ConfigureMeasurementsResp_t
+    state: EExecutionState_t
+end
+
+const NUM_OF_RU_MAC_ADDRESSES: uint8 = 6
+
+typedef vlanId_t: uint16 range[1, 4094]
+
+structure ConfigureTransportReq_t
+    eCpriLink:    L1ECpri::EECpriLink_t
+    ruMacAddress: uint8[NUM_OF_RU_MAC_ADDRESSES]
+    vlanId:       vlanId_t
+end
+
+structure ConfigureTransportResp_t
+    eCpriLink: L1ECpri::EECpriLink_t
+    state:     L1ECpri::EExecutionState_t
+end
+
+structure ConfigureTransportResp_t
+    eCpriLink: L1ECpri::EECpriLink_t
+    state:     L1ECpri::EExecutionState_t
+end
+
+structure DelayConfigReq_t
+    eCpriLink:          L1ECpri::EECpriLink_t
+    tDlAdvanceUp:       uint32 "UTU"
+    tDlAdvanceCp:       uint32 "UTU"
+    tUlAdvanceCp:       uint32 "UTU"
+    receiveWindowOpen:  uint32 "UTU"
+    receiveWindowClose: uint32 "UTU"
+    nTaOffset:          uint16 "UTU"
+end
+
+structure DelayConfigResp_t
+    eCpriLink: L1ECpri::EECpriLink_t
+    state:     L1ECpri::EExecutionState_t
+end
+
+structure DelayConfigResp_t
+    eCpriLink: L1ECpri::EECpriLink_t
+    state:     L1ECpri::EExecutionState_t
+end
+
+structure DelayMeasInd_t
+    eCpriLink:      L1ECpri::EECpriLink_t
+    tdOneWayMin:    uint32 "UTU"
+    tdOneWayMax:    uint32 "UTU"
+end
+
+const MIN_RCV_COUNTERS_ITEMS: uint8 = 1
+const MAX_RCV_COUNTERS_ITEMS: uint8 = 16
+
+structure MsgRcvCountersInd_t
+    numOfItems:     uint32
+    MsgRcvCounters: SMsgRcvCountersItem[MAX_RCV_COUNTERS_ITEMS]
+end
+
+namespace L1Log
+
+protocol L1Log
+  message AntennaSnapshotInd:               AntennaSnapshotInd_t               id:0x0a64 end
+  message AntennaSnapshotReq:               AntennaSnapshotReq_t               id:0x0a65 end
+  message AntennaSnapshotResp:              AntennaSnapshotResp_t              id:0x0a5a end
+  message TraceReq:                         TraceReq_t                         id:0x0a5d end
+  message TraceResp:                        TraceResp_t                        id:0x0a5e end
+  message TraceInd:                         TraceInd_t                         id:0x0a5f end
+  message ShowTraceListReq:                 ShowTraceListReq_t                 id:0x0a60 end
+  message ShowTraceListResp:                ShowTraceListResp_t                id:0x0a61 end
+  message AntennaSnapshotConfigurationReq:  AntennaSnapshotConfigurationReq_t  id:0x0a62 end
+  message AntennaSnapshotConfigurationResp: AntennaSnapshotConfigurationResp_t id:0x0a63 end
+end
+
+const OAMLA_ANTENNA_SNAPSHOT_NAME_SIZE_MAX:      uint8 = 80   # including "End of string" character
+const MAX_NUM_SUBCELLS_IN_ANTENNA_SNAPSHOT:      uint8 = 4
+const MAX_NUM_ANTENNA_SNAPSHOT_FILES:            uint8 = 2
+
+enumeration EAntennaSnapshotRequestType
+  LoggingAgent = 0
+  Testport = 1
+  SuspiciousEventL1 = 2
+  SuspiciousEventL2 = 3
+end
+
+enumeration EAntennaSnapshotConfigurationStatusType
+  Ok = 0
+  Nok = 1
+end
+
+enumeration EAntennaSnapshotCaptureModeType
+  StopContinuousCapture = 0 # Default
+  StartSingleCapture = 1    # Not to be used with request type suspicious event
+end
+
+enumeration EAntennaSnapshotFileFormatType
+  TxAfterRxInSameFile = 0    # Default
+  RxAndTxInSeparateFiles = 1
+end
+
+enumeration EAntennaSnapshotSendAckType
+  SendResponseAck = 0 # Default
+  NoResponseAck = 1
+end
+
+enumeration EAntennaSnapshotL1EventEnableType
+  Enabled = 0  # Default
+  Disabled = 1
+end
+
+structure AntennaSnapshotConfigurationReq_t
+  numUlSubCellId:            uint8
+  ulSubcellId:               uint8[MAX_NUM_SUBCELLS_IN_ANTENNA_SNAPSHOT]
+  numDlSubCellId:            uint8
+  dlSubcellId:               uint8[MAX_NUM_SUBCELLS_IN_ANTENNA_SNAPSHOT]
+  AntSnapshotL1EventEnabled: EAntennaSnapshotL1EventEnableType
+end
+
+structure AntennaSnapshotConfigurationResp_t
+  status: EAntennaSnapshotConfigurationStatusType
+end
+
+structure AntennaSnapshotInd_t
+  bcnN:           uint64  "40 bit N1 incremented every 10 ms, 24 bit N2 counting from 0 to 12287999"
+  reportType:     EAntennaSnapshotRequestType "Type of request"
+  numberOfFiles:  uint8
+  fileList:       antennaSnapshotFile_t[MAX_NUM_ANTENNA_SNAPSHOT_FILES]
+end
+
+structure antennaSnapshotFile_t
+  status:         l1_common::EStatus_5G
+  fileSize:       uint32
+  fileName:       uint8[OAMLA_ANTENNA_SNAPSHOT_NAME_SIZE_MAX]
+end
+
+structure AntennaSnapshotReq_t
+  sfn:            uint16 "SFN of the last IQ sample to capture. Range 0..0x3FF, 0xFFFF for immediate"
+  slot:           l1_common::Slot "Slot number of the last IQ sample to capture. The Slot range is function of the Cell configuration."
+  requestType:    EAntennaSnapshotRequestType
+  captureMode :   EAntennaSnapshotCaptureModeType
+  oneFilePerPath: EAntennaSnapshotFileFormatType
+  responseAck:    EAntennaSnapshotSendAckType
+end
+
+structure AntennaSnapshotResp_t
+  status: l1_common::EStatus_5G
+end
+
+enumeration EAntSnapshotL1Enabled
+  ENABLED = 0
+  DISABLED = 1
+end
+
+structure ShowTraceListReq_t
+  physCellId:                 l1_common::PhyCellId
+  antSnapshotL1EventEnabled:  EAntSnapshotL1Enabled "Global activation flag to enable processing of L1Log_AntennaSnapshotReq coming from L1-SW"
+end
+
+const MAX_TRACE_LIST_SIZE: uint16 = 100
+
+structure ShowTraceListResp_t
+  status:       l1_common::EStatus_5G
+  traceList:    uint8[MAX_TRACE_LIST_SIZE] "Formatted text list - valid if status is OK"
+end
+
+const MAX_TRACE_PAYLOAD_SIZE: uint16 = 1400
+
+structure TraceInd_t
+  bcn:              uint64
+  msgSeqNum:        uint16
+  tracePayload:     uint8 [MAX_TRACE_PAYLOAD_SIZE]
+end
+
+const TRACE_MAX_NUMBER: uint32 = 10
+
+const TRACE_DEBUG_TABLE_SIZE: uint32 = 8
+
+enumeration EReportType
+  STOP  = 0
+  START = 1
+end
+
+enumeration EOutputMode
+  SNAPSHOT  = 0
+  STREAMING = 1
+end
+
+structure TraceReqHeader_t
+  physCellId:       l1_common::PhyCellId
+  trswEQID:         uint16
+  startStopReport:  EReportType
+  outputMode:       EOutputMode
+end
+
+structure TraceReqEntry_t
+  subtype:      uint16 "Function unit"
+  traceId:      uint16 "Trace identifier"
+  nbReports:    uint16 "Stop reporting after N reports (0 = Infinite)"
+end
+
+structure TraceReq_t
+  header:   TraceReqHeader_t
+  traces:   TraceReqEntry_t[TRACE_MAX_NUMBER]
+end
+
+structure TraceResp_t
+  physCellId:   l1_common::PhyCellId
+  status:       l1_common::EStatus_5G
+end
+
+namespace SyncM
+
+protocol SyncM
+    message StartPtpReq:           startPtpReq_t           id:0xd220    end
+    message StartPtpResp:          startPtpResp_t          id:0xd221    end
+    message UpdatePtpConfigReq:    updatePtpConfigReq_t    id:0xd222    end
+    message UpdatePtpConfigResp:   updatePtpConfigResp_t   id:0xd223    end
+    message StartSyncEReq:         startSyncEReq_t         id:0xd224    end
+    message StartSyncEResp:        startSyncEResp_t        id:0xd225    end
+    message UpdateSyncEConfigReq:  updateSyncEConfigReq_t  id:0xd226    end
+    message UpdateSyncEConfigResp: updateSyncEConfigResp_t id:0xd227    end
+    message GetSyncEStatusReq:     getSyncEStatusReq_t     id:0xd228    end
+    message GetSyncEStatusResp:    getSyncEStatusResp_t    id:0xd229    end
+    message GetPtpStatusReq:       getPtpStatusReq_t       id:0xd22a    end
+    message GetPtpStatusResp:      getPtpStatusResp_t      id:0xd22b    end
+    message StopSyncEReq:          stopSyncEReq_t          id:0xd22c    end
+    message StopSyncEResp:         stopSyncEResp_t         id:0xd22d    end
+    message StopPtpReq:            stopPtpReq_t            id:0xd22e    end
+    message StopPtpResp:           stopPtpResp_t           id:0xd22f    end
+    message StatusInd:             statusInd_t             id:0xd230    end
+end
+
+enumeration clockClass_t
+    CLASS_6   = 6
+    CLASS_7   = 7
+    CLASS_150 = 150
+end
+
+const NUM_OF_ECPRI_PORTS: uint8 = 10
+
+enumeration enabledDisabled_t
+    ENABLED  = 0
+    DISABLED = 1
+end
+
+enumeration g781NetworkOption_t
+    OPTION_I   = 1
+    OPTION_II  = 2
+    OPTION_III = 3
+end
+
+structure getPtpStatusReq_t
+    resetCounters: boolean
+end
+
+structure getSyncEStatusReq_t
+    resetCounters: boolean
+end
+
+enumeration portMode_t
+    DISABLED = 0
+    MASTER   = 1
+    SLAVE    = 2
+end
+
+enumeration ptpEthMulticastAddress_t
+    ADDR_0 = 0x0180c200000e
+    ADDR_1 = 0x011B19000000
+end
+
+structure PtpStatus
+    transmittedAnnouncePackets:      uint32
+    transmittedSyncPackets:          uint32
+    transmittedDelayRespPackets:     uint32
+    receivedDelayReqPackets:         uint32
+end
+
+enumeration transportMode_t
+    ETH = 0
+    IP  = 1
+end
+
+enumeration castMode_t
+    MULTICAST = 0
+    UNICAST   = 1
+end
+
+structure startPtpReq_t
+    defaultDsPriority1:      uint8
+    defaultDsPriority2:      uint8
+    defaultDsDomainNumber:   uint8
+    stepsRemoved:            uint8
+    logMinDelayReqInterval:  int32
+    logSyncInterval:         int32
+    logAnnounceInterval:     int32
+    transportMode:           transportMode_t
+    castMode:                castMode_t
+    ptpEthMulticastAddress:  SyncM::ptpEthMulticastAddress_t
+    clockIdentity:           uint64
+    portNumberOffset:        uint8
+    secondaryBcnOffset:      int32
+    clockClass:              SyncM::clockClass_t
+    clockAccuracy:           uint8
+    offsetScaledLogVariance: uint16
+    currentUtcOffset:        int32
+    currentUtcOffsetValid:   boolean
+    leap59:                  boolean
+    leap61:                  boolean
+    timeTraceable:           boolean
+    frequencyTraceable:      boolean
+    ptpTimescale:            boolean
+    timeSource:              uint8
+    ptpECpriPort:            SyncM::portMode_t[SyncM::NUM_OF_ECPRI_PORTS]
+end
+
+# g781NetworkOption: See ITU-T G.781, 'Clock-source quality level'
+# ssmQl: Value according to used network. Range 0-15.
+
+structure startSyncEReq_t
+    g781NetworkOption:   SyncM::g781NetworkOption_t
+    ssmQl:               uint8
+    ssmSendingECpriPort: SyncM::portMode_t[SyncM::NUM_OF_ECPRI_PORTS]
+end
+
+enumeration status_t
+    EStatus_NoError        = 0
+    EStatus_UndefinedError = 1
+    EStatus_InvalidParam   = 2
+    EStatus_NotInitialized = 3
+end
+
+enumeration syncmasterStatus_t
+    Operational = 0
+    Configured  = 1
+    Failed      = 2
+end
+
+structure statusInd_t
+    syncmasterStatus: syncmasterStatus_t
+end
+
+structure stopPtpReq_t
+    dummy: int8
+end
+
+structure stopPtpResp_t
+    status: SyncM::status_t
+end
+
+structure stopSyncEReq_t
+    dummy: int8
+end
+
+structure stopSyncEResp_t
+    status: SyncM::status_t
+end
+
+structure SyncEStatus
+    transmittedEsmcPackets: uint32
+end
+
+structure updatePtpConfigReq_t
+    defaultDsDomainNumber:   uint8
+    ptpEthMulticastAddress:  SyncM::ptpEthMulticastAddress_t
+    clockClass:              SyncM::clockClass_t
+    clockAccuracy:           uint8
+    offsetScaledLogVariance: uint16
+    currentUtcOffset:        uint32
+    currentUtcOffsetValid:   boolean
+    leap59:                  boolean
+    leap61:                  boolean
+    timeTraceable:           boolean
+    frequencyTraceable:      boolean
+    ptpTimescale:            boolean
+    timeSource:              uint8
+    ptpECpriPort:            SyncM::portMode_t[SyncM::NUM_OF_ECPRI_PORTS]
+end
+
+structure updatePtpConfigResp_t
+    status: SyncM::status_t
+end
+
+# g781NetworkOption: See ITU-T G.781, 'Clock-source quality level'
+# ssmQl: Value according to used network. Range 0-15.
+
+structure updateSyncEConfigReq_t
+    g781NetworkOption:   SyncM::g781NetworkOption_t
+    ssmQl:               uint8
+    ssmSendingECpriPort: SyncM::portMode_t[SyncM::NUM_OF_ECPRI_PORTS]
+end
+
+structure updateSyncEConfigResp_t
+    status: SyncM::status_t
+end
+
+structure getPtpStatusResp_t
+    status: SyncM::status_t
+    ptpECpriPort: SyncM::PtpStatus[SyncM::NUM_OF_ECPRI_PORTS]
+end
+
+structure getSyncEStatusResp_t
+    status: SyncM::status_t
+    ssmSendingECpriPort: SyncM::SyncEStatus[SyncM::NUM_OF_ECPRI_PORTS]
+end
+
+structure startPtpResp_t
+    status: SyncM::status_t
+end
+
+structure startSyncEResp_t
+    status: SyncM::status_t
+end
+
+namespace LteLunum_DlData
+
+protocol LteLunum_DlData
+    message DlUlChannelsReq:       dlUlChannelsReq_t          id:0xd260   end
+end
+
+const NUM_OF_SECTIONS: uint8 = 10
+const MAX_EXTENSION_DATA:  uint16 = 500
+const NUM_OF_EXTENSIONS: uint8 = 3
+
+typedef CellId: uint32 range[0,65535]
+typedef ENbId: uint32 range[0,1048575]
+typedef SubFrameId: uint8 range[0,9]
+typedef SlotId: uint8 range[0,15]
+typedef StartSymbolId: uint8 range[0,63]
+typedef SectionId: uint16 range[0,4095]
+typedef RbIndicator: uint8 range[0,1]
+typedef StartPrbc: uint16 range[0,1023]
+typedef ReMask: uint16 range[0,4095]
+typedef NumOfSymbols: uint16 range[0,14]
+typedef BeamId: uint16 range[0,2047]
+
+enumeration DataDirection
+  DataDirection_Rx = 0
+  DataDirection_Tx = 1
+end
+
+enumeration FilterIndex
+  FilterIndex_StandardChannel = 0
+  FilterIndex_PrachPreambleFormats_012 = 1
+  FilterIndex_PrachPreambleFormats_3 = 2
+  FilterIndex_PrachPreambleFormats_A1_C2 = 3
+  FilterINdex_NPrachUl = 4
+end
+
+enumeration SectionType
+  SectionType_IdleOrGuardPeriod = 0
+  SectionType_DlOrUlRadioChannel = 1
+  SectionType_PrachAndMixedNumerologyChannel = 3
+  SerctionType_UeSchedulingInformation = 5
+  SectionType_UeChannelInformation = 6
+  SectionType_LAA = 7 "Not supported"
+end
+
+enumeration RbIndicatior
+  RbIndicator_EveryRb = 0
+  RbIndicator_EveryOtherRb = 1
+end
+
+enumeration ExtType
+  ExtType_Reserved = 0
+  ExtType_BeamFormingWeights = 1
+  ExtType_BeamformingAttributes = 2
+  ExtType_DlPrecodingConfiguration = 3
+  ExtType_ModulationCompressionParams = 4
+  ExtType_ModulationCompressionAddScaling = 5
+  ExtType_NonContiguousPrbAllocation = 6
+end
+
+structure dlUlCommonHeader_t
+    dataDirection:    LteLunum_DlData::DataDirection
+    filterIndex:      LteLunum_DlData::FilterIndex
+    frameId:          uint8
+    subFrameId:       LteLunum_DlData::SubFrameId
+    slotId:           LteLunum_DlData::SlotId
+    startSymbolId:    LteLunum_DlData::StartSymbolId
+    numberOfSections: uint8
+end
+
+structure sectionExtension_t
+    extType:          LteLunum_DlData::ExtType
+    extParamLen:      uint8
+    extParamOffset:   uint16
+end
+
+structure dlUlSection_t
+    sectionId: LteLunum_DlData::SectionId
+    rb:        LteLunum_DlData::RbIndicator
+    symInc:    boolean
+    startPrbc: LteLunum_DlData::StartPrbc
+    numPrbc:   uint8
+    numSymbol: LteLunum_DlData::NumOfSymbols
+    reMask:    LteLunum_DlData::ReMask
+    beamId:    LteLunum_DlData::BeamId
+    numSectionExtension: uint16
+    sectionExtensions:   LteLunum_DlData::sectionExtension_t[NUM_OF_EXTENSIONS]
+end
+
+structure dlUlChannelsReq_t
+    inCellId:      LteLunum_DlData::CellId
+    eNbId:         LteLunum_DlData::ENbId
+    eAxcId:        uint16
+    commonHeader:  LteLunum_DlData::dlUlCommonHeader_t
+    sections:      LteLunum_DlData::dlUlSection_t[NUM_OF_SECTIONS]  attributes {dynamic_alloc}
+    extensionData: uint8[MAX_EXTENSION_DATA]  attributes {dynamic_alloc}
+end
+
+structure dlUlChannelsReq_t
+    inCellId:      LteLunum_DlData::CellId
+    eNbId:         LteLunum_DlData::ENbId
+    eAxcId:        uint16
+    commonHeader:  LteLunum_DlData::dlUlCommonHeader_t
+    sections:      LteLunum_DlData::dlUlSection_t[NUM_OF_SECTIONS]  attributes {dynamic_alloc}
+    extensionData: uint8[MAX_EXTENSION_DATA]  attributes {dynamic_alloc}
+end
+
+namespace LteLunum_DlCell
+
+protocol LteLunum_DlCell
+  message SetupResp:  SetupResp_t    id:0x0101 end
+  message DeleteReq:  DeleteReq_t    id:0x0102 end
+  message DeleteResp: DeleteResp_t   id:0x0103 end
+  message SetupReq:   SetupReq_t     id:0x012D end
+end
+
+structure DeleteReq_t
+  physCellId:     l1_common::PhyCellId
+end
+
+structure DeleteResp_t
+  physCellId:   l1_common::PhyCellId
+  status:       l1_common::cellDeleteStatus_t
+end
+
+structure SetupReq_t
+    physCellId:     l1_common::PhyCellId
+    dlBandwidth:    lunum_common::Bandwidth
+    ulBandwidth:    lunum_common::Bandwidth
+    eAxcStreams:    lunum_common::eAxcStream_t[lunum_common::MAX_NUM_STREAMS_PER_CELL] attributes {dynamic_alloc}
+end
+
+structure SetupResp_t
+  physCellId:                      l1_common::PhyCellId
+  eAxcStreamsDelayMeasurements:    lunum_common::eAxcStreamDelayMeasurement_t[lunum_common::MAX_NUM_STREAMS_PER_CELL] attributes {dynamic_alloc}
+end
+
+namespace DlCell
+
+protocol DlCell
+  # message SetupReq: SetupReq_t     id:0x0100 end
+  message SetupResp:  SetupResp_t    id:0x0101 end
+  message DeleteReq:  DeleteReq_t    id:0x0102 end
+  message DeleteResp: DeleteResp_t   id:0x0103 end
+  # message SetupReq: SetupReq_t     id:0x0110 end
+  # message SetupReq: SetupReq_t     id:0x0111 end
+  # message SetupReq: SetupReq_t     id:0x011d end
+  # message SetupReq: SetupReq_t     id:0x0125 end
+  # message SetupReq: SetupReq_t     id:0x0126 end
+  message SetupReq:   SetupReq_t     id:0x012D end
+end
+
+structure DeleteReq_t
+  subcellId:    l1_common::SubCellId
+end
+
+structure DeleteResp_t
+  subcellId:    l1_common::SubCellId
+  status:       l1_common::cellDeleteStatus_t
+end
+
+structure SetupReq_t
+    subcellId:                          l1_common::SubCellId
+    dlSubcellType:                      l1_common::SubcellType
+    dlMimoMode:                         l1_common::dlMimoMode_t
+    physCellId:                         l1_common::PhyCellId
+    dlBandwidth:                        l1_common::EBandwidth
+    scs:                                l1_common::EScs
+    ssBlockPower:                       l1_common::TransmitPower_dBfs
+    ssBlockPrbOffset:                   l1_common::ssBlockPrbOffset_t
+    ssBlockSubcarrierOffset:            l1_common::ssBlockSubcarrierOffset_t
+    ssBlockConfiguration:               l1_common::ssBlockConfiguration_t
+    phaseCompensationLutIndex:          uint16[l1_common::OFDM_SYMBOLS_PER_SUBFRAME_SCS_120KHZ] attributes {no_length_field}
+    ssBlockPhaseCompensationLutIndex:   uint16[l1_common::OFDM_SYMBOLS_PER_SUBFRAME_SCS_240KHZ] attributes {no_length_field}  
+    dlSubcellPosition:                  l1_common::subcellPosition_t
+    eCpriLink:                          L1ECpri::EECpriLink_t
+    numCeAxCId:                         l1_common::numCeAxC_t
+    ceAxCId:                            uint16[l1_common::MAX_NUM_C_EAXC_PER_SUBCELL] attributes {no_length_field}
+    conformanceTestMode:                boolean
+    actBeamforming:                     boolean
+end
+
+structure SetupResp_t
+  subcellId:      l1_common::SubCellId
+end
+
+namespace DlData
+
+protocol DlData
+  message PdschPayloadTbSendReq: PdschPayloadTbSendReq_t  id:0x0108 end
+end
+
+protocol DlData
+  # message PbchSendReq: PbchSendReq_t                    id:0x0106 end
+  # message PbchSendReq: PbchSendReq_t                    id:0x010e end
+  message AddressReq:  AddressReq_t                       id:0x0104 end
+  # message AddressResp: AddressResp_t                    id:0x0105 end
+  message PdschPayloadTbSendReq: PdschPayloadTbSendReq_t  id:0x0108 end
+  # message PdcchSendReq: PdcchSendReq_t                  id:0x0109 end
+  # message PdschSendReq: PdschSendReq_t                  id:0x010a end
+  # message PatternConfigReq: PatternConfigReq_t          id:0x010c end
+  # message SlotTypeReq: SlotTypeReq_t                    id:0x010d end
+  # message SlotTypeReq: SlotTypeReq_t                    id:0x010f end
+  # message AddressResp: AddressResp_t                    id:0x0112 end
+  # message SsBlockSendReq: SsBlockSendReq_t              id:0x0113 end
+  # message PdcchSendReq: PdcchSendReq_t                  id:0x0114 end
+  # message PdschSendReq: PdschSendReq_t                  id:0x0115 end
+  message PatternConfigReq: PatternConfigReq_t            id:0x0116 end
+  # message PdcchSendReq: PdcchSendReq_t                  id:0x0117 end
+  # message PdschSendReq: PdschSendReq_t                  id:0x0118 end
+  # message PdschSendReq: PdschSendReq_t                  id:0x0119 end
+  # message PdschSendReq: PdschSendReq_t                  id:0x011a end
+  # message PdcchSendReq: PdcchSendReq_t                  id:0x011b end
+  # message AddressResp: AddressResp_t                    id:0x011c end
+  # message PdcchSendReq: PdcchSendReq_t                  id:0x011e end
+  # message PdschSendReq: PdschSendReq_t                  id:0x011f end
+  # message CsiRsSendReq: CsiRsSendReq_t                  id:0x0120 end
+  message AddressResp: AddressResp_t                      id:0x0121 end
+  message SlotTypeReq: SlotTypeReq_t                      id:0x0122 end
+  # message SsBlockSendReq: SsBlockSendReq_t              id:0x0123 end
+  # message SsBlockSendReq: SsBlockSendReq_t              id:0x0124 end
+  message SsBlockSendReq: SsBlockSendReq_t                id:0x0127 end
+  # message PdcchSendReq: PdcchSendReq_t                  id:0x0128 end
+  message PdschSendReq: PdschSendReq_t                    id:0x0129 end
+  message CsiRsSendReq: CsiRsSendReq_t                    id:0x012A end
+  message PdcchSendReq: PdcchSendReq_t                    id:0x012C end
+end
+
+structure AddressReq_t
+
+  subcellId:    l1_common::SubCellId
+  
+end
+
+structure AddressResp_t
+
+  subcellId:     l1_common::SubCellId
+  l1DlAddresses: l1_common::L1DlAddresses
+
+end
+
+structure CsiRsResource_t
+    startSymbol:                        l1_common::symbolOfSlot_t
+    csiRsScramblingSequenceInt:         l1_common::csiRsScramblingSequenceInt_t
+    density:                            l1_common::csiRsDensity_t
+    densityDot5PrbLocation:             l1_common::csiRsDensityDot5PrbLocation_t
+    startPrb:                           l1_common::csiRsStartPrb_t
+    numOfPrb:                           l1_common::csiRsNumOfPrb_t
+    csiRsConfig:                        l1_common::csiRsConfig_t
+    freqDomainAllocationKi:             uint16
+    csiTransmitPower:                   l1_common::TransmitPower_dBfs
+    pwrReductionPerCsiRsResource_dB:    l1_common::pwrReductionPerSymb_dB_t
+    antennaStream:                      uint8
+    trsInfo:                            l1_common::csiRsTrsInfo_t
+    numCeAxCIndex:                      l1_common::numCeAxC_t
+    ceAxCIndex:                         l1_common::ceAxCIndex_t[l1_common::CSIRS_MAX_NUM_C_EAXC_PER_SUBCELL] attributes {no_length_field}
+    patternId:                          uint16[l1_common::CSIRS_MAX_NUM_PATTERNID_PER_SUBCELL] attributes {no_length_field}
+end
+
+structure CsiRsSendReq_t
+    subcellId:                    l1_common::SubCellId
+    sfn:                          l1_common::SFN
+    slot:                         l1_common::Slot
+    csiRsResources:               CsiRsResource_t[l1_common::MAX_NUM_OF_CSIRS_RESOURCES] attributes {dynamic_alloc}
+end
+
+structure PatternConfigReq_t
+    const PATTERN_ID_ARRAY_SIZE: uint8 = 112
+    sfn:               l1_common::SFN
+    slot:              l1_common::Slot
+    txRxBitmapPol:     uint16
+    numOfPatternIdPol: uint8
+    patternIdPol0List: uint16[PATTERN_ID_ARRAY_SIZE] attributes {no_length_field}
+    patternIdPol1List: uint16[PATTERN_ID_ARRAY_SIZE] attributes {no_length_field}
+    numOfXpolBeams:    l1_common::numOfXpolBeamsInPatternConfigReq_t
+    calibrationBitmap: uint16
+end
+
+structure DciInfo
+    rnti:                         l1_common::Rnti
+    startSymbolNumber:            l1_common::symbolOfSlot_t
+    numOfSymbols:                 l1_common::numOfPdcchSymbols_t
+    startCce:                     l1_common::startCce_t 
+    aggregationLevel:             l1_common::aggregationLevel_t
+    dmrsReferencePoint:           l1_common::dmrsReferencePoint_t
+    pdcchPrecodingOption4x4:      l1_common::pdcchPrecodingOption4x4_t
+    dmrsScramblingSequenceInt:    l1_common::DmrsScramblingSequenceInt 
+    pdcchDciTransmitPower:        l1_common::TransmitPower_dBfs
+    coresetFreqDomain:            uint64
+    cceRegMappingType:            l1_common::cceRegMappingType_t
+    pdcchPrecodingOption2x2:      l1_common::pdcchPrecodingOption2x2_t
+    nShiftModNumOfRegBundles:     l1_common::nShiftModNumOfRegBundles_t
+    interleaverRows:              l1_common::coresetInterleaverSize_t
+    regBundleSize:                l1_common::coresetRegBundleSize_t
+    precoderGranularity:          l1_common::precoderGranularity_t
+    coresetFreqDomainRbShift:     l1_common::coresetFreqDomainRbShift_t
+    dciSize:                      l1_common::dciSize_t
+    numCeAxCIndex:                l1_common::numCeAxC_t
+    ceAxCIndex:                   l1_common::ceAxCIndex_t[l1_common::PDCCH_MAX_NUM_C_EAXC_PER_SUBCELL] attributes {no_length_field}
+    patternId:                    uint16[l1_common::PDCCH_MAX_NUM_PATTERNID_PER_SUBCELL] attributes {no_length_field}
+    # dciPayload must start at 32-bit boundary. Check manually
+    # after compilation and adjust with padding if necesary.
+    dciPayload:                   uint8[l1_common::DCI_PAYLOAD_SIZE_BYTES] attributes {no_length_field}
+end
+
+structure PdcchSendReq_t
+    subcellId:                    l1_common::SubCellId
+    sfn:                          l1_common::SFN
+    slot:                         l1_common::Slot
+    beamId:                       l1_common::beamId_t
+    dciInfo:                      DciInfo[l1_common::MAX_DCI_INFO_ATTRIBUTES] attributes {dynamic_alloc}
+end
+
+structure PdschPayloadTbSendReq_t
+    const JUMBO_FRAME_PAYLOAD_MAX_SZ:        uint32 = 9000
+    const BIP_HEADER_SZ:                     uint32 = 8
+    const SW_EVENT_HEADER_SZ:                uint32 = 8
+    const CURRENT_STRUCT_SZ_WITHOUT_PAYLOAD: uint32 = 24 "the size of all fields of the PdschPayloadTbSendReq_t before the payload field, including the implicit padding added by MuLTI"
+    #UNCOMMENT WHEN CMWULM-868 IS IMPLEMENTED#  const PAYLOAD_FIELD_MAX_ELEMENTS: uint32 = JUMBO_FRAME_PAYLOAD_MAX_SZ - BIP_HEADER_SZ - SW_EVENT_HEADER_SZ - CURRENT_STRUCT_SZ_WITHOUT_PAYLOAD
+    const PAYLOAD_FIELD_MAX_ELEMENTS: uint32 = 8960
+
+    subcellId:             l1_common::SubCellId
+    sfn:                   l1_common::SFN
+    slot:                  l1_common::Slot
+    rnti:                  l1_common::Rnti # for debugging purposes, locates inside the padding and maintains the binary compatibility
+    tbIndex:               uint32
+    tbFragmentOffset_bits: uint32
+    payload:               uint8[PAYLOAD_FIELD_MAX_ELEMENTS] attributes {dynamic_alloc}
+end
+
+structure PdschSendReq_t
+    subcellId:                     l1_common::SubCellId
+    sfn:                           l1_common::SFN
+    slot:                          l1_common::Slot
+    rnti:                          l1_common::Rnti
+    dmrsScramblingSequenceInt:     l1_common::DmrsScramblingSequenceInt
+    dlDmrsConfigType:              l1_common::dlDmrsConfigType_t
+    dlDmrsLen:                     l1_common::dmrsLen_t
+    dlDmrsMappingType:             l1_common::dmrsMappingType_t
+    dlDmrsAddPos:                  l1_common::numOfDmrsAddPos_t
+    dlDmrsTypeAPos:                l1_common::dmrsTypeAPos_t
+    nscId:                         l1_common::NscId
+    startSymbol:                   l1_common::pdschStartSymbol_t
+    numOfPdschSymbols:             l1_common::NumOfPdschSymbols
+    antPort:                       uint16
+    mcs:                           l1_common::Mcs
+    mcsTable:                      l1_common::mcsTable_t
+    spatialMode:                   l1_common::SpatialMode
+    codebookIndex:                 l1_common::DlCodebookIndex
+    startPrb:                      l1_common::startPrb_t
+    numOfPrb:                      l1_common::numOfPrb_t
+    dlPtrsFlag:                    l1_common::PtrsFlag
+    dlPtrsTimeDensity:             l1_common::ptrsTimeDensity_t
+    dlPtrsFrequencyDensity:        l1_common::ptrsFrequencyDensity_t
+    dlPtrsNumOfPorts:              l1_common::ptrsNumOfPorts_t
+    dlPtrsResElemOffset:           l1_common::ptrsResElemOffset_t
+    offsetRbDmrs:                  l1_common::pdschOffsetRbDmrs_t
+    pdschTbTransmitPower:          l1_common::TransmitPower_dBfs
+    pdschBundleSize:               l1_common::schPrbBundleSize_t
+    baseGraph:                     l1_common::ldpcBaseGraph_t
+    numOfCodeBlocks:               l1_common::numOfCodeBlocks_t
+    codeBlockSize:                 l1_common::codeBlockSize_t
+    numOfFillerBits:               l1_common::numOfFillerBits_t
+    liftSize:                      l1_common::liftSize_t
+    liftSizeSetIndex:              l1_common::liftSizeSetIndex_t
+    liftSizeColumnIndex:           l1_common::liftSizeColumnIndex_t
+    modulationOrder:               l1_common::modulationOrder_t
+    rvIndex:                       l1_common::rvIndex_t
+    ncb:                           l1_common::ncb_t
+    k0divZ:                        l1_common::k0divZ_t
+    numOfLayers:                   l1_common::NumOfLayers
+    tbIndex:                       uint32
+    tbStartOffset_bits:            uint32
+    tbSize_bits:                   l1_common::TbSize
+    numOfDmrsCdmGroupWithoutData:  l1_common::numOfDmrsCdmGroupWithoutData_t
+    rat0Bitmap:                    uint32    
+    i1Codebook4AntPorts:           uint8[l1_common::NUM_CODEBOOK_I1_PARAMETERS] attributes {no_length_field}
+    i2Codebook4AntPorts:           l1_common::i2Codebook4AntPorts_t
+    pdschClPrecodingOption4x4:     l1_common::pdschClPrecodingOption4x4_t
+    numCeAxCIndex:                 l1_common::numCeAxC_t
+    ceAxCIndex:                    l1_common::ceAxCIndex_t[l1_common::PDSCH_MAX_NUM_C_EAXC_PER_SUBCELL] attributes {no_length_field}
+    patternId:                     uint16[l1_common::PDSCH_MAX_NUM_PATTERNID_PER_SUBCELL] attributes {no_length_field}
+end
+
+structure SlotTypeReq_t
+  subcellId:                 l1_common::SubCellId
+  sfn:                       l1_common::SFN
+  slot:                      l1_common::Slot
+  slotType:                  l1_common::slotType_t
+  pwrReductionPerSymb_dB:    l1_common::pwrReductionPerSymb_dB_t[l1_common::OFDM_SYMBOLS_PER_SLOT] attributes {no_length_field}
+end
+
+structure SsBlockSendReq_t
+    subcellId:              l1_common::SubCellId
+    sfn:                    l1_common::SFN
+    slot:                   l1_common::Slot 
+    activeSsBlocks:         uint8
+    threeLsbSsbIndex:       l1_common::threeLsbSsbIndex_t
+    precodingVectorIndex:   l1_common::precodingVectorIndex_t
+    dataPayload:            uint8[l1_common::MIB_SIZE_BYTES] attributes {no_length_field}
+    ceAxCIndex:             l1_common::ceAxCIndex_t[l1_common::SSB_NUM_C_EAXC_PER_SUBCELL] attributes {no_length_field}
+    patternId:              uint16[l1_common::SSB_NUM_PATTERNID_PER_SUBCELL] attributes {no_length_field}
+end
+
+namespace UlCell
+
+protocol UlCell
+  # message SetupReq: SetupReq_t   id:0x0200 end
+  message SetupResp:  SetupResp_t  id:0x0201 end
+  message DeleteReq:  DeleteReq_t  id:0x0202 end
+  message DeleteResp: DeleteResp_t id:0x0203 end
+  # message SetupReq: SetupReq_t   id:0x021A end
+  # message SetupReq: SetupReq_t   id:0x0221 end
+  # message SetupReq: SetupReq_t   id:0x0225 end
+  # message SetupReq: SetupReq_t   id:0x022F end
+  # message SetupReq: SetupReq_t   id:0x0236 end
+  # message SetupReq: SetupReq_t   id:0x0244 end
+  message SetupReq:   SetupReq_t   id:0x0247 end
+end
+
+structure DeleteReq_t
+  subcellId:    l1_common::SubCellId
+end
+
+structure DeleteResp_t
+  subcellId:    l1_common::SubCellId
+  status:       l1_common::cellDeleteStatus_t
+end
+
+structure SetupReq_t
+    subcellId:                        l1_common::SubCellId
+    ulSubcellType:                    l1_common::SubcellType
+    physCellId:                       l1_common::PhyCellId
+    ulBandwidth:                      l1_common::EBandwidth
+    scs:                              l1_common::EScs
+    prachFormat:                      l1_common::prachFormat_t
+    prachStartSymbol:                 l1_common::prachStartSymbol_t
+    prachScs:                         l1_common::EScs
+    firstPrachRootSeqIndex:           l1_common::prachRootSeqIndex_t
+    prachZeroCorrelationZoneConfig:   l1_common::prachZeroCorrelationZoneConfig_t
+    prachSequenceType:                l1_common::prachSequenceType_t
+    dtxThresholdPrachSingleRx:        l1_common::DtxThresholdPrach
+    dtxThresholdPrachTwoRx:           l1_common::DtxThresholdPrach
+    prachCohCombLen:                  l1_common::prachCohCombLen_t
+    totalNumberOfRAPreambles:         l1_common::totalNumberOfRAPreambles_t
+    rxScalingFactor:                  l1_common::RxScalingFactor
+    pneRbThreshold:                   l1_common::pneRbThreshold_t[l1_common::NUM_OF_PNE_RB_THRESHOLD] attributes {no_length_field}
+    dtxThresholdPuschSingleLayerList: l1_common::DtxThresholdPuschSingleLayer[l1_common::NUM_OF_DTX_THRESHOLD_PUSCH] attributes {no_length_field}
+    dtxThresholdPuschTwoLayerList:    l1_common::DtxThresholdPuschTwoLayer[l1_common::NUM_OF_DTX_THRESHOLD_PUSCH] attributes {no_length_field}
+    dtxThresholdPucchFormat0:         l1_common::DtxThresholdPucchFormat0[l1_common::NUM_OF_DTX_THRESHOLD_PUCCH_F0] attributes {no_length_field}
+    dtxThresholdPucchSingleLayerList: l1_common::DtxThresholdPucchSingleLayer[l1_common::NUM_OF_DTX_THRESHOLD_PUCCH] attributes {no_length_field}
+    dtxThresholdPucchTwoLayerList:    l1_common::DtxThresholdPucchTwoLayer[l1_common::NUM_OF_DTX_THRESHOLD_PUCCH] attributes {no_length_field}
+    dtxThresholdSrsTwoAntennaPorts:   l1_common::DtxThresholdSrsTwoAntennaPorts_t
+    phaseCompensationLutIndex:        uint16[l1_common::OFDM_SYMBOLS_PER_SUBFRAME_SCS_120KHZ] attributes {no_length_field}
+    ulSubcellPosition:                l1_common::subcellPosition_t
+    eCpriLink:                        L1ECpri::EECpriLink_t   # default: 0
+    numCeAxCId:                       l1_common::numCeAxC_t   # default: 2
+    ceAxCId:                          uint16[l1_common::MAX_NUM_C_EAXC_PER_SUBCELL] attributes {no_length_field}   # default: all 0
+    digitalOutputEnabled:             boolean
+    digitalOutputType:                l1_common::digitalOutputType_t
+    digitalOutputRate:                l1_common::digitalOutputRate_t
+    bbSelector:                       l1_common::bbSelector_t
+end
+
+structure SetupResp_t
+  subcellId:      l1_common::SubCellId
+end
+
+namespace UlData
+
+protocol UlData
+    message PuschReceiveRespLo: PuschReceiveRespLo_t     id:0x023A end
+end
+
+protocol UlData
+    message AddressReq: AddressReq_t                          id:0x0204 end
+    # message AddressResp: AddressResp_t                      id:0x0205 end
+    message SyncInd: SyncInd_t                                id:0x0206 end
+    # message PuschReceiveRespPsD:PuschReceiveRespPsD_t       id:0x0209 end
+    # message PuschReceiveRespPsU:PuschReceiveRespPsU_t       id:0x020a end
+    # message PuschReceiveRespPs:PuschReceiveRespPs_t         id:0x0214 end
+    # message PuschReceiveReq: PuschReceiveReq_t              id:0x0207 end
+    # message PuschReceiveRespHarqU: PuschReceiveRespHarqU_t  id:0x020b end
+    # message PrachReceiveInd: PrachReceiveInd_t              id:0x020c end
+    # message DelayResp: DelayResp_t                          id:0x020d end
+    # message DelayReq: DelayReq_t                            id:0x020e end
+    # message PucchReceiveReq: PucchReceiveReq_t              id:0x0210 end
+    # message PucchReceiveRespPsD: PucchReceiveRespPsD_t      id:0x0211 end
+    # message PucchReceiveRespPsU: PucchReceiveRespPsU_t      id:0x0212 end
+    # message PucchReceiveRespPs: PucchReceiveRespPs_t        id:0x0215 end
+    # message PucchReceiveRespHarqD: PucchReceiveRespHarqD_t  id:0x020f end
+    # message AddressResp: AddressResp_t                      id:0x0216 end
+    # message PuschReceiveReq: PuschReceiveReq_t              id:0x0217 end
+    message PuschReceiveRespHarqU: PuschReceiveRespHarqU_t    id:0x0218 end
+    # message PrachReceiveIndTst: PrachReceiveInd_t           id:0x0213 end
+    # message AddressResp: AddressResp_t                      id:0x021B end
+    # message PuschReceiveReq: PuschReceiveReq_t              id:0x021D end
+    # message PuschReceiveRespPs:PuschReceiveRespPs_t         id:0x021E end
+    # message PrachReceiveReq: PrachReceiveReq_t              id:0x021C end
+    message PrachReceiveInd: PrachReceiveInd_t                id:0x0219 end
+    message PrachReceiveIndTst: PrachReceiveInd_t             id:0x0222 end
+    # message PucchReceiveReq: PucchReceiveReq_t              id:0x0226 end
+    # message PucchReceiveRespHarqD: PucchReceiveRespHarqD_t  id:0x0227 end
+    # message PucchReceiveRespPs: PucchReceiveRespPs_t        id:0x0228 end
+    # message PuschReceiveReq: PuschReceiveReq_t              id:0x0229 end
+    # message PuschReceiveRespPs: PuschReceiveRespPs_t        id:0x022A end
+    message AddressResp: AddressResp_t                        id:0x022B end
+    # message SrsReceiveReq: SrsReceiveReq_t                  id:0x022C end
+    # message PuschReceiveReq: PuschReceiveReq_t              id:0x022D end
+    message SrsReceiveRespPs: SrsReceiveRespPs_t              id:0x022E end
+    # message PuschReceiveReq: PuschReceiveReq_t              id:0x0230 end
+    # message PucchReceiveReq: PucchReceiveReq_t              id:0x0231 end
+    # message PucchReceiveRespPs: PucchReceiveRespPs_t        id:0x0232 end
+    message PrachReceiveReq: PrachReceiveReq_t                id:0x0233 end
+    # message PrachReceiveInd: PrachReceiveInd_t              id:0x0234 end
+    message PuschReceiveRespPs: PuschReceiveRespPs_t          id:0x0235 end
+    message PucchReceiveRespHarqD: PucchReceiveRespHarqD_t    id:0x0237 end
+    message PucchReceiveRespPs: PucchReceiveRespPs_t          id:0x0238 end
+    # message PucchReceiveReq: PucchReceiveReq_t              id:0x0239 end
+    # message PuschReceiveReq: PuschReceiveReq_t              id:0x023B end
+    message SrsReceiveReq: SrsReceiveReq_t                    id:0x023C end
+    message PuschReceiveReq: PuschReceiveReq_t                id:0x0246 end
+    message PucchReceiveReq: PucchReceiveReq_t                id:0x024A end
+end
+
+structure AddressReq_t
+
+  subcellId:    l1_common::SubCellId
+  l2Addresses:  l1_common::L2Addresses
+  
+end
+
+structure AddressResp_t
+    subcellId:     l1_common::SubCellId
+    l1UlAddresses: l1_common::L1UlAddresses
+end
+
+const MAX_DET_PRACH_PREAMBLES: uint8 = 64
+
+structure PrachReceiveInd_t
+    sfn:      l1_common::SFN
+    slot:     l1_common::Slot
+    subcells: prachReceiveIndSubcell_t[l1_common::MAX_SUBCELL_ITEMS] attributes {dynamic_alloc}
+end
+
+structure prachReceiveIndSubcell_t
+    subcellId:              l1_common::SubCellId
+    noisePower:             l1_common::noisePower_t
+    detectedPrachPreambles: detectedPrachPreambles_t[MAX_DET_PRACH_PREAMBLES] attributes {dynamic_alloc}
+end
+
+structure detectedPrachPreambles_t
+    const MIN_PEAK_METRIC: float32 = 0.0
+    const MAX_PEAK_METRIC: float32 = 1.0
+    prachPreambleIndex:        l1_common::prachPreambleIndex_t
+    prachPreambleTimeOccasion: l1_common::prachPreambleTimeOccasion_t
+    prachPreambleFreqOccasion: l1_common::prachPreambleFreqOccasion_t
+    initialTa:                 l1_common::InitialTa
+    peakMetric:                float32   "range[0.0,1.0]"
+end
+
+structure PrachReceiveReq_t
+    sfn:      l1_common::SFN
+    slot:     l1_common::Slot
+    subcells: prachReceiveReqSubcell_t[l1_common::MAX_SUBCELL_ITEMS] attributes {dynamic_alloc}
+end
+
+structure prachReceiveReqSubcell_t
+    const MAX_PRACH_FREQ_OCCASIONS: uint8 = 8
+    subcellId:      l1_common::SubCellId
+    prachPrbOffset: l1_common::prachPrbOffset_t
+    prachOccasions: uint16[MAX_PRACH_FREQ_OCCASIONS] attributes {no_length_field}
+end
+
+structure pucchReceiveReqSubcell_t
+    subcellId:      l1_common::SubCellId
+    pucchResources: pucchReceiveReqPucchResource_t[l1_common::MAX_NUM_OF_PUCCH_RESOURCES] attributes {dynamic_alloc}
+end
+
+structure pucchReceiveReqPucchResource_t
+    rnti:                      l1_common::Rnti
+    selfContainedFlag:         l1_common::selfContainedFlag
+    pucchFormat:               l1_common::pucchFormat_t
+    numOfLayers:               l1_common::numOfPucchLayers_t
+    numOfAntennaPorts:         l1_common::numOfPucchTxAntennaPorts_t
+    harqProcessIndex:          l1_common::harqProcessIndex_t
+    startPrb:                  l1_common::startPrb_t
+    numOfPrb:                  l1_common::pucchNumOfPrb_t
+    dmrsScramblingSequenceInt: l1_common::DmrsScramblingSequenceInt
+    dataScramblingInt:         l1_common::dataScramblingInt_t
+    srBitDetection:            l1_common::srBitDetection_t
+    nANPucch:                  l1_common::nANPucch_t
+    numOfBitsOfUciInformation: l1_common::numOfBitsOfUciInformation_t
+    numOfSymbols:              l1_common::numOfPucchSymbols_t
+    firstSymbol:               l1_common::pucchFirstSymbol_t
+    frequencyHopping:          l1_common::frequencyHopping_t
+    secondHopPrb:              l1_common::startPrb_t
+    initialCyclicShift:        l1_common::pucchCyclicShift_t
+    additionalDmrs:            l1_common::pucchAdditionalDmrs_t
+    timeDomainOcc:             l1_common::pucchTimeDomainOcc_t
+end
+
+structure PucchReceiveReq_t
+    addrPucchReceiveRespPs:    l1_common::EvtQueueId
+    addrPucchReceiveRespHarqD: l1_common::EvtQueueId
+    sfn:                       l1_common::SFN
+    slot:                      l1_common::Slot
+    subcells:                  pucchReceiveReqSubcell_t[l1_common::MAX_SUBCELL_ITEMS] attributes {dynamic_alloc}
+end
+
+structure pucchReceiveRespHarqDSubcell_t
+    subcellId:      l1_common::SubCellId
+    pucchResources: UlData::pucchReceiveRespHarqDPucchResource_t[l1_common::MAX_NUM_OF_PUCCH_RESOURCES] attributes {dynamic_alloc}
+end
+
+structure pucchReceiveRespHarqDPucchResource_t
+    startPrb:         l1_common::startPrb_t
+    pucchFormat:      l1_common::pucchFormat_t
+    harqProcessIndex: l1_common::harqProcessIndex_t
+    dtx:              l1_common::dtx_t
+    ackNack:          uint8[l1_common::MAX_NUM_OF_AN_BYTES] attributes {no_length_field}
+    dtxMetric:        l1_common::pucchDtxMetric_t
+    dtxThreshold:     l1_common::pucchDtxMetric_t
+    rnti:             l1_common::Rnti
+end
+
+structure PucchReceiveRespHarqD_t
+    sfn:      l1_common::SFN
+    slot:     l1_common::Slot
+    subcells: pucchReceiveRespHarqDSubcell_t[l1_common::MAX_SUBCELL_ITEMS] attributes {dynamic_alloc}
+end
+
+structure pucchReceiveRespPsSubcell_t
+  subcellId:           l1_common::SubCellId
+  pucchResources:      pucchReceiveRespPsPucchResource_t[l1_common::MAX_NUM_OF_PUCCH_RESOURCES] attributes {dynamic_alloc}
+end
+
+structure pucchReceiveRespPsPucchResource_t
+  startPrb:           l1_common::startPrb_t
+  rnti:               l1_common::Rnti
+  dtx:                l1_common::dtx_t
+  pucchFormat:        l1_common::pucchFormat_t
+  harqProcessIndex:   l1_common::harqProcessIndex_t
+  shortTermTaMetric:  l1_common::shortTermTaMetric_t
+  shortTermTaPeakAmp: l1_common::shortTermTaPeakAmp_t
+  rxPower:            l1_common::rxPower_t
+  sinr:               l1_common::sinr_t[l1_common::MAX_NUM_OF_PUCCH_LAYERS] attributes {no_length_field}
+  uciBits:            uint8[l1_common::MAX_NUM_OF_UCI_BYTES] attributes {no_length_field}
+  srBit:              l1_common::bitValue_t
+  noisePower:         l1_common::noisePower_t
+  rssi:               l1_common::rssi_t
+  dtxMetric:          l1_common::pucchDtxMetric_t
+  dtxThreshold:       l1_common::pucchDtxMetric_t
+end
+
+structure PucchReceiveRespPs_t
+  sfn:                 l1_common::SFN
+  slot:                l1_common::Slot
+  subcells:            pucchReceiveRespPsSubcell_t[l1_common::MAX_SUBCELL_ITEMS] attributes {dynamic_alloc}
+end
+
+structure puschReceiveReqSubcell_t
+    subcellId: l1_common::SubCellId
+    grants:    puschReceiveReqGrant_t[l1_common::MAX_NUMB_OF_GRANTS] attributes {dynamic_alloc}
+end
+
+structure puschReceiveReqGrant_t
+    tbSize_bits:               l1_common::TbSize
+    rnti:                      l1_common::Rnti
+    selfContainedFlag:         l1_common::selfContainedFlag
+    ulDmrsConfigType:          l1_common::ulDmrsConfigType_t
+    ulDmrsLen:                 l1_common::dmrsLen_t
+    ulDmrsMappingType:         l1_common::dmrsMappingType_t
+    ulDmrsAddPos:              l1_common::numOfDmrsAddPos_t
+    ulDmrsTypeAPos:            l1_common::dmrsTypeAPos_t
+    startSymbol:               l1_common::puschStartSymbol_t
+    numOfPuschSymbols:         l1_common::numOfPuschSymbols_t
+    startPrb:                  l1_common::startPrb_t
+    numOfPrb:                  l1_common::numOfPrb_t
+    mcs:                       l1_common::Mcs
+    mcsTable:                  l1_common::mcsTable_t
+    antPort:                   uint16
+    spatialMode:               l1_common::SpatialMode
+    codebookIndex:             l1_common::ulCodebookIndex_t
+    nscId:                     l1_common::NscId
+    dmrsScramblingSequenceInt: l1_common::DmrsScramblingSequenceInt
+    ulPtrsFlag:                l1_common::PtrsFlag
+    ulPtrsTimeDensity:         l1_common::ptrsTimeDensity_t
+    ulPtrsFrequencyDensity:    l1_common::ptrsFrequencyDensity_t
+    ulPtrsNumOfPorts:          l1_common::ptrsNumOfPorts_t
+    ulPtrsResElemOffset:       l1_common::ptrsResElemOffset_t
+    harqProcessIndex:          l1_common::harqProcessIndex_t
+    absoluteHarqProcessIndex:  l1_common::absoluteHarqProcessIndex_t
+    freshHarqTrans:            boolean
+    numOfUciCsiPart1Bits:      l1_common::numOfPuschUciCsiPart1Bits_t
+    numOfUciCsiPart1Symbols:   l1_common::numOfPuschUciCsiSymbols_t
+    numOfUciCsiPart2Bits:      l1_common::numOfPuschUciCsiPart2Bits_t
+    numOfUciCsiPart2Symbols:   l1_common::numOfPuschUciCsiSymbols_t
+    longTermCfoMetric:         l1_common::longTermCfoMetric_t
+    foeValid:                  boolean
+    baseGraph:                 l1_common::ldpcBaseGraph_t
+    numOfCodeBlocks:           l1_common::numOfCodeBlocks_t
+    codeBlockSize:             l1_common::codeBlockSize_t
+    numOfFillerBits:           l1_common::numOfFillerBits_t
+    liftSize:                  l1_common::liftSize_t
+    liftSizeSetIndex:          l1_common::liftSizeSetIndex_t
+    liftSizeColumnIndex:       l1_common::liftSizeColumnIndex_t
+    modulationOrder:           l1_common::modulationOrder_t
+    rvIndex:                   l1_common::rvIndex_t
+    ncb:                       l1_common::ncb_t
+    k0divZ:                    l1_common::k0divZ_t
+    numOfLayers:               l1_common::NumOfLayers
+    puschTransCoherence:       l1_common::puschTransCoherence_t
+end
+
+structure PuschReceiveReq_t
+    addrPuschReceiveRespPs:    l1_common::EvtQueueId
+    addrPuschReceiveRespLo:    l1_common::EvtQueueId
+    addrPuschReceiveRespHarqU: l1_common::EvtQueueId
+    sfn:                       l1_common::SFN
+    slot:                      l1_common::Slot
+    subcells:                  puschReceiveReqSubcell_t[l1_common::MAX_SUBCELL_ITEMS] attributes {dynamic_alloc}
+end
+
+structure puschReceiveRespHarqUSubcell_t
+  subcellId:        l1_common::SubCellId
+  grants:           UePuschReceiveRespHarqU_t[l1_common::MAX_NUMB_OF_GRANTS] attributes {dynamic_alloc}
+end
+
+structure UePuschReceiveRespHarqU_t
+  rnti:                     l1_common::Rnti
+  crc:                      l1_common::crc_t
+  dtx:                      l1_common::dtx_t
+  harqProcessIndex:         l1_common::harqProcessIndex_t
+  absoluteHarqProcessIndex: l1_common::absoluteHarqProcessIndex_t
+end
+
+structure PuschReceiveRespHarqU_t
+  sfn:              l1_common::SFN
+  slot:             l1_common::Slot
+  subcells:         puschReceiveRespHarqUSubcell_t[l1_common::MAX_SUBCELL_ITEMS] attributes {dynamic_alloc}
+end
+
+structure PuschReceiveRespLo_t
+  const DATA_FIELD_ELEMENTS: uint32 = 50205
+  sfn:                      l1_common::SFN
+  slot:                     l1_common::Slot
+  subcellId:                l1_common::SubCellId
+  rnti:                     l1_common::Rnti
+  harqProcessIndex:         l1_common::harqProcessIndex_t 
+  absoluteHarqProcessIndex: l1_common::absoluteHarqProcessIndex_t
+  data:                     uint8[DATA_FIELD_ELEMENTS] attributes {dynamic_alloc}
+end
+
+const MAX_NUMB_LAYERS: uint8 = 2
+const NUMBER_OF_LAYERS_RANK2: uint8 = 2
+
+structure puschReceiveRespPsSubcell_t 
+    subcellId:  l1_common::SubCellId
+    noisePower: l1_common::noisePower_t
+    grants:     UePuschReceiveRespPs_t[l1_common::MAX_NUMB_OF_GRANTS] attributes {dynamic_alloc}
+end
+
+structure UePuschReceiveRespPs_t
+    rnti:                     l1_common::Rnti
+    harqProcessIndex:         l1_common::harqProcessIndex_t
+    absoluteHarqProcessIndex: l1_common::absoluteHarqProcessIndex_t
+    dtx:                      l1_common::dtx_t
+    shortTermCfoMetric:       l1_common::shortTermCfoMetric_t
+    shortTermTaMetric:        l1_common::shortTermTaMetric_t
+    shortTermTaPeakAmp:       l1_common::shortTermTaPeakAmp_t
+    rxPower:                  l1_common::rxPower_t
+    sinr:                     l1_common::sinr_t[MAX_NUMB_LAYERS] attributes {no_length_field}
+    rssi:                     l1_common::rssi_t
+    ulPmiRank1:               l1_common::ulPmiRank1_t
+    ulPmiRank1Sinr:           l1_common::sinr_t
+    ulPmiRank2:               l1_common::ulPmiRank2_t
+    ulPmiRank2Sinr:           l1_common::sinr_t[NUMBER_OF_LAYERS_RANK2] attributes {no_length_field}
+    channelCorrMetric:        l1_common::channelCorrMetric_t[MAX_NUMB_LAYERS] attributes {no_length_field}
+    ulRank:                   l1_common::ulRank_t
+    uciCsiPart1Bits:          uint8[l1_common::MAX_NUMBER_OF_PUSCH_UCI_CSI_PART1_BYTES] attributes {no_length_field}
+    uciCsiPart2Bits:          uint8[l1_common::MAX_NUMBER_OF_PUSCH_UCI_CSI_PART2_BYTES] attributes {no_length_field}
+end
+
+structure PuschReceiveRespPs_t
+    sfn:      l1_common::SFN
+    slot:     l1_common::Slot
+    subcells: puschReceiveRespPsSubcell_t[l1_common::MAX_SUBCELL_ITEMS] attributes {dynamic_alloc}
+end
+
+structure SrsReceiveReq_t
+    addrSrsReceiveResp: l1_common::EvtQueueId
+    sfn:                l1_common::SFN
+    slot:               l1_common::Slot
+    subcells:           srsReceiveReqSubcell_t[l1_common::MAX_SUBCELL_ITEMS] attributes {dynamic_alloc}
+end
+
+structure srsReceiveReqSubcell_t
+    subcellId:            l1_common::SubCellId
+    rnti:                 l1_common::Rnti
+    symbolPosition:       l1_common::srsSymbolPosition_t
+    transmissionComb:     l1_common::srsTransmissionComb_t
+    transmissionCombId:   l1_common::srsTransmissionCombId_t
+    srsBandwidth:         l1_common::srsBandwidth_t
+    srsBandwidthConfig:   l1_common::srsBandwidthConfig_t
+    freqDomainPosition:   l1_common::srsFreqDomainPosition_t
+    freqDomainShift:      l1_common::srsFreqDomainShift_t
+    sequenceId:           l1_common::srsSequenceId_t
+    cyclicShift:          l1_common::srsCyclicShift_t
+    numOfSrsPorts:        l1_common::numOfSrsTxAntennaPorts_t
+    puschTransCoherence:  l1_common::puschTransCoherence_t
+end
+
+structure SrsReceiveRespPs_t
+    sfn:      l1_common::SFN
+    slot:     l1_common::Slot
+    subcells: srsReceiveRespPsSubcell_t[l1_common::MAX_SUBCELL_ITEMS] attributes {dynamic_alloc}
+end
+
+structure srsReceiveRespPsSubcell_t
+    const NUMBER_OF_LAYERS_RANK2: uint8 = 2
+    subcellId:          l1_common::SubCellId
+    rnti:               l1_common::Rnti
+    ulRank:             l1_common::ulRank_t
+    ulPmiRank1:         l1_common::ulPmiRank1_t
+    ulPmiRank1Sinr:     l1_common::sinr_t
+    ulPmiRank2:         l1_common::ulPmiRank2_t
+    ulPmiRank2Sinr:     l1_common::sinr_t[NUMBER_OF_LAYERS_RANK2] attributes {no_length_field}
+    snr:                l1_common::sinr_t
+    dtx:                l1_common::dtx_t
+    shortTermTaMetric:  l1_common::shortTermTaMetric_t
+    shortTermTaPeakAmp: l1_common::shortTermTaPeakAmp_t
+end
+
+structure SyncInd_t
+  delay_nSec:                l1_common::Delay_nSec
+  sfn:                       l1_common::SFN
+  subcellId:                 l1_common::SubCellId  
+  slot:                      l1_common::Slot
+end
+

@@ -1,0 +1,145 @@
+@import "colourPalette.css";
+
+#iqTab_header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    background-color: var(--light-blue);
+    position: relative;
+}
+
+#canvas2D {
+    position: absolute;
+}
+
+.horiz-radio input[name=iqTab_viewportsSplit] + label {
+    padding: 0;
+    width: 20px;
+    height: 20px;
+    background-image: url(../img/icons.png);
+}
+
+#iqTab_viewportsSplit_0 + label {
+    background-position: 0 0;
+}
+
+#iqTab_viewportsSplit_1 + label {
+    background-position: -20px 0;
+}
+
+#iqTab_viewportsSplit_2 + label {
+    background-position: -40px 0;
+}
+
+#iqTab_viewportsSplit_3 + label {
+    background-position: -60px 0;
+}
+
+#no_iqData, #no_timeData, #no_fftData {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);   
+}
+
+#heatmap_toolbar {
+    box-sizing: border-box;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    position: absolute;
+    bottom: 35px;
+    right: 20px;
+    background-color: #000;
+    color: #fff;
+    font-size: 0.7em;
+    z-index: 2;
+}
+
+#heatmap_toolbar span {
+    display: block;
+    margin-bottom: 5px;
+}
+
+#heatmap_legend {
+    display: flex;
+}
+
+#heatmap_scale {
+    height: 150px;
+    width: 30px;
+    background-image: linear-gradient(#e93e3a 0%, #ed683c 10%, #f3903f 20%, #fdc70c 30%, #fff33b 40%, #e2ff3b 50%, #aaff3b 60%, #55c767 70%, #19948d 80%, #245f8f 90%, #423885 100%);
+}
+
+#heatmap_desc {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: center;
+    margin-left: 2px;
+}
+
+.iqTab_header_dropdown{
+    margin: 0 5px 0 5px;
+    background-color: white;
+    border-radius: 5px;
+}
+
+.iqTab_header_dropdown:hover{
+    background-color: lightblue; 
+}
+
+.iqTab_header_dropdown_header{
+    text-align: center;
+    color: var(--light-blue);
+    padding: 4px;
+    cursor: pointer;
+}
+
+.iqTab_header_dropdown_body{
+    position: absolute;
+    z-index: 1;
+    min-width: 160px;
+    background-color: white;
+    margin-top: 10px;
+}
+
+.iqTab_header_dropdown_submode{
+    position: absolute;
+    z-index: 1;
+    min-width: 160px;
+    background-color: white;
+    margin-top: 3px;
+    margin-left: -10px;
+}
+
+.toolbar-separator {
+    width: 1px;
+    height: 20px;
+    background: #ccc;
+    align-self: center;
+    margin: 2px 4px;
+}
+
+.toggle-btn {
+    background: #eee;
+    border: 1px solid #aaa;
+    border-radius: 4px;
+    cursor: pointer;
+    color: #888;
+    transition: background 0.2s, color 0.2s;
+}
+.toggle-btn.on {
+    background: var(--checkbox-on);
+    color: var(--black);
+    border-color: #0078d4;
+}
+
+.iqTab_toggleSelectMode_enabled{
+    background-color: lightblue
+}
+
+#iqTab_toggleSelectMode:disabled{
+    background-color: gray;
+}

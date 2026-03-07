@@ -1,0 +1,22 @@
+{
+  "name": "bba",
+  "version": "1.0.0",
+  "description": "BaseBand Analyser",
+  "main": "index.html",
+  "scripts": {
+    "pretest": "node ./js/buildNode.js",
+    "test": "mocha ./js/test/all.test.js",
+    "buildNode": "node ./js/buildNode.js node"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://wrgitlab.int.net.nokia.com/bbanalyzer/bba"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "20": "^1.0.0",
+    "chai": "^4.3.4",
+    "mocha": "^9.1.3"
+  }
+}

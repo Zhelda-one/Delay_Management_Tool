@@ -1,0 +1,64 @@
+header {
+    margin: auto;
+    text-align: center;
+    padding-bottom: 30px;
+}
+
+button {
+    cursor: pointer;
+    background-color: #009879; /* Green */
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
+button:hover {
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+}
+
+#basicStats, #charts {
+    width: 40%;
+    margin: auto;
+    /*text-align: center;*/
+}
+
+canvas {
+    margin-bottom: 50px;
+    margin-top: 50px;
+}
+
+table {
+    border-collapse: collapse;
+    margin: 25px auto;
+    font-size: 1em;
+    font-family: sans-serif;
+    min-width: 400px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+
+}
+
+table tr {
+    color: #009879;
+    background-color: #f3f3f3;
+}
+
+th, td {
+    padding: 12px 15px;
+    text-align: center;
+    max-width: 500px;
+    overflow: hidden;
+}
+
+th {
+    color: #ffffff;
+    background-color: #009879;
+}
+
+tr {
+    color: #009879;
+    border-bottom: 1px solid #dddddd;
+}

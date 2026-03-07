@@ -1,0 +1,68 @@
+FROM fivegmax-docker-local.artifactory-espoo1.int.net.nokia.com/5gmax_container:latest
+
+ENV https_proxy=http://10.158.100.2:8080
+
+RUN apt-get update && apt-get install -y \
+    iputils-ping \
+    sudo \
+    zip \
+    curl \
+    nodejs \
+    npm
+
+RUN apt-get clean
+
+
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+
+
+
+# Default g++ version is g++-10, but npm installs g++-11, which doesn't compile
+RUN rm /usr/bin/gcc
+RUN rm /usr/bin/g++
+RUN ln -s /usr/bin/gcc-10 /usr/bin/gcc
+RUN ln -s /usr/bin/g++-10 /usr/bin/g++
+
+RUN groupadd ServerGroup
+RUN useradd -rm -d /home/banski -s /bin/bash -g ServerGroup -G root -u 1001 banski | chpasswd && adduser banski sudo
+RUN useradd -rm -d /home/ServerUser -s /bin/bash -g ServerGroup -G root -u 10001 ServerUser | chpasswd && adduser ServerUser sudo
+
+#COPY --chown=root:ServerGroup local /local
+#RUN chmod -R g+rwx /local
+
+#disable graphical mode
+#RUN sed -e '/-R/ s/^/#/' -i /local/5gmax/setup/exematlab_sources.cmake
+#RUN sed -e '/-nojvm/ s/^/#/' -i /local/5gmax/setup/exematlab_sources.cmake
+
+# build 5gmax
+ENV PATH="$PATH:/usr/local/MATLAB/R2023b/bin"
+#WORKDIR /local/5gmax/BuildTools
+#RUN su -c "./build_5gmax.sh -c -s" banski
+
+#RUN userdel banski
+
+#WORKDIR /local/server
+
+#RUN npm config set proxy http://10.158.100.2:8080
+#RUN npm config set https-proxy http://10.158.100.2:8080
+#RUN npm install
+#RUN npm cache clean --force
+
+# retrieve unused space
+#RUN rm -rf /local/5gmax/build
+#RUN rm -rf /local/5gmax/BuildTools
+#RUN rm -rf /local/5gmax/SctTest
+
+# Retain only last image layers
+#FROM scratch 
+#COPY --from=0 / /
+
+#ENV MATLAB=/usr/local/MATLAB/R2023b
+#ENV PATH=/usr/local/MATLAB/R2023b/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+#RUN npm config rm proxy
+#RUN npm config rm https-proxy
+
+#WORKDIR /local/server
+USER ServerUser
+WORKDIR /home/ServerUser

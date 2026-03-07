@@ -1,0 +1,3529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="ISO-8859-1">
+    <meta name="author" content="Oleksandr Lynok">
+    <meta name="description" content="Baseband Analyzer">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Baseband Analyzer</title>
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.PNG">
+    <link rel="stylesheet" href="css/common/controls.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/mainTab.css">
+    <link rel="stylesheet" href="css/packetsTab.css">
+    <link rel="stylesheet" href="css/iqTab.css">
+    <link rel="stylesheet" href="css/loadDialog.css">
+    <link rel="stylesheet" href="css/generatorTab.css">
+    <link rel="stylesheet" href="css/5GMaxTab.css">
+    <link rel="prefetch" href="img/icons.png" as="image">
+
+    <!-- Fontawesome 6 -->
+    <link href="libs/fontawesome6/css/fontawesome.css" rel="stylesheet" />
+    <link href="libs/fontawesome6/css/brands.css" rel="stylesheet" />
+    <link href="libs/fontawesome6/css/solid.css" rel="stylesheet" />
+
+    <noscript><h2>Error: JavaScript must be enabled.</h2></noscript>
+</head>
+<body>
+
+<div id="loader_bgr"></div>
+<div id="loader">
+    <div class="loader_content">
+        <div class="loader_circle"></div>
+        <div class="loader_line_rotate">
+            <div class="loader_line"></div>
+        </div>
+        <svg width="84px" height="56px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 738 471"
+             preserveAspectRatio="xMidYMid meet">
+            <g transform="translate(0,471) scale(0.1,-0.1)" fill="#ffffff" stroke="none">
+                <path
+                        d="M182 3122 c-10 -7 -12 -177 -10 -818 l3 -809 770 -3 c782 -2 773 -3 955 32 105 19 202 88 247 172 41 79 56 150 57 264 1 162 -49 270 -157 343 l-56 37 45 46 c100 100 139 276 98 443 -40 161 -144 254 -319 283 -73 12 -1614 22 -1633 10z m1410 -427 c49 -46 45 -118 -9 -168 -18 -16 -52 -17 -459 -15 l-439 3 -3 89 c-2 49 -1 95 2 103 4 10 88 13 443 13 l438 0 27 -25z m52 -594 c21 -20 26 -34 26 -76 0 -55 -9 -71 -52 -98 -25 -16 -70 -17 -475 -15 l-448 3 -3 99 c-2 73 1 102 10 108 7 4 216 7 465 6 l451 -3 26 -24z" />
+                <path
+                        d="M2508 3119 c-17 -9 -18 -59 -18 -813 0 -724 2 -804 16 -810 9 -3 357 -6 774 -6 632 0 771 2 837 15 43 8 88 15 100 15 13 0 55 15 95 34 144 68 203 167 215 361 6 110 -6 195 -39 258 -26 52 -83 113 -129 139 -22 12 -39 25 -39 30 0 4 18 24 40 44 22 20 54 65 72 101 28 58 32 76 36 172 5 117 -6 185 -40 258 -27 57 -89 121 -143 147 -22 10 -49 24 -60 30 -11 5 -47 14 -80 19 -90 14 -1616 19 -1637 6z m1413 -428 c24 -24 29 -38 29 -76 0 -38 -5 -52 -29 -76 l-29 -29 -441 0 c-287 0 -441 3 -441 10 -1 6 -1 48 -1 95 0 47 0 90 1 95 0 7 154 10 441 10 l441 0 29 -29z m9 -567 c39 -8 70 -54 70 -102 0 -44 -13 -66 -54 -91 -33 -21 -42 -21 -477 -19 l-444 3 -3 94 c-1 52 -1 100 2 108 4 10 88 13 439 13 239 0 449 -3 467 -6z" />
+                <path
+                        d="M5655 3121 c-11 -5 -50 -63 -90 -137 -38 -70 -85 -155 -103 -188 -19 -34 -50 -90 -69 -126 -43 -79 -68 -123 -168 -305 -77 -140 -107 -194 -166 -302 -18 -32 -45 -83 -62 -113 -17 -30 -75 -136 -129 -234 -54 -99 -103 -186 -109 -193 -6 -6 -8 -17 -4 -23 8 -12 563 -14 584 -1 7 5 44 64 81 132 l68 124 475 3 c431 2 476 1 488 -14 8 -9 42 -69 76 -133 l61 -116 288 -3 c158 -1 292 2 296 6 5 5 1 24 -10 43 -10 19 -38 70 -62 114 -42 78 -147 271 -180 330 -9 17 -38 71 -65 120 -26 50 -63 116 -81 148 -19 32 -34 60 -34 61 0 2 -75 140 -166 307 -91 167 -186 342 -211 389 -25 47 -54 93 -65 103 -18 15 -48 17 -322 16 -165 0 -310 -4 -321 -8z m356 -548 c96 -178 127 -237 166 -307 47 -86 51 -101 27 -110 -9 -3 -114 -6 -234 -6 -120 0 -225 3 -234 6 -9 3 -16 14 -16 24 0 9 47 104 105 210 58 107 105 197 105 200 0 12 24 30 40 30 8 0 27 -21 41 -47z" />
+            </g>
+        </svg>
+    </div>
+</div>
+
+<div id="root_header">
+    <a href="https://nok.it/bba" class="bba"><span class="first_letter">B</span>ASE<span class="first_letter">B</span>AND <span
+        class="first_letter">A</span>NAL<span class="y_letter">Y</span>ZER</a>
+    <div id="tabs_menu" class="horiz-radio">
+        <input type="radio" id="root_header_menu_0" name="root_header_menu" value="0" checked><label
+            for="root_header_menu_0">Main</label>
+        <input type="radio" id="root_header_menu_1" name="root_header_menu" value="1"><label for="root_header_menu_1">Packets</label>
+        <input type="radio" id="root_header_menu_2" name="root_header_menu" value="2"><label
+            for="root_header_menu_2">IQ</label>
+        <input type="radio" id="root_header_menu_3" name="root_header_menu" value="3"><label for="root_header_menu_3">Generator</label>
+
+        <input type="radio" id="root_header_menu_4" name="root_header_menu" value="4"><label for="root_header_menu_4">5G Max</label>
+        <!--          Demo, Help-->
+    </div>
+    <div id="root_header_file_name" title="Loaded files:"></div>
+    <div id="buttons_header">
+        <input type="button" value="Load" onclick="loadDialog.toggle()">
+        <input type="button" value="Save" onclick="saveDialog.toggle()">
+        <input type="button" value="Analyze" onclick="analyzeDialog.toggle()">
+        <input type="button" value="Modify" onclick="modifyDialog.toggle()">
+        <input type="button" value="Configure" onclick="configDialog.toggle()">
+        <button onclick="logDialog.toggle()" value="Log">Log<span id="root_header_logStats"
+                                                      hidden>(<span>0</span>/<span>0</span>/<span>0</span>/<span>0</span>)</span>
+        </button>
+    </div>
+    <div class="container">
+        <div class="ger-icon">
+            <input type="image" id="gear-icon" src="img/gear-icon.png" width="20" height="20" value="Settings" onclick="settingsDialog.toggle()">
+        </div>
+    </div>
+    <!-- <div>NOKIA</div> -->
+    <img src="img/logo.png" alt=""/>
+</div>
+
+<div id="root_body">
+    <div id="mainTab">
+        <div id="mainTab_header">
+            <div class="title">
+
+                <!-- <h2 style="color: #010a83;">(experimental version)</h2> -->
+            </div>
+
+        </div>
+        <div id="mainTab_body">
+<!--            <img src="img/1.jpg" class="hidden" alt=""/>-->
+<!--            <img src="img/2.jpg" class="hidden" alt=""/>-->
+<!--            <img src="img/3.jpg" class="hidden" alt=""/>-->
+<!--            <img src="img/4.jpg" class="hidden" alt=""/>-->
+            <div class="foreground_layout">
+                <div class="left_panel">
+                    <a class="link_button" onclick="openWhatsNewDialog()">What<span>&#39</span>s new?</a>
+                    <a class="link_button" href="https://go.nokialearn.com/cd/MN00130-K-24" target="_blank">Training</a>
+                    <a class="link_button" href="https://nokia.sharepoint.com/:u:/r/sites/l1-as-krk/SitePages/BBA.aspx?csf=1&web=1&share=EUSK0lxuf1xEhiof40cn7KwBVaS4Q-HPkemZoKb5r5iRdg&e=qA0n1g" target="_blank">SharePoint</a>
+                    <a class="link_button" href="https://engage.cloud.microsoft/main/groups/eyJfdHlwZSI6Ikdyb3VwIiwiaWQiOiIxODc5ODA4NDkxNTIifQ" target="_blank">Viva Engage</a>
+                    <iframe id="MsFormsQuestionaireIframe" width="510px" height="480px" frameborder="0" marginwidth="0" marginheight="0" style="border: none; max-width:100%; max-height:100vh" allowfullscreen webkitallowfullscreen mozallowfullscreen msallowfullscreen> </iframe>
+                </div>
+                <div class="middle_panel">
+                    <div class="drop_area"><p>Drop file to begin</p></div>
+                </div>
+                <div class="right_panel">
+                    <a class="link_button" href="https://bbanalyzer.wrgitlab-pages.int.net.nokia.com/bba/"
+                       target="_blank"> User manual</a>
+                    <a class="link_button" href="https://wrgitlab.int.net.nokia.com/bbanalyzer/bba" target="_blank">
+                        Repository</a>
+                    <a class="link_button" href="https://nok.it/iq" target="_blank">
+                        Old BBA</a>
+                    <h3 class="contact">Support</h3>
+                    <h3 class="mail"><a href="mailto:I_SOC_BB_ANALYZER_SUPPORT@internal.nsn.com">I_SOC_BB_ANALYZER_SUPPORT@internal.nsn.com</a>
+                    </h3>
+                </div>
+                <div id="hide_foreground"></div>
+            </div>
+        </div>
+        <div id="whatsNewPopup" class="mainTabPopup">
+            <div class="popup_header">
+                <h1 class="tool_info"><span class="info_type">Current version: </span><span id="mainTab_version"></span>
+                </h1>
+                <h1 class="tool_info"><span class="info_type">Updated: </span><span id="mainTab_updatedAt"></span></h1>
+                <img class="close_popup" src="img/close.png" onClick="hideMainTabPopup()" alt=""/>
+            </div>
+            <h2 class="changes_group">New features:</h2>
+            <div id="newFeatures_list"></div>
+            <h2 class="changes_group">Bug fixes:</h2>
+            <div id="bugFixes_list"></div>
+        </div>
+        <div id="changelogPopup" class="mainTabPopup">
+            <img class="close_popup" src="img/close.png" onClick="hideMainTabPopup()" alt=""/>
+            <div id="changelog_list"></div>
+        </div>
+    </div>
+
+    <div id="packetsTab" hidden>
+
+        <div id="extraInfoModal" class="hoverModal modalHidden" onmouseenter="keepModalVisible(event)" onmouseleave="hideModal(event)">
+            This is a modal used for additional data in packet table
+        </div>
+
+        <div id="packetsTab_header" class="tab_header">
+            <div class="filter_buttons">
+                <div>
+                    <label for="packetsTab_header_filterInput">Filter: </label>
+                    <input type="text" id="packetsTab_header_filterInput" size="60">
+                    <div id="packetsTab_header_filtersList" hidden></div>
+                </div>
+                <div>
+                    <input type="button" value="Apply" onclick="packetsTab_filterPackets()">
+                    <input type="button" value="Clear" onclick="packetsTab_filterPackets('')">
+                </div>
+            </div>
+            <div>
+                <input type="button" value="Go To Begin" onclick="packetTable_scrollToEdge('top')">
+                <input type="button" value="Go To End" onclick="packetTable_scrollToEdge('bottom')">
+                <input type="button" value="Customize" onclick="packetsTabCustomizeDialog.open()">
+                <div class="compare_button_tooltip"><input type="button" value="Compare" id="compare_button" disabled onclick="packetsTab_comparePackets()">
+                    <span class="compare_button_tooltip_text">You can mark up to 4 packets with ctrl + left mouse key
+                        and click compare to open the comparison dialog.</span></div>
+            </div>
+            <div>
+                <input type="checkbox" id="packetsTab_header_showColTypesCB" onclick="packetsTab_toggleColTypes()">
+                <label for="packetsTab_header_showColTypesCB">Show types</label>
+            </div>
+            <div id="displayed_packets" style="padding-right: 10px">
+                Displayed: <span id="packetsTab_header_numOfDisplayedPackets">0 (100.00%)</span> | Packets: <span
+                    id="packetsTab_header_numOfTotalPackets">0</span>
+            </div>
+        </div>
+
+
+
+        <div id="packetsTab_body">
+            <table class="evenOddTable viewToggle" id="packetTable">
+                <thead>
+                <tr></tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td></td>
+                </tr>
+                </tbody>
+            </table>
+            <div id="no_packets">
+                <h1>There are no packets in this file</h1>
+            </div>
+        </div>
+
+        <bba-packets-tab-customize-dialog id="packetsTabCustomizeDialog">
+            <div class="button_dialog">
+                <input type="button" value="Rotate column names" onclick="vertHorViewToggle()">
+                <div class="tooltip">[?]<span class="tooltip_text">Switch between vertical and horizontal column names. Horizontal orientation provides improved stability, making it easier to navigate while scrolling through the table.</span></div>
+            </div>
+            <div class="button_dialog">
+                <input type="button" value="Hide const columns" onclick="packetsTab_disableConstCols()">
+                <div class="tooltip">[?]<span class="tooltip_text">Hides columns where all values are equal. Comparing works for primitives and arrays but not for objects</span></div>
+            </div>
+            <div>Show/hide columns:</div>
+            <hr>
+            <table>
+                <tr>
+                    <td>
+                        <div id="packetsTabCustomizeDialog_visibleColumnsTableWrapper">
+                            <table class="evenOddTable" id="packetsTabCustomizeDialog_visibleColumnsTable">
+                                <tr>
+                                    <td>No packets loaded</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+            <div class="button_dialog sticky_button">
+                <input type="button" onclick="packetsTabCustomizeDialog_apply()" value="Apply">
+            </div>
+        </bba-packets-tab-customize-dialog>
+
+        <bba-packets-tab-compare-dialog id="packetsTabCompareDialog">
+            <div>
+                <p style="background-color: #f5a9ab">Rows which have different values are marked with this color</p>
+                <p style="background-color: #f1c794">Empty fields are marked with this color</p>
+            </div>
+            <div id="packetsTabCompareDialog_propertiesNotCompared"></div>
+            <table class="evenOddTable" id="comparePacketsDialog_propTable">
+                <thead>
+                <tr>
+                    <td>Name</td>
+                    <td id="compare_1" hidden>Value<i class="fa-solid fa-x compare_delete" onclick="compare_delete(0)"></i></td>
+                    <td id="compare_2" hidden>Value<i class="fa-solid fa-x compare_delete" onclick="compare_delete(1)"></i></td>
+                    <td id="compare_3" hidden>Value<i class="fa-solid fa-x compare_delete" onclick="compare_delete(2)"></i></td>
+                    <td id="compare_4" hidden>Value<i class="fa-solid fa-x compare_delete" onclick="compare_delete(3)"></i></td>
+                </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </bba-packets-tab-compare-dialog>
+
+        <!-- this style overflow was added with "DBFS AVG" tooltip for better visibility if any columnDialog errors occured due to it, please remove -->
+        <!-- there were some troubles with the fullscreen functionality of graph view, so i replaced it by 'overflow: auto' :( -->
+        <bba-column-details-dialog id="columnDetailsDialog" style="overflow: auto">
+            <div id="columnDetailsDialog_columnName"></div>
+            <div id="columnDetailsDialog_columnType"></div>
+            <div class="separator"></div>
+            <div class="button_dialog">
+                <input type="text" id="columnDetailsDialog_findInput" placeholder="Find">
+                <input type="button" onclick="columnDetailsDialog_find()" value="Find">
+            </div>
+
+            <div>
+                <p id="columnDetailsDialog_graph_noDataMessage" hidden>[Graph available only for numerical data]</p>
+                <div id="columnDetailsDialog_arrayIndex_div" class="button_dialog" style="display: grid">
+                    <div>
+                        Plot array index values:
+                        <select id="columnDetailsDialog_arrayIndex" onchange="columnDetailsDialog_changeArrayIndexes()"></select>
+                    </div>
+                    <div><input type="button" value="Array values to columns" onclick="columnDetailsDialog_arrayToMultipleColumns()"></div>
+                </div>
+                <bba-graph2d id="columnDetailsDialog_graph" caption="Values"></bba-graph2d>
+            </div>
+
+            <div id="columnDetailsDialog_summaryTable" class="button_dialog"></div>
+            <div id="columnDetailsDialog_dateFormat_div" class="button_dialog" hidden>
+                <input type="button" value="Raw" onclick="columnDetailsDialog_dateFormat( 0 )">
+                <input type="button" value="Start" onclick="columnDetailsDialog_dateFormat( 1 )">
+                <input type="button" value="Time" onclick="columnDetailsDialog_dateFormat( 2 )">
+                <input type="button" value="Date" onclick="columnDetailsDialog_dateFormat( 3 )">
+                <input type="button" value="Delay" onclick="columnDetailsDialog_dateFormat( 4 )">
+            </div>
+            <div id="columnDetailsDialog_logAvg" class="button_dialog"></div>
+            <div class="button_dialog">
+                <input type="button" value="Sort asc" onclick="columnDetailsDialog_sortPackets( 0 )">
+                <input type="button" value="Sort desc" onclick="columnDetailsDialog_sortPackets( 1 )">
+                <input type="button" id="badSamplesSortButton" value="Remove bad samples" onclick="packetsTab_filterPackets('@ecpri.sections[0].rms_dBm >-120')" hidden> <!-- Only visible for 'ecpri.sections[0].rms_dBm' column -->
+                <div id="badSamplesSortButtonTT" class="tooltip" hidden>[?]<span class="tooltip_text">Removes all samples with -120dBm and worse. Set vaule manualy in filter, top left of Your screen.</span></div>
+            </div>
+            <div class="button_dialog">
+                <div class="tooltip">[?]<span class="tooltip_text">
+                        This will override only the values that are currently selected (Make sure to click Apply filter if you don't want to edit all values)
+                        <br/>Examples: <br/>
+                        value = "c0:41:21:19:e4:d9"<br/>
+                        value += 3<br/>
+                        value = parseInt(value * 2 / 13)</span>
+                </div>
+                <input type="text" id="columnDetailsDialog_editAll_input">
+                <input type="button" value="Edit all" onclick="columnDetailsDialog_editAll()">
+
+            </div>
+            <div id="columnDetailsDialog_valuesTable_container">
+                <table class="evenOddTable" id="columnDetailsDialog_valuesTable">
+                    <thead>
+                    <tr>
+                        <td>show</td>
+                        <td style=" color: blue; cursor: pointer;" onclick="columnDetailsDialog_changeSorting(true)">count &#8597;</td>
+                        <td style=" color: blue; cursor: pointer;" onclick="columnDetailsDialog_changeSorting(false)">value &#8597;</td>
+                        <td>%</td>
+                    </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            <div id="columnDetailsDialog_totalValues"></div>
+            <div class="button_dialog">
+                <input type="button" value="Apply filter" onclick="columnDetailsDialog_filterChecked(true)">
+            </div>
+        </bba-column-details-dialog>
+
+        <bba-cell-context-menu-dialog id="cellContextMenuDialog" defaultWidth="400px">
+            <input type="button" id="cellContextMenuDialog_hideButton" value=""
+                   onclick="cellContextMenuDialog_hideColumn()">
+
+            <span style="margin: auto">
+              <span style="font-weight: bold" id="cellContextMenuDialog_columnName"></span>: <span
+                    id="cellContextMenuDialog_cellValue"></span>
+                </span>
+            <hr style="margin-top:3px;">
+
+            <div class="cellContextMenuDialog_header">Filter</div>
+
+            <!-- <div class="horiz-radio" style="display: flex; justify-content: center">
+                <input disabled type="radio" id="cellContextMenuDialog_tab1" name="cellContextMenuDialog_tab"
+                       value="0"><label hidden for="cellContextMenuDialog_tab1">tab1</label>
+                <input disabled type="radio" id="cellContextMenuDialog_tab2" name="cellContextMenuDialog_tab"
+                       value="1"><label hidden for="cellContextMenuDialog_tab2">tab2</label>
+                <input checked type="radio" id="cellContextMenuDialog_filterTabRadio"
+                       name="cellContextMenuDialog_tab" value="2"><label for="cellContextMenuDialog_filterTabRadio">Filter</label>
+                <input disabled type="radio" id="cellContextMenuDialog_tab4" name="cellContextMenuDialog_tab"
+                       value="3"><label hidden for="cellContextMenuDialog_tab4">tab4</label>
+            </div> -->
+
+            <div id="cellContextMenuDialog_filterTab">
+                <div style="display: flex; justify-content: center">
+                    <div class="horiz-radio">
+                        <input checked type="radio" id="cellContextMenuDialog_filterTab_optFiltAnd"
+                               name="cellContextMenuDialog_filterTab_optFilt"
+                               value="0" onclick="cellContextMenuDialog_filterTab_setOptAnd()">
+                        <label for="cellContextMenuDialog_filterTab_optFiltAnd">AND</label>
+                        <input type="radio" id="cellContextMenuDialog_filterTab_optFiltOr"
+                               name="cellContextMenuDialog_filterTab_optFilt"
+                               value="1" onclick="cellContextMenuDialog_filterTab_setOptOr()">
+                        <label for="cellContextMenuDialog_filterTab_optFiltOr">OR</label>
+                    </div>
+                </div>
+
+                <div style="display: flex; justify-content: space-evenly">
+                    <input type="button" id="cellContextMenuDialog_filterTab_equal" value="=="
+                           onclick="cellContextMenuDialog_filterTab_filter('==')">
+                    <input type="button" id="cellContextMenuDialog_filterTab_notEqual" value="!="
+                           onclick="cellContextMenuDialog_filterTab_filter('!=')">
+                    <input type="button" id="cellContextMenuDialog_filterTab_lessThan" value="<"
+                           onclick="cellContextMenuDialog_filterTab_filter('<')">
+                    <input type="button" id="cellContextMenuDialog_filterTab_lessThanOrEqual" value="<="
+                           onclick="cellContextMenuDialog_filterTab_filter('<=')">
+                    <input type="button" id="cellContextMenuDialog_filterTab_moreThan" value=">"
+                           onclick="cellContextMenuDialog_filterTab_filter('>')">
+                    <input type="button" id="cellContextMenuDialog_filterTab_moreThanOrEqual" value=">="
+                           onclick="cellContextMenuDialog_filterTab_filter('>=')">
+                </div>
+
+                <hr>
+
+                <div class="cellContextMenuDialog_header">Highlight rows with the same value</div>
+
+                <div style="display: flex; justify-content: space-evenly">
+                    <input class="highlights" type="button" value="" style="background-color: #FDE4CF;"
+                           onclick="cellContextMenuDialog_set_color_filter('#FDE4CF')"/>
+                    <input class="highlights" type="button" value="" style="background-color: #FFCFD2;"
+                           onclick="cellContextMenuDialog_set_color_filter('#FFCFD2')"/>
+                    <input class="highlights" type="button" value="" style="background-color: #F1C0E8;"
+                           onclick="cellContextMenuDialog_set_color_filter('#F1C0E8')"/>
+                    <input class="highlights" type="button" value="" style="background-color: #CFBAF0;"
+                           onclick="cellContextMenuDialog_set_color_filter('#CFBAF0')"/>
+                    <input class="highlights" type="button" value="" style="background-color: #8EECF5;"
+                           onclick="cellContextMenuDialog_set_color_filter('#8EECF5')"/>
+                    <input class="highlights" type="button" value="" style="background-color: #98F5E1;"
+                           onclick="cellContextMenuDialog_set_color_filter('#98F5E1')"/>
+                    <input class="highlights" type="button" value="" style="background-color: #B9FBC0;"
+                           onclick="cellContextMenuDialog_set_color_filter('#B9FBC0')"/>
+                    <input class="highlights" type="button" value="Clear"
+                           onclick="cellContextMenuDialog_set_color_filter('')"/>
+                </div>
+
+                <div style="display: flex; justify-content: space-evenly">
+                    <input class="highlights" type="button" value="Clear all"
+                           onclick="cellContextMenuDialog_set_color_filter('clear all')"/>
+                </div>
+            </div>
+        </bba-cell-context-menu-dialog>
+    </div>
+
+    <div id="heatmap_toolbar" hidden>
+        <span>HEATMAP</span>
+        <div id=heatmap_legend>
+            <div id="heatmap_scale"></div>
+            <div id="heatmap_desc">
+                <div>&#8734;</div>
+                <div>100</div>
+                <div>1</div>
+            </div>
+        </div>
+    </div>
+    <div id="iqTab" hidden>
+        <div id="iqTab_header" class="tab_header">
+            <div style="margin-right: auto; display: flex; align-items: center;">
+                <div id="iqTab_header_channelDD" class="iqTab_header_dropdown">
+                    <div id="iqTab_header_channelDD_header" class="iqTab_header_dropdown_header">Channels &#x25BC</div>
+                    <div id="iqTab_header_channelDD_body" class="iqTab_header_dropdown_body" style="display:none; overflow-y: scroll; scrollbar-width: thin; max-height: 80lvh;"></div>
+                </div>
+                <div id="iqTab_header_antDD" class="iqTab_header_dropdown">
+                    <div id="iqTab_header_antDD_header" class="iqTab_header_dropdown_header">Antennas &#x25BC</div>
+                    <div id="iqTab_header_antDD_body" class="iqTab_header_dropdown_body" style="display:none; overflow-y: scroll; scrollbar-width: thin; max-height: 80vh;"></div>
+                </div>
+
+                <div class="toolbar-separator"></div>
+
+                <input type="button" value="Filters" onclick="iqTabFiltersDialog.toggle()">
+            </div>
+
+            <div style="display: flex; flex: 1; justify-content: center">
+                <span class="horiz-radio" style="padding:0; text-transform: none;">
+                <input type="radio" id="iqTab_mode_0" onclick="iqTab_changeMode(this)" name="iqTab_mode" value="0"><label
+                        for="iqTab_mode_0">IQ <span class="arrow" hidden>&#x25BC</span>
+                    <span class="iqTab_submodeList" hidden>
+                        <div class="iqTab_header_dropdown_submode">
+                            <div id="iqTab_subMode_0_0" onclick="iqTab_changeSubMode(this, '0_0')">Channel</div>
+                            <div id="iqTab_subMode_0_1" onclick="iqTab_changeSubMode(this, '0_1')">Angle</div>
+                            <div id="iqTab_subMode_0_3" onclick="iqTab_changeSubMode(this, '0_3')">Heatmap</div>
+                        </div>
+                    </span>
+                </label>
+                <input type="radio" id="iqTab_mode_1" onclick="iqTab_changeMode(this)" name="iqTab_mode" value="1">
+                <label
+                        for="iqTab_mode_1">Resource Grid <span class="arrow" hidden>&#x25BC</span>
+                    <span class="iqTab_submodeList" hidden>
+                        <div class="iqTab_header_dropdown_submode">
+                            <div id="iqTab_subMode_1_0" onclick="iqTab_changeSubMode(this, '1_0')">White</div>
+                            <div id="iqTab_subMode_1_1" onclick="iqTab_changeSubMode(this, '1_1')">Amplitude</div>
+                            <div id="iqTab_subMode_1_2" onclick="iqTab_changeSubMode(this, '1_2')">Angle</div>
+                            <div id="iqTab_subMode_1_3" onclick="iqTab_changeSubMode(this, '1_3')">Channel</div>
+                            <div id="iqTab_subMode_1_4" onclick="iqTab_changeSubMode(this, '1_4')">Channel*Amplitude</div>
+                        </div>
+                    </span>
+                </label>
+                <input type="radio" id="iqTab_mode_2" onclick="iqTab_changeMode(this)" name="iqTab_mode" value="2">
+                <label
+                        for="iqTab_mode_2">Time IQ <span class="arrow" hidden>&#x25BC</span>
+                    <span class="iqTab_submodeList" hidden>
+                        <div class="iqTab_header_dropdown_submode">
+                            <div id="iqTab_subMode_2_0" onclick="iqTab_changeSubMode(this, '2_0')">White</div>
+                            <div id="iqTab_subMode_2_1" onclick="iqTab_changeSubMode(this, '2_1')">Angle</div>
+                        </div>
+                    </span>
+                </label>
+                <input type="radio" id="iqTab_mode_3" onclick="iqTab_changeMode(this)" name="iqTab_mode" value="3">
+                <label
+                        for="iqTab_mode_3">FFT <span class="arrow" hidden>&#x25BC</span>
+                    <span class="iqTab_submodeList" hidden>
+                        <div class="iqTab_header_dropdown_submode">
+                            <div id="iqTab_subMode_3_0" onclick="iqTab_changeSubMode(this, '3_0')">Normal</div>
+                            <div id="iqTab_subMode_3_1" onclick="iqTab_changeSubMode(this, '3_1')">LOG</div>
+                        </div>
+                    </span>
+                </label>
+                <input type="radio" id="iqTab_mode_4" onclick="iqTab_changeMode(this)" name="iqTab_mode" value="4">
+                <label
+                        for="iqTab_mode_4">Time <span class="arrow" hidden>&#x25BC</span>
+                    <span class="iqTab_submodeList" hidden>
+                        <div class="iqTab_header_dropdown_submode">
+                            <div id="iqTab_subMode_4_0" onclick="iqTab_changeSubMode(this, '4_0')">Normal</div>
+                            <div id="iqTab_subMode_4_1" onclick="iqTab_changeSubMode(this, '4_1')">Im</div>
+                            <div id="iqTab_subMode_4_2" onclick="iqTab_changeSubMode(this, '4_2')">Re</div>
+                            <div id="iqTab_subMode_4_3" onclick="iqTab_changeSubMode(this, '4_3')">Angle</div>
+                        </div>
+                    </span>
+                </label>
+            </span>
+
+                <button id="iqTab_drawFcp" class="toggle-btn" aria-pressed="false" title="Draws the FCP (Frame Control Packet) in the Resource Grid view"
+                        onclick="toggleAriaPressed(this); iqTabCustomize_apply();">
+                    <i class="fa-solid fa-layer-group"></i>
+                    FCP
+                </button>
+            </div>
+
+            <div style="margin-left: auto; display: flex; align-items: center;">
+                <button id="iqTab_toggleSelectMode" style="cursor: pointer" title="Select area on the screen. Only those samples will be shown. To undo go to 'Filters' and 'Clear All Filter'">
+                    <i class="fa-solid fa-vector-square"></i>
+                </button>
+
+                <button style="cursor: pointer" title="Display settings" onclick="iqTabDisplaySettingsDialog.toggle()">
+                    <i class="fa-solid fa-sliders"></i>
+                </button>
+
+                <div class="toolbar-separator"></div>
+
+                <button id="iqTab_unifiedFilters" class="toggle-btn" aria-pressed="false" title="Toggle Unified Filters: Apply the same filters to all viewports"
+                        onclick="toggleAriaPressed(this); iqTabCustomize_apply();">
+                    <i class="fa-solid fa-filter-circle-xmark"></i>
+                </button>
+                <button id="iqTab_unifiedView" class="toggle-btn" aria-pressed="false" title="Toggle Unified View: Synchronize zoom and pan across all viewports"
+                        onclick="toggleAriaPressed(this); iqTabCustomize_apply();">
+                    <i class="fa-solid fa-object-group"></i>
+                </button>
+
+                <div class="toolbar-separator"></div>
+
+                <div class="horiz-radio">
+                    <input type="radio" id="iqTab_viewportsSplit_0"
+                           name="iqTab_viewportsSplit" value="0"><label
+                        for="iqTab_viewportsSplit_0"></label>
+                    <input type="radio" id="iqTab_viewportsSplit_1"
+                           name="iqTab_viewportsSplit" value="1"><label
+                        for="iqTab_viewportsSplit_1"></label>
+                    <input type="radio" id="iqTab_viewportsSplit_2"
+                           name="iqTab_viewportsSplit" value="2"><label
+                        for="iqTab_viewportsSplit_2"></label>
+                    <input type="radio" id="iqTab_viewportsSplit_3"
+                           name="iqTab_viewportsSplit" value="3"><label
+                        for="iqTab_viewportsSplit_3"></label>
+                </div>
+            </div>
+
+        </div>
+
+        <canvas id="canvasWebGL"></canvas>
+        <canvas id="canvas2D"></canvas>
+        <div id="no_iqData">
+            <h1 style="color: white">There is no data for this view</h1>
+        </div>
+
+        <bba-iq-tab-display-settings-dialog id="iqTabDisplaySettingsDialog">
+            <table>
+                <tr>
+                    <td>Constellation point size:
+                        <div class="tooltip">[?]
+                            <span class="tooltip_text">Scales the size of points in IQ view.</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="horiz-radio">
+                            <input type="radio" id="iqTabDisplaySettingsDialog_constPointSize_0"
+                                   name="iqTabDisplaySettingsDialog_constPointSize" value="1" onclick="iqTabCustomize_apply()"><label
+                                for="iqTabDisplaySettingsDialog_constPointSize_0">1.0</label>
+                            <input type="radio" id="iqTabDisplaySettingsDialog_constPointSize_1"
+                                   name="iqTabDisplaySettingsDialog_constPointSize" value="2" onclick="iqTabCustomize_apply()"><label
+                                for="iqTabDisplaySettingsDialog_constPointSize_1">2.0</label>
+                            <input type="radio" id="iqTabDisplaySettingsDialog_constPointSize_2"
+                                   name="iqTabDisplaySettingsDialog_constPointSize" value="3" onclick="iqTabCustomize_apply()"><label
+                                for="iqTabDisplaySettingsDialog_constPointSize_2">3.0</label>
+                            <input type="radio" id="iqTabDisplaySettingsDialog_constPointSize_3"
+                                   name="iqTabDisplaySettingsDialog_constPointSize" value="15" onclick="iqTabCustomize_apply()"><label
+                                for="iqTabDisplaySettingsDialog_constPointSize_3">15.0</label>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Brighten:
+                        <div class="tooltip">[?]
+                            <span class="tooltip_text">Amplifies signal coloring in Resource Grid: Amplitude mode.</span>
+                        </div>
+                    </td>
+                    <td>
+                        <input type="range" id="brighten_slider" name="brighten_slider" min="1" max="1000" value="1" step="1" list="values" oninput="iqTabDisplaySettingsDialog_brighten(this.value)"/>
+                        <label for="brighten_slider" id="brighten_label">Selected value: 1x</label>
+                        <datalist id="values">
+                            <option value="1" label="1"></option>
+                            <option value="250" label="250"></option>
+                            <option value="500" label="500"></option>
+                            <option value="750" label="750"></option>
+                            <option value="1000" label="1000"></option>
+                        </datalist>
+                    </td>
+                </tr>
+            </table>
+        </bba-iq-tab-display-settings-dialog>
+
+        <bba-iq-tab-filters-dialog id="iqTabFiltersDialog">
+            <table>
+                <tr>
+                    <td><label for="iqTabFiltersDialog_hidePacketsWithNoAmplitude">Hide samples with no amplitude</label>
+                        :
+                    </td>
+                    <td><input type="checkbox" id="iqTabFiltersDialog_hidePacketsWithNoAmplitude"></td>
+                </tr>
+                <tr>
+                    <td><label for="iqTabFiltersDialog_usePacketFilter">Apply filter from packets view</label>
+                        :
+                    </td>
+                    <td><input type="checkbox" id="iqTabFiltersDialog_usePacketFilter"></td>
+                </tr>
+
+                <tr>
+                    <td colspan="2" style="border-bottom: 1px solid black"></td>
+                </tr>
+
+                <tr>
+                    <td><input type="checkbox" id="iqTabFiltersDialog_frameFilterCheckbox"> Frame from/to:</td>
+                    <td><input type="text" maxlength="3" size="1" id="iqTabFiltersDialog_frameFilterFrom"> / <input type="text" maxlength="3" size="1" id="iqTabFiltersDialog_frameFilterTo"></td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" id="iqTabFiltersDialog_subframeFilterCheckbox"> Subframe from/to:</td>
+                    <td><input type="text" maxlength="3" size="1" id="iqTabFiltersDialog_subframeFilterFrom"> / <input type="text" maxlength="3" size="1" id="iqTabFiltersDialog_subframeFilterTo"></td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" id="iqTabFiltersDialog_slotFilterCheckbox"> Slot from/to:</td>
+                    <td><input type="text" maxlength="3" size="1" id="iqTabFiltersDialog_slotFilterFrom"> / <input type="text" maxlength="3" size="1" id="iqTabFiltersDialog_slotFilterTo"></td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" id="iqTabFiltersDialog_symbolFilterCheckbox"> Symbol from/to:</td>
+                    <td><input type="text" maxlength="3" size="1" id="iqTabFiltersDialog_symbolFilterFrom"> / <input type="text" maxlength="3" size="1" id="iqTabFiltersDialog_symbolFilterTo"></td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" id="iqTabFiltersDialog_RBFilterCheckbox"> Resource block from/to:</td>
+                    <td><input type="text" maxlength="3" size="1" id="iqTabFiltersDialog_RBFilterFrom"> / <input type="text" maxlength="3" size="1" id="iqTabFiltersDialog_RBFilterTo"></td>
+                </tr>
+            </table>
+            <div class="button_dialog sticky_button">
+                <input type="button" value="Apply" onclick="iqTabCustomize_apply()">
+                <input type="button" value="Clear all filters" onclick="iqTabFiltersDialog_clearFilters()">
+            </div>
+        </bba-iq-tab-filters-dialog>
+    </div>
+
+    <div id="generatorTab" hidden>
+        <div id="generatorTable">
+            <div class="generatorParams">
+                <div class="global_config">
+                    <table class="table_config">
+                        <tr>
+                            <th colspan="2">Global configuration:</th>
+                        </tr>
+                        <tr>
+                            <td><label for="ui_filename">Filename:</label></td>
+                            <td><input type="text" id="ui_filename"></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Mode:
+                                <div class="tooltip">
+                                    [?]
+                                    <span class="tooltip_text">
+                          Generator mode - generate packets based on cell configuration<br>
+                          JSON mode - take packets from JSON
+                  </span>
+                                </div>
+                            </td>
+                            <td>
+                                <input type="radio" id="ui_mode_0" name="ui_mode" value="generator"><label
+                                    for="ui_mode_0">Generator mode</label><br>
+                                <input type="radio" id="ui_mode_1" name="ui_mode" value="json"><label for="ui_mode_1">JSON
+                                mode</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Timing mode:</td>
+                            <td>
+                                <input type="radio" id="ui_timing_mode_0" name="ui_timing_mode" value="standard"><label
+                                    for="ui_timing_mode_0">Standard mode</label><br>
+                                <input type="radio" id="ui_timing_mode_1" name="ui_timing_mode" value="xstep"><label
+                                    for="ui_timing_mode_1">One shot mode(XStep)</label><br>
+                                <input type="radio" id="ui_timing_mode_2" name="ui_timing_mode" value="egen"><label
+                                    for="ui_timing_mode_2">Continuous mode(eGen)</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label for="ui_sort_packets">Sort packets:</label></td>
+                            <td><input type="checkbox" id="ui_sort_packets"></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="ui_mtu">MTU:</label>
+                                <div class="tooltip">
+                                    [?]
+                                    <span class="tooltip_text">Maximum transmission unit. Ethernet: 1500 bytes. Jumbo frames: 1501-9502 bytes.</span>
+                                </div>
+                            </td>
+                            <td><input type="text" id="ui_mtu"></td>
+                        </tr>
+                        <tr>
+                            <td>Output type:</td>
+                            <td>
+                                <!--                <input type="checkbox" id="ui_out_csv"><label for="ui_out_csv">csv</label><br>-->
+                                <input type="radio" id="ui_out_json" name="file_type"><label
+                                    for="ui_out_json">json</label><br>
+                                <input type="radio" id="ui_out_pcap" name="file_type"><label
+                                    for="ui_out_pcap">pcap</label><br>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th colspan="2">PCAP configuration:</th>
+                        </tr>
+                        <tr>
+                            <td><label for="ui_pcap_big_endian">Big-endian:</label></td>
+                            <td><input type="checkbox" id="ui_pcap_big_endian"></td>
+                        </tr>
+                        <tr>
+                            <td><label for="ui_src_mac_addr">Source MAC Address:</label></td>
+                            <td><input type="text" id="ui_src_mac_addr"></td>
+                        </tr>
+                        <tr>
+                            <td><label for="ui_dest_mac_addr">Destination MAC Address:</label></td>
+                            <td><input type="text" id="ui_dest_mac_addr"></td>
+                        </tr>
+                        <tr>
+                            <td><label for="ui_vlan_enable">Enable VLAN:</label></td>
+                            <td><input type="checkbox" id="ui_vlan_enable"></td>
+                        </tr>
+                        <tr>
+                            <td><label for="ui_vlan_id">VLAN id:</label></td>
+                            <td><input type="text" id="ui_vlan_id"></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="ui_min_pkt_len">Min. packet length:</label>
+                                <div class="tooltip">
+                                    [?]
+                                    <span class="tooltip_text">If packet length is less than minimum, than zero padding will be added. Default: 60</span>
+                                </div>
+                            </td>
+                            <td><input type="text" id="ui_min_pkt_len"></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="ecpri_config">
+                    <table>
+                        <tbody>
+                            <tr>
+                                <th colspan="2">eCPRI configuration:</th>
+                            </tr>
+                            <tr>
+                                <td>max &micro;:</td>
+                                <td class="horiz-radio">
+                                    <input type="radio" id="ui_max_u_0" name="ui_max_u" value="0"><label
+                                        for="ui_max_u_0">0</label>
+                                    <input type="radio" id="ui_max_u_1" name="ui_max_u" value="1"><label
+                                        for="ui_max_u_1">1</label>
+                                    <input type="radio" id="ui_max_u_2" name="ui_max_u" value="2"><label
+                                        for="ui_max_u_2">2</label>
+                                    <input type="radio" id="ui_max_u_3" name="ui_max_u" value="3"><label
+                                        for="ui_max_u_3">3</label>
+                                    <input type="radio" id="ui_max_u_4" name="ui_max_u" value="4"><label
+                                        for="ui_max_u_4">4</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="ui_dynamic_delay">Dynamic delay:</label>
+                                    <div class="tooltip">
+                                        [?]
+                                        <span class="tooltip_text">If enabled, additional delay(a few us) between packets will be added dynamically. Helps to simulate real link speed</span>
+                                    </div>
+                                </td>
+                                <td><input type="checkbox" id="ui_dynamic_delay"></td>
+                            </tr>
+                            <tr>
+                                <th colspan="2">eCPRI 7-2e:</th>
+                            </tr>
+                            <tr>
+                                <tr>
+                                    <td>
+                                        <label for="ui_type65_enable">Type 65:</label>
+                                        <div class="tooltip">
+                                            [?]
+                                            <span class="tooltip_text">If enabled, Then eCPRI 7-2e Type 65 PuschReceiveRespCellPs, PuschReceiveRespUePs, SrsSuMimoReceiveRespPs and SrsBmReceiveRespPs packets will be created</span>
+                                        </div>
+                                    </td>
+                                    <td><input type="checkbox" id="ui_type65_enable"></td>
+                                </tr>
+                                <tr>
+                                    <td><label for="ui_type65_delay">Type 65 delay :</label></td>
+                                    <td><input type="text" id="ui_type65_delay" size="4"><label for="ui_type65_delay"> &micro;s</label></td>
+                                </tr>
+                                <tr style="height:15px"></tr>
+                                <tr>
+                                    <td colspan="2" style="font-size:10px;text-align: center"><b>Number of type 65 responses per slot</b></td>
+                                </tr>
+                                <tr>
+                                    <td><label for="ui_pusch_cell_ps_num">PuschReceiveRespCellPs:</label></td>
+                                    <td><input type="text" id="ui_pusch_cell_ps_num"></td>
+                                </tr>
+                                <tr>
+                                    <td><label for="ui_pusch_ue_num">PuschReceiveRespUePs:</label></td>
+                                    <td><input type="text" id="ui_pusch_ue_num"></td>
+                                </tr>
+                                <tr>
+                                    <td><label for="ui_srs_su_mimo_num">SrsSuMimoReceiveRespPs:</label></td>
+                                    <td><input type="text" id="ui_srs_su_mimo_num"></td>
+                                </tr>
+                                <tr>
+                                    <td><label for="ui_srs_bm_num">SrsBmReceiveRespPs:</label></td>
+                                    <td><input type="text" id="ui_srs_bm_num"></td>
+                                </tr>
+                                <tr>
+                                    <td><label for="ui_srs_rt_bf_num">SrsRtBfReceiveRespPs:</label></td>
+                                    <td><input type="text" id="ui_srs_rt_bf_num"></td>
+                                </tr>
+                                <tr>
+                                    <td><label for="ui_rim_num">RimReceiveResp:</label></td>
+                                    <td><input type="text" id="ui_rim_num"></td>
+                                </tr>
+                                <tr style="height:20px"></tr>
+                                <tr>
+                                    <td>
+                                        <label for="ui_xirc_beta_enable">PUSCH X<sub>IRC</sub> and &beta; factor:</label>
+                                        <div class="tooltip">
+                                            [?]
+                                            <span class="tooltip_text">If enabled, Then eCPRI 7-2e PUSCH unnormalized xIRC and normalization beta factor packets will be created</span>
+                                        </div>
+                                    </td>
+                                    <td><input type="checkbox" id="ui_xirc_beta_enable" onclick="ui_gen_frame_structure_72e()"></td>
+                                </tr>
+                                <tr>
+                                     <td><label for="ui_xirc_beta_delay">X<sub>IRC</sub>/&beta; factor delay:</label></td>
+                                     <td><input type="text" id="ui_xirc_beta_delay" size="4"><label for="ui_xirc_beta_delay"> &micro;s</label></td>
+                                </tr>
+                            </tr>
+                            <tr>
+                                <th colspan="2">C-Plane:</th>
+                            </tr>
+                            <tr>
+                                <td>C-Plane generation enable:</td>
+                                <td>
+                                    <input type="checkbox" id="ui_cplane_dl_enable"><label
+                                        for="ui_cplane_dl_enable">DL</label>
+                                    <input type="checkbox" id="ui_cplane_ul_enable"><label
+                                        for="ui_cplane_ul_enable">UL</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><label for="ui_cplane_dl_advance">C-Plane DL advance:</label></td>
+                                <td><input type="text" id="ui_cplane_dl_advance" size="4"><label for="ui_cplane_dl_advance">
+                                    &micro;s</label></td>
+                            </tr>
+                            <tr>
+                                <td><label for="ui_cplane_ul_advance">C-Plane UL advance:</label></td>
+                                <td><input type="text" id="ui_cplane_ul_advance" size="4"><label for="ui_cplane_ul_advance">
+                                    &micro;s</label></td>
+                            </tr>
+                            <tr>
+                                <th colspan="2">U-Plane:</th>
+                            </tr>
+                            <tr>
+                                <td>U-Plane generation enable:</td>
+                                <td>
+                                    <input type="checkbox" id="ui_uplane_dl_enable"><label
+                                        for="ui_uplane_dl_enable">DL</label>
+                                    <input type="checkbox" id="ui_uplane_ul_enable"><label
+                                        for="ui_uplane_ul_enable">UL</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Dynamic IQ compression:</td>
+                                <td>
+                                    <input type="checkbox" id="ui_dynamic_iq_comp"><label
+                                        for="ui_dynamic_iq_comp"></label><br>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>IQ scaling mode:</td>
+                                <td class="horiz-radio">
+                                    <input type="radio" id="ui_iq_scaling_mode_1" name="ui_iq_scaling_mode" value="1"><label
+                                        for="ui_iq_scaling_mode_1">Mode 1</label>
+                                    <input type="radio" id="ui_iq_scaling_mode_2" name="ui_iq_scaling_mode" value="2"><label
+                                        for="ui_iq_scaling_mode_2">Mode 2</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><label for="ui_iq_bit_width">IQ bit width:</label></td>
+                                <td><input type="text" id="ui_iq_bit_width"></td>
+                            </tr>
+                            <tr>
+                                <td>Compression method:</td>
+                                <td>
+                                    <input type="radio" id="ui_iq_comp_method_0" name="ui_iq_comp_method" value="0"><label
+                                        for="ui_iq_comp_method_0">No compression</label><br>
+                                    <input type="radio" id="ui_iq_comp_method_1" name="ui_iq_comp_method" value="1"><label
+                                        for="ui_iq_comp_method_1">Block floating point (BFP)</label>
+                                    <!--                <div><input type="radio" id="ui_iq_comp_method_2" name="ui_iq_comp_method" value="2"><label for="ui_iq_comp_method_2">Block scaling</label></div>-->
+                                    <!--                <div><input type="radio" id="ui_iq_comp_method_3" name="ui_iq_comp_method" value="3"><label for="ui_iq_comp_method_3">&micro;-law</label></div>-->
+                                    <!--                <div><input type="radio" id="ui_iq_comp_method_4" name="ui_iq_comp_method" value="4"><label for="ui_iq_comp_method_4">Modulation compression</label></div>-->
+                                    <!--                <div><input type="radio" id="ui_iq_comp_method_5" name="ui_iq_comp_method" value="5"><label for="ui_iq_comp_method_5">BFP + selective RE sending</label></div>-->
+                                    <!--                <div><input type="radio" id="ui_iq_comp_method_6" name="ui_iq_comp_method" value="6"><label for="ui_iq_comp_method_6">Modul. comp. + selective RE sending</label></div>-->
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Interface resolution:</td>
+                                <td><span id="ui_interface_resolution"></span><span> dBFS</span></td>
+                            </tr>
+                            <tr>
+                                <td><label for="ui_uplane_dl_advance">U-Plane DL advance:</label></td>
+                                <td><input type="text" id="ui_uplane_dl_advance" size="4"><label for="ui_uplane_dl_advance">
+                                    &micro;s</label></td>
+                            </tr>
+                            <tr>
+                                <td><label for="ui_uplane_ul_delay">U-Plane UL delay:</label></td>
+                                <td><input type="text" id="ui_uplane_ul_delay" size="4"><label for="ui_uplane_ul_delay">
+                                    &micro;s</label></td>
+                            </tr>
+                            <tr>
+                                <td>IQ fill method:</td>
+                                <td>
+                                    <input type="radio" id="ui_iq_fill_method_0" name="ui_iq_fill_method" value="0"><label
+                                        for="ui_iq_fill_method_0">Zeros</label><br>
+                                    <input type="radio" id="ui_iq_fill_method_1" name="ui_iq_fill_method" value="1"><label
+                                        for="ui_iq_fill_method_1">Random modulation</label><br>
+                                    <label for="ui_modulation_type" style="padding-left: 22px">Modulation: </label>
+                                    <select id="ui_modulation_type">
+                                        <option value="qpsk">QPSK</option>
+                                        <option value="16qam">16QAM</option>
+                                        <option value="64qam">64QAM</option>
+                                        <option value="256qam">256QAM</option>
+                                    </select><br>
+                                    <label for="ui_modulation_power" style="padding-left: 22px">Max Power: </label><input
+                                        type="text" id="ui_modulation_power" size="4"><span> dBFS</span><br>
+                                    <input type="radio" id="ui_iq_fill_method_2" name="ui_iq_fill_method" value="2"><label
+                                        for="ui_iq_fill_method_2">Gauss</label><br>
+                                    <label for="ui_gauss_dl_power" style="padding-left: 22px">DL Power: </label><input
+                                        type="text" id="ui_gauss_dl_power" size="4">
+                                    <select id="ui_gauss_dl_power_unit">
+                                        <option value="dBFS">dBFS</option>
+                                        <option value="dec">dec</option>
+                                    </select><br>
+                                    <label for="ui_gauss_ul_power" style="padding-left: 22px">UL Power: </label><input
+                                        type="text" id="ui_gauss_ul_power" size="4">
+                                    <select id="ui_gauss_ul_power_unit">
+                                        <option value="dBm">dBm</option>
+                                        <option value="dBFS">dBFS</option>
+                                        <option value="dec">dec</option>
+                                    </select><br>
+                                    <input type="radio" id="ui_iq_fill_method_3" name="ui_iq_fill_method" value="3"><label
+                                        for="ui_iq_fill_method_3">5GMax tv</label>
+                                    <div class="tooltip">
+                                        [?]
+                                        <span class="tooltip_text">
+                            5GMax generated test vector in uncompressed freq. domain IQ floating point format.<br>
+                            txt file should looks like:<br>
+                            # Vector:     ...<br>
+                            # Date/Time:  ...<br>
+                            # Created by: ...<br>
+                            <br>
+                            +4.9194e-02 -4.9194e-02    # frame: 0, slot: 0, sample:     1<br>
+                            -4.9194e-02 -4.9194e-02    # frame: 0, slot: 0, sample:     2<br>
+                            -4.9194e-02 +4.9194e-02    # frame: 0, slot: 0, sample:     3<br>
+                            -4.9194e-02 -4.9194e-02    # frame: 0, slot: 0, sample:     4<br>
+                            +4.9194e-02 +4.9194e-02    # frame: 0, slot: 0, sample:     5<br>
+                            -4.9194e-02 +4.9194e-02    # frame: 0, slot: 0, sample:     6<br>
+                            ...
+                    </span>
+                                    </div>
+                                    <br>
+                                    <input type="file" id="ui_5gmax_input_file" style="padding-left: 22px; width: 210px">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Number of sections in IQ packets:</td>
+                                <td>
+                                    <input type="number" id="ui_num_of_mtz_sections" value="1" min="1" max="26">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="cell_config">
+                    <table>
+                        <tr>
+                            <th colspan="2">Cell configuration:</th>
+                        </tr>
+                        <tr>
+                            <td class="common_config">
+                                <table>
+                                    <tr>
+                                        <th colspan="2">Common:</th>
+                                    </tr>
+                                    <tr>
+                                        <td>Band:</td>
+                                        <td class="horiz-radio">
+                                            <input type="radio" id="ui_band_fr1" name="ui_band" value="FR1"><label
+                                                for="ui_band_fr1">FR1(cmWave)</label>
+                                            <input type="radio" id="ui_band_fr2" name="ui_band" value="FR2"><label
+                                                for="ui_band_fr2">FR2(mmWave)</label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            &micro;(numerology):
+                                            <div class="tooltip">
+                                                [?]
+                                                <span class="tooltip_text">
+                          0 - 15kHz SCS<br>
+                          1 - 30kHz SCS<br>
+                          2 - 60kHz SCS<br>
+                          3 - 120kHz SCS<br>
+                          4 - 240kHz SCS
+                        </span>
+                                            </div>
+                                        </td>
+                                        <td class="horiz-radio">
+                                            <input type="radio" id="ui_u_0" name="ui_u" value="0"><label
+                                                for="ui_u_0">0</label>
+                                            <input type="radio" id="ui_u_1" name="ui_u" value="1"><label
+                                                for="ui_u_1">1</label>
+                                            <input type="radio" id="ui_u_2" name="ui_u" value="2"><label
+                                                for="ui_u_2">2</label>
+                                            <input type="radio" id="ui_u_3" name="ui_u" value="3"><label
+                                                for="ui_u_3">3</label>
+                                            <input type="radio" id="ui_u_4" name="ui_u" value="4"><label
+                                                for="ui_u_4">4</label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Number of antennas:</td>
+                                        <td>
+                                            DL:<input type="text" id="ui_num_of_antennas_dl" size="3">
+                                            UL:<input type="text" id="ui_num_of_antennas_ul" size="3">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><label for="ui_dl_rtc_ids">DL RtcID's:</label></td>
+                                        <td><input type="text" id="ui_dl_rtc_ids"></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label for="ui_ul_rtc_ids">UL RtcID's:</label></td>
+                                        <td><input type="text" id="ui_ul_rtc_ids"></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label for="ui_start_prb">Starting PRB:</label></td>
+                                        <td><input type="text" id="ui_start_prb"></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label for="ui_num_of_prb">Number of PRB:</label></td>
+                                        <td><input type="text" id="ui_num_of_prb"></td>
+                                    </tr>
+                                    <tr>
+                                        <th colspan="2">SS/PBCH:</th>
+                                    </tr>
+                                    <tr>
+                                        <td><label for="ui_pbch_num_of_antennas">Number of antennas:</label></td>
+                                        <td><input type="text" id="ui_pbch_num_of_antennas"></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label for="ui_pbch_rtc_ids">RtcID's:</label></td>
+                                        <td><input type="text" id="ui_pbch_rtc_ids"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Case:
+                                            <div class="tooltip">
+                                                [?]
+                                                <span class="tooltip_text">
+                          A - 15kHz SCS<br>
+                          B - 30kHz SCS<br>
+                          C - 30kHz SCS<br>
+                          D - 120kHz SCS<br>
+                          E - 240kHz SCS
+                        </span>
+                                            </div>
+                                        </td>
+                                        <td class="horiz-radio">
+                                            <input type="radio" id="ui_pbch_case_a" name="ui_pbch_case" value="A"><label
+                                                for="ui_pbch_case_a">A</label>
+                                            <input type="radio" id="ui_pbch_case_b" name="ui_pbch_case" value="B"><label
+                                                for="ui_pbch_case_b">B</label>
+                                            <input type="radio" id="ui_pbch_case_c" name="ui_pbch_case" value="C"><label
+                                                for="ui_pbch_case_c">C</label>
+                                            <input type="radio" id="ui_pbch_case_d" name="ui_pbch_case" value="D"><label
+                                                for="ui_pbch_case_d">D</label>
+                                            <input type="radio" id="ui_pbch_case_e" name="ui_pbch_case" value="E"><label
+                                                for="ui_pbch_case_e">E</label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><label for="ui_pbch_num_of_blocks">Number of blocks:</label></td>
+                                        <td><input type="text" id="ui_pbch_num_of_blocks"></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label for="ui_pbch_prb_offset">PRB offset:</label></td>
+                                        <td><input type="text" id="ui_pbch_prb_offset"></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label for="ui_pbch_sc_offset">SC offset:</label></td>
+                                        <td><input type="text" id="ui_pbch_sc_offset"></td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="button" id="ui_ssb_details" value="PBCH details" onclick="generatorPBCHDialog.toggle()"></td>
+                                    </tr>
+                                    <tr>
+                                        <th colspan="2">PRACH:</th>
+                                    </tr>
+                                    <tr>
+                                        <td><label for="ui_prach_num_of_antennas">Number of antennas:</label></td>
+                                        <td><input type="text" id="ui_prach_num_of_antennas"></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label for="ui_prach_rtc_ids">RtcID's:</label></td>
+                                        <td><input type="text" id="ui_prach_rtc_ids"></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label for="ui_prach_cfg_idx">Config index:</label></td>
+                                        <td><input type="text" id="ui_prach_cfg_idx"></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label for="ui_prach_prb_offset">PRB offset:</label></td>
+                                        <td><input type="text" id="ui_prach_prb_offset"></td>
+                                    </tr>
+                                    <tr>
+                                        <th colspan="2">eCPRI 7-2e:</th>
+                                    </tr>
+                                    <tr>
+                                        <td><label for="ui_type65_rtc_ids">Type 65 RtcID's:</label></td>
+                                        <td><input type="text" id="ui_type65_rtc_ids"></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label for="ui_xirc_rtc_ids">PUSCH X<sub>IRC</sub> RtcID's:</label></td>
+                                        <td><input type="text" id="ui_xirc_rtc_ids"></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label for="ui_beta_rtc_ids">PUSCH &beta; factor RtcID's:</label></td>
+                                        <td><input type="text" id="ui_beta_rtc_ids"></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label for="ui_xirc_beta_num_of_prb">Number of PRB:</label></td>
+                                        <td><input type="text" id="ui_xirc_beta_num_of_prb"></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td><label for="ui_beta_remask">&beta; factor RE mask per slot:</label></td>
+                                        <td><textarea id="ui_beta_remask" cols="31" rows="8"></textarea></td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td class="frame_config">
+                                <table>
+                                    <tr>
+                                        <th>
+                                            <label for="ui_frame_structure">Frame structure:</label>
+                                            <a href="img/slottypes.png">DL/UL Patterns</a>
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <td><textarea id="ui_frame_structure" cols="41" rows="16"></textarea></td>
+                                    </tr>
+                                </table>
+                                <div class="button_dialog tab_header">
+
+                                    <input type="button" value="Full DL - 1 frame" onclick="ui_gen_frame_structure(1)">
+                                    <input type="button" value="Full UL - 1 frame" onclick="ui_gen_frame_structure(0)">
+                                </div>
+
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="tab_header">
+                <div>
+                    <div class="button_dialog">
+                        <input type="button" value="Load config" onclick="ui_load_config()">
+                        <input type="button" value="Save config" onclick="ui_save_config()">
+                        <input type="button" value="Reset to defaults" onclick="ui_reset_to_defaults()">
+                    </div>
+                </div>
+                <div>
+                    <div class="button_dialog">
+                        <input type="button" onclick="ui_load_to_BBA()" value="Load generated file to BBA">
+                        <input type="button" onclick="ui_generate_and_download_pcap()" value="Download generated file">
+                    </div>
+                </div>
+                <div>
+                    <div class="button_dialog">
+                        <input type="button" value="Download ecog-engine.js" onclick="ui_download_ecog()">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="tab5GMax" hidden>
+
+        <div id="tab5GMax_header">
+
+            <div id="server-status">
+                <span>Server status:</span>
+                <span id="status-text">Connecting...</span>
+                <span id="status-icon" class="loading"></span>
+            </div>
+
+            <div hidden class="layout_box" id="tab5gmax_api_errors_box">
+                <div  class="layout_element" style="position:relative;background-color: palevioletred; margin-left: 30px; margin-right: 30px;">
+                    <button class="error_box_close-button" onclick="tab5gmax_clearErrors()"><i class="fas fa-times"></i></button>
+                    <div id="tab5gmax_api_errors" class="error_box"></div>
+                </div>
+            </div>
+
+            <div class="layout_box">
+                <div id="tab5gmax_inputBox" class="layout_element" style="background-color: aliceblue">
+                    <h2>1. Upload input files</h2>
+                    <div id="dropArea_5GMax" class="loadDialog_dropArea">Drag&Drop Config and Input files</div>
+
+                    <div id="tab5gmax_file-list-container">
+                        <h3>Config File</h3>
+                        <div id="tab5gmax_config-file"></div>
+                        <hr style="margin: 10px">
+                        <div id="tab5GMax_expectedFiles">Expected files:</div>
+
+                        <h3>Input Files</h3>
+                        <button onclick="tab5gmax_clearInputFiles()" class="button_5gmax">Remove All Input Files</button>
+                        <ul id="tab5gmax_input-files"></ul>
+                    </div>
+                </div>
+
+                <div class="layout_element" style="background-color: powderblue">
+                    <h2>2. Select/Request 5GMAX version</h2>
+                    <h3 style="display: flex; justify-content: space-between; align-items: center;">
+                        Available versions:
+                        <button style="cursor: pointer" onclick="tab5gmax_version_refresh()">
+                            <i class="fas fa-sync-alt"></i>
+                        </button>
+                    </h3>
+                    <div class="scrollable-list">
+                        <ul id="tab5gmax_version_list" onclick="selectableList_onClick(event)">
+                        </ul>
+                    </div>
+
+                    <hr style="margin: 1rem;">
+
+                    Request 5GMAX version by commit hash:
+                    <div class="input-container">
+                        <input type="text" id="tab5gmax_version_hash_textbox" style="width: 350px;">
+                        <input type="button" value="Request" class="button_5gmax" onclick="tab5gmax_version_hash_request()">
+                    </div>
+                </div>
+            </div>
+
+            <div class="layout_box">
+                <div class="layout_element" style="background-color: lightskyblue">
+                    <h2>3. Adjust configuration and Run Simulation</h2>
+
+                    <label for="tab5GMax_config_TargetBoard">TargetBoard:</label>
+                    <select id="tab5GMax_config_TargetBoard">
+                        <option value="None">None</option>
+                        <option value="Default">Default</option>
+                        <option value="ABIL">ABIL</option>
+                        <option value="ABIN">ABIN</option>
+                        <option value="ABIP">ABIP</option>
+                        <option value="VRAN2">VRAN2</option>
+                        <option value="MAKO">MAKO</option>
+                        <option value="ABIR">ABIR</option>
+                    </select>
+                    <label for="tab5GMax_config_Variant">Variant:</label>
+                    <select id="tab5GMax_config_Variant">
+                        <option value="None">None</option>
+                        <option value="Default">Default</option>
+                        <option value="CustomerReleased">CustomerReleased</option>
+                        <option value="LatestStable">LatestStable</option>
+                        <option value="Upcoming">Upcoming</option>
+
+                        <option value="5G20B">5G20B</option>
+                        <option value="5G21A">5G21A</option>
+                        <option value="5G21B">5G21B</option>
+                        <option value="22R1">22R1</option>
+                        <option value="22R2">22R2</option>
+                        <option value="22R3">22R3</option>
+                        <option value="22R4">22R4</option>
+                        <option value="23R1">23R1</option>
+                        <option value="23R2">23R2</option>
+                        <option value="23R3">23R3</option>
+                        <option value="23R4">23R4</option>
+                        <option value="24R1">24R1</option>
+                        <option value="24R2">24R2</option>
+                        <option value="24R2l1sw">24R2l1sw</option>
+                        <option value="24R3">24R3</option>
+                        <option value="24R3l1sw">24R3l1sw</option>
+                        <option value="25R1">25R1</option>
+                        <option value="25R1l1sw">25R1l1sw</option>
+
+                    </select>
+                    <label for="tab5GMax_config_Model">Model:</label>
+                    <select id="tab5GMax_config_Model">
+                        <option value="None">None</option>
+                        <option value="Default">Default</option>
+                        <option value="Float">Float</option>
+                        <option value="AntIfQuantize">AntIfQuantize</option>
+                        <option value="AllQuantize">AllQuantize</option>
+                        <option value="QuantizeQuick">QuantizeQuick</option>
+                        <option value="Target">Target</option>
+                    </select>
+
+                    <input type="button" value="Run Simulation" id="send_file_to_server" class="button_5gmax"/>
+
+                </div>
+            </div>
+
+            <div class="layout_box">
+                <div class="layout_element" style="background-color: lightsteelblue">
+                    <h2>4. Results</h2>
+                    <div class="layout_box">
+                        <div class="layout_element">
+                            <h3>Simulation history:</h3>
+                            <div class="scrollable-list">
+                                <ul id="tab5gmax_simulation_list"  onclick="selectableList_onClick(event, tab5gmax_simulationList_select)">
+                                </ul>
+                            </div>
+                        </div>
+                        <div id="tab5gmax_results_view" class="layout_element" style="flex-grow: 6">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div id="tab5GMax_body">
+            <div id="results5GMax">
+                <ul id="files_list">
+                </ul>
+                <input id="results5GMax_download_button" class="button_5gmax" type="button" value="Download all"
+                       onclick="download5gmaxResults()"
+                       hidden>
+            </div>
+            <div id="tab5GMax_imageContainer"></div>
+            <div id="helper5GMax">
+                <h2>How to use 5G MAX with BBA:</h2>
+                <p>1. Drag&Drop input and config files into the dropdown at the top. Alternatively, click to open file dialog.</p>
+                <p>2. Select 5GMax revision. You can request a specific version with a commit hash. This may take 5-6 minutes.</p>
+                <p>3. Press "Run Simulation" and wait for results. This usually takes ~30 seconds.</p>
+                <p>4. Once the results are ready, you'll see a list of returned files along with all generated images.
+                Click on the images to view them in their original size.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<bba-generator-pbch-dialog id="generatorPBCHDialog">
+    <table>
+        <tr>
+            <td>PCI:
+                <div class="tooltip">[?]<span class="tooltip_text">Physical Cell ID. (0 - 1007)</span></div>
+            </td>
+            <td>
+                <div class="horiz-radio">
+                    <input type="text" value="0" id="generator_PCI_value">
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>Carrier Frequency:</td>
+            <td>
+                <div class="horiz-radio">
+                    <input type="radio" id="generator_PBCH_dialog_carrier_frequency_0"
+                           name="generator_PBCH_dialog_carrier_frequency"
+                           value="<3" checked="checked"><label for="generator_PBCH_dialog_carrier_frequency_0">Below
+                    3</label>
+                    <input type="radio" id="generator_PBCH_dialog_carrier_frequency_1"
+                           name="generator_PBCH_dialog_carrier_frequency"
+                           value="3_6"><label for="generator_PBCH_dialog_carrier_frequency_1">Between 3 and 6</label>
+                    <input type="radio" id="generator_PBCH_dialog_carrier_frequency_2"
+                           name="generator_PBCH_dialog_carrier_frequency"
+                           value="6<"><label for="generator_PBCH_dialog_carrier_frequency_2">Above 6</label>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>SFN:
+                <div class="tooltip">[?]<span class="tooltip_text">10 bit system frame number (0 - 1023)</span></div>
+            </td>
+            <td>
+                <div class="horiz-radio">
+                    <input type="text" value="0" id="generator_SFN_value">
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>Subcarrier spacing common:
+                <div class="tooltip">[?]<span class="tooltip_text">Subcarrier spacing for SIB1, Msg.2/4 and MsgB for initial access, paging and broadcast SI-messages. If the UE acquires this MIB on an FR1 carrier frequency, the value scs15or60 corresponds to 15 kHz and the value scs30or120 corresponds to 30 kHz. If the UE acquires this MIB on an FR2 carrier frequency, the value scs15or60 corresponds to 60 kHz and the value scs30or120 corresponds to 120 kHz. For operation with shared spectrum channel access in FR1 (see 37.213 [48]) and for operation in FR2-2, the subcarrier spacing for SIB1, Msg.2/4 and MsgB for initial access, paging and broadcast SI-messages is same as that for the corresponding SSB. For operation with shared spectrum channel access, this field instead is used for deriving the QCL relation between SS/PBCH blocks as specified in TS 38.213 [13], clause 4.1.</span>
+                </div>
+            </td>
+            <td>
+                <div class="horiz-radio">
+                    <input type="radio" id="generator_PBCH_dialog_SCS_common_0" name="generator_PBCH_dialog_SCS"
+                           value="scs15or60" checked="checked"><label
+                        for="generator_PBCH_dialog_SCS_common_0">scs15or60</label>
+                    <input type="radio" id="generator_PBCH_dialog_SCS_common_1" name="generator_PBCH_dialog_SCS"
+                           value="scs30or120"><label for="generator_PBCH_dialog_SCS_common_1">scs30or120</label>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>SSB subcarrier offset
+                <div class="tooltip">[?]<span class="tooltip_text">Integer (0 - 15). Corresponds to kSSB (see TS 38.213 [13]), which is the frequency domain offset between SSB and the overall resource block grid in number of subcarriers. (See TS 38.211 [16], clause 7.4.3.1). For operation with shared spectrum channel access (see 37.213 [48]), this field corresponds to k ?_"SSB" , and kSSB is obtained from k ?_"SSB"  (see TS 38.211 [16], clause 7.4.3.1); the LSB of this field is used also for deriving the QCL relation between SS/PBCH blocks as specified in TS 38.213 [13], clause 4.1.
+The value range of this field may be extended by an additional most significant bit encoded within PBCH as specified in TS 38.213 [13].
+This field may indicate that this cell does not provide SIB1 and that there is hence no CORESET#0 configured in MIB (see TS 38.213 [13], clause 13). In this case, the field pdcch-ConfigSIB1 may indicate the frequency positions where the UE may (not) find a SS/PBCH with a control resource set and search space for SIB1 (see TS 38.213 [13], clause 13).
+</span></div>
+            </td>
+            <td>
+                <div class="horiz-radio">
+                    <input type="text" value="0" id="generator_SSB_subcarrier_offset">
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>DMRS typeA position:
+                <div class="tooltip">[?]<span class="tooltip_text">Position of (first) DM-RS for downlink (see TS 38.211 [16], clause 7.4.1.1.2) and uplink (see TS 38.211 [16], clause 6.4.1.1.3).</span>
+                </div>
+            </td>
+            <td>
+                <div class="horiz-radio">
+                    <input type="radio" id="generator_PBCH_dialog_DMRS_typeA_position_0"
+                           name="generator_PBCH_dialog_DMRS_typeA_position"
+                           value="pos2" checked="checked"><label
+                        for="generator_PBCH_dialog_DMRS_typeA_position_0">pos2</label>
+                    <input type="radio" id="generator_PBCH_dialog_DMRS_typeA_position_1"
+                           name="generator_PBCH_dialog_DMRS_typeA_position"
+                           value="pos3"><label for="generator_PBCH_dialog_DMRS_typeA_position_1">pos3</label>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>PDCCH config SIB1:
+                <div class="tooltip">[?]<span class="tooltip_text">8 bit (0 - 255). Determines a common ControlResourceSet (CORESET), a common search space and necessary PDCCH parameters. If the field ssb-SubcarrierOffset indicates that SIB1 is absent, the field pdcch-ConfigSIB1 indicates the frequency positions where the UE may find SS/PBCH block with SIB1 or the frequency range where the network does not provide SS/PBCH block with SIB1 (see TS 38.213 [13], clause 13).</span>
+                </div>
+            </td>
+            <td>
+                <div class="horiz-radio">
+                    <input type="text" value="0" id="generator_SSB_PDCCH_config_SIB1">
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>Cell barred:
+                <div class="tooltip">[?]<span class="tooltip_text">Value barred means that the cell is barred, as defined in TS 38.304 [20]. This field is ignored by IAB-MT. This field is ignored for connectivity to NTN.</span>
+                </div>
+            </td>
+            <td>
+                <div class="horiz-radio">
+                    <input type="radio" id="generator_PBCH_dialog_cell_barred_0"
+                           name="generator_PBCH_dialog_cell_barred"
+                           value="barred" checked="checked"><label
+                        for="generator_PBCH_dialog_cell_barred_0">Barred</label>
+                    <input type="radio" id="generator_PBCH_dialog_cell_barred_1"
+                           name="generator_PBCH_dialog_cell_barred"
+                           value="notBarred"><label for="generator_PBCH_dialog_cell_barred_1">Not barred</label>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>Intra freq reselection:
+                <div class="tooltip">[?]<span class="tooltip_text">Controls cell selection/reselection to intra-frequency cells when the highest ranked cell is barred, or treated as barred by the UE, as specified in TS 38.304 [20]. This field is ignored by IAB-MT.</span>
+                </div>
+            </td>
+            <td>
+                <div class="horiz-radio">
+                    <input type="radio" id="generator_PBCH_dialog_intra_freq_reselection_0"
+                           name="generator_PBCH_dialog_intra_freq_reselection"
+                           value="allowed" checked="checked"><label
+                        for="generator_PBCH_dialog_intra_freq_reselection_0">Allowed</label>
+                    <input type="radio" id="generator_PBCH_dialog_intra_freq_reselection_1"
+                           name="generator_PBCH_dialog_intra_freq_reselection"
+                           value="notAllowed"><label for="generator_PBCH_dialog_intra_freq_reselection_1">Not
+                    allowed</label>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>Half frame bit:
+                <div class="tooltip">[?]
+                    <span class="tooltip_text">Indicates whether SSB is in the first half or the second half of the frame. Value zero indicates the first half and value 1 indicates the second half.
+                    </span></div>
+            </td>
+            <td>
+                <div class="horiz-radio">
+                    <input type="radio" id="generator_PBCH_half_frame_bit_0" name="generator_PBCH_half_frame_bit"
+                           value="0" checked="checked"><label for="generator_PBCH_half_frame_bit_0">0</label>
+                    <input type="radio" id="generator_PBCH_half_frame_bit_1" name="generator_PBCH_half_frame_bit"
+                           value="1"><label for="generator_PBCH_half_frame_bit_1">1</label>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>SS/PBCH block index</td>
+            <td>
+                <div class="horiz-radio">
+                    <input type="text" value="0" id="generator_SS_PBCH_block_index">
+                </div>
+            </td>
+        </tr>
+    </table>
+</bba-generator-pbch-dialog>
+
+<bba-load-dialog id="loadDialog">
+    <div id="loadDialog_dropArea">
+        <div id="loadDialog_dropArea_helperText">Drop file here or click to open file dialog...</div>
+        <div id="loadDialog_dropArea_fileInfo" hidden>
+            <div id="loadDialog_dropArea_fileName"></div>
+            <div id="loadDialog_dropArea_pmFile"></div>
+        </div>
+    </div>
+
+    <div class="separator"></div>
+
+    <table>
+        <tr id="loadDialog_filesList_tr" hidden>
+            <td><label for="loadDialog_filesList">Files list:</label></td>
+            <td>
+                <select id="loadDialog_filesList" onchange="loadDialog_fileListChange()">
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td><label for="loadDialog_fileType">File type:</label></td>
+            <td>
+                <select id="loadDialog_fileType" onchange="adjust_loadDialog()">
+                </select>
+                <button id="loadDialog_fileTypeHelpButton" onclick="fileTypeHelpDialog.toggle()">?</button>
+            </td>
+        </tr>
+        <tr id="loadDialog_timeDomain_row">
+            <td>
+                <label for="loadDialog_timeDomain">Time domain:</label>
+                <div class="tooltip">[?]<span class="tooltip_text">Select this if you load time-domain file</span>
+                </div>
+            </td>
+            <td><input type="checkbox" id="loadDialog_timeDomain"></td>
+        </tr>
+        <tr id="loadDialog_swapIq_row">
+            <td>
+                <label for="loadDialog_swapIq">Swap IQ:</label>
+                <div class="tooltip">[?]<span class="tooltip_text">Swap IQ samples</span></div>
+            </td>
+            <td><input type="checkbox" id="loadDialog_swapIq"></td>
+        </tr>
+        <tr id="loadDialog_littleEndian_row">
+            <td>
+                <label for="loadDialog_littleEndian">Little endian:</label>
+                <div class="tooltip">[?]<span class="tooltip_text">Select this if file is in little endian</span>
+                </div>
+            </td>
+            <td><input type="checkbox" id="loadDialog_littleEndian"></td>
+        </tr>
+        <tr id="loadDialog_aggregateMode_row">
+            <td>
+                <label for="loadDialog_aggregateMode">Aggregate mode:</label>
+                <div class="tooltip">[?]<span class="tooltip_text">Allow to handle multiple files at the same time</span>
+                </div>
+            </td>
+            <td><input type="checkbox" id="loadDialog_aggregateMode"></td>
+        </tr>
+
+        <!-- Loki/Thor eCPRI specific -->
+        <tr id="loadDialog_loki_type_row">
+            <td><label for="loadDialog_loki_type">Loki Type:</label></td>
+            <td><select name="loadDialog_loki_type" id="loadDialog_loki_type">
+                <option value="IQ">IQ</option>
+                <option value="FCP">FCP</option>
+            </select></td>
+        </tr>
+        <tr id="loadDialog_loki_dir_row">
+            <td><label for="loadDialog_loki_dir">Loki Direction:</label></td>
+            <td><select name="loadDialog_loki_dir" id="loadDialog_loki_dir">
+                <option value="Mix">Mix</option>
+                <option value="UL">Uplink</option>
+                <option value="DL">Downlink</option>
+            </select></td>
+        </tr>
+        <tr id="loadDialog_loki_platform_row">
+            <td><label for="loadDialog_loki_platform">Loki/Thor Platform:</label></td>
+            <td><select name="loadDialog_loki_platform" id="loadDialog_loki_platform">
+                <option value="loki">Loki</option>
+                <option value="thor">Thor</option>
+            </select></td>
+        </tr>
+        <tr id="loadDialog_L1RadioSnapshot_type_row" hidden>
+            <td>
+                <label for="loadDialog_L1RadioSnapshot_typeDropdown">Type:</label>
+            </td>
+            <td>
+                <select id="loadDialog_L1RadioSnapshot_typeDropdown">
+                    <option value="DLRx">DLRx</option>
+                    <option value="DLTx">DLTx</option>
+                    <option value="ULRx">ULRx</option>
+                    <option value="ULTx">ULTx</option>
+                </select>
+            </td>
+        </tr>
+        <!-- Loki/Thor eCPRI specific END -->
+
+        <tr id="loadDialog_lonerType_row">
+            <td>
+                <label for="loadDialog_lonerType">Type:</label>
+            </td>
+            <td>
+                <select id="loadDialog_lonerType" name="loadDialog_lonerType">
+                    <option value="0" selected>Uplink (2 AxCs)</option>
+                    <option value="1">Downlink (4 AxCs)</option>
+                    <option value="2">FDD Uplink 4x5MHz</option>
+                    <option value="4">FDD Uplink 4x10MHz</option>
+                    <option value="5">FDD Uplink 4x15MHz</option>
+                    <option value="6">FDD Uplink 4x20MHz</option>
+                </select>
+            </td>
+        </tr>
+
+        <tr id="loadDialog_lonerAlignToFrame_row">
+            <td> <label for="loadDialog_lonerAlignToFrame">Align to Frame</label> </td>
+            <td><input type="checkbox" id="loadDialog_lonerAlignToFrame"></td>
+        </tr>
+
+        <tr id="loadDialog_nprb_row">
+            <td><label for="loadDialog_nprb">Number of PRBs:</label>
+                <div class="tooltip">[?]<span class="tooltip_text">Number of PRBs - type 0 to autodetect</span></div>
+            </td>
+            <td><input type="text" id="loadDialog_nprb"></td>
+        </tr>
+        <tr id="loadDialog_numAnt_row">
+            <td><label for="loadDialog_numAnt">Number of Antennas:</label>
+            <td><input type="number" id="loadDialog_numAnt"></td>
+        </tr>
+        <tr id="loadDialog_dir_row">
+            <td><label for="loadDialog_dir">Direction:</label></td>
+            <td><select name="loadDialog_dir" id="loadDialog_dir">
+                <option value="DL">Downlink</option>
+                <option value="UL">Uplink</option>
+            </select></td>
+        </tr>
+        <tr id="loadDialog_skipIqDecoding_row">
+            <td>
+                <label for="loadDialog_skipIqDecoding">Skip IQ decoding:</label>
+                <div class="tooltip">[?]<span class="tooltip_text">Skip full IQ decoding & saving(only RMS and etc. calculations). Allow to use less memory and to load files faster but IQ samples won't be show in Resource Grid</span>
+                </div>
+            </td>
+            <td><input type="checkbox" id="loadDialog_skipIqDecoding"></td>
+        </tr>
+        <tr id="loadDialog_skipTimingGeneration_row">
+            <td>
+                <label for="loadDialog_skipTimingGeneration">Skip Timing Generation:</label>
+            </td>
+            <td><input type="checkbox" id="loadDialog_skipTimingGeneration"></td>
+        </tr>
+        <tr id="loadDialog_pcapFilter_row">
+            <td>
+                <label for="loadDialog_pcapFilter">PCAP Filter:</label>
+                <div class="tooltip">[?]
+                    <span class="tooltip_text">Load only packets matching the filter. Example filters:<br>
+                    @l2l1<br>
+                    @l2l1 && @l2l1.message === 0xE206<br>
+                    @ecpri<br>
+                    @ecpri && @ecpri.dataDir === 1<br>
+                    @l2l1 || @ecpri
+                </span>
+                </div>
+            </td>
+            <td><textarea id="loadDialog_pcapFilter"></textarea></td>
+        </tr>
+        <tr>
+            <td>
+                <label for="loadDialog_loadLimit">Load limit:</label>
+                <div class="tooltip">[?]<span class="tooltip_text">Limit number of loaded packets/samples. Set 0 to load all packets.<br>
+                        Start - put number of packets/samples you want to skip when loading file.<br>
+                        Number of packets - put number of packets/samples you want to load after start.</span>
+                </div>
+            </td>
+            <td>
+                Start: <input type="text" id="loadDialog_loadLimitFrom">
+                Number of packets: <input type="text" id="loadDialog_loadLimit">
+            </td>
+        </tr>
+        <tr id="loadDialog_shiftSamples_row">
+            <td>
+                <label for="loadDialog_shift_samples">Shift:</label>
+                <div class="tooltip">[?]<span class="tooltip_text">Fractional shift allows for subsample data shift i.e. 0.3, -0.25</span>
+                </div>
+            </td>
+            <td>
+                Symbols: <input type="text" id="loadDialog_shift_symbols">
+                samples: <input type="text" id="loadDialog_shift_samples">
+                fraction: <input type="text" id="loadDialog_shift_fraction">
+            </td>
+        </tr>
+        <tr id="loadDialog_powerScaling_row">
+            <td>Power scaling mode:</td>
+            <td>
+                <div class="horiz-radio" onchange="loadDialog_refresh()">
+                    <input type="radio" id="loadDialog_powerScalingMode_1" name="loadDialog_powerScalingMode"
+                           value="1"><label for="loadDialog_powerScalingMode_1">1</label>
+                    <input type="radio" id="loadDialog_powerScalingMode_2" name="loadDialog_powerScalingMode"
+                           value="2"><label for="loadDialog_powerScalingMode_2">2</label>
+                </div>
+            </td>
+        </tr>
+        <tr id="loadDialog_dynamicIqComp_row">
+            <td>
+                <label for="loadDialog_dynamicIqComp">Dynamic IQ compression:</label>
+                <div class="tooltip">[?]<span class="tooltip_text">Via udCompHdr</span></div>
+            </td>
+            <td><input type="checkbox" id="loadDialog_dynamicIqComp"></td>
+        </tr>
+        <tr id="loadDialog_iqBitWidth_row">
+            <td><label for="loadDialog_iqBitWidth">IQ bit width:</label></td>
+            <td><input type="text" id="loadDialog_iqBitWidth" onchange="loadDialog_refresh()"></td>
+        </tr>
+        <tr id="loadDialog_iqCompression_row">
+            <td>IQ compression method:</td>
+            <td>
+                <select class="pretty-select" name="loadDialog_iqCompMeth" id="loadDialog_iqCompMeth" onchange="loadDialog_refresh()">
+                    <option id="loadDialog_iqCompMeth_0" value="0">No compression</option>
+                    <option id="loadDialog_iqCompMeth_1" value="1">Block floating point (BFP)</option>
+                    <option id="loadDialog_iqCompMeth_2" value="2">Block scaling</option>
+                    <option id="loadDialog_iqCompMeth_3" value="3">&micro;-law</option>
+                    <option id="loadDialog_iqCompMeth_4" value="4">Modulation compression</option>
+                    <option id="loadDialog_iqCompMeth_5" value="5">BFP + selective RE</option>
+                    <option id="loadDialog_iqCompMeth_6" value="6">Mod. comp. + selective RE</option>
+                </select>
+            </td>
+        </tr>
+        <tr id="loadDialog_iqInterfaceResolution_row">
+            <td>
+                <label for="loadDialog_iqInterfaceResolution">IQ interface resolution:</label>
+                <div class="tooltip">[?]<span class="tooltip_text">These values describe max range of IQ samples, samples are later normalized to range [-1;1].
+                        <br>For DeepRx IQ samples values range equals [-2; 2] and it's also normalized to [-1;1].</span></div>
+            </td>
+            <td><span id="loadDialog_iqInterfaceResolution"></span></td>
+        </tr>
+        <tr id="loadDialog_numerologyAutodetection_row">
+            <td>
+                <label for="loadDialog_numerologyAutodetection">Numerology autodetection:</label>
+                <div class="tooltip">[?]<span class="tooltip_text">If enabled, BBA will try to detect &micro; for each rtcId based on the time difference between symbols(separate per C-Plane/U-Plane and per DL/UL). In case of detection fail or if this option is disabled, the default &micro; will be used.</span>
+                </div>
+            </td>
+            <td><input type="checkbox" id="loadDialog_numerologyAutodetection"></td>
+        </tr>
+        <tr>
+            <td>
+                Default &micro;:
+                <div class="tooltip">[?]
+                    <span class="tooltip_text">The numerology which will be used if autodetection is disabled or in case of autodetection failure.<br>
+                        0 (15kHz) - FDD<br>
+                        1 (30kHz) - TDD FR1<br>
+                        2 (60kHz)<br>
+                        3 (120kHz) - TDD FR2<br>
+                        4 (240kHz) - TDD FR2 (SSB)
+                        </span>
+                </div>
+            </td>
+            <td>
+                <div class="horiz-radio">
+                    <input type="radio" id="loadDialog_defaultU_0" onchange="adjust_loadDialog_ntaOffset(0)" name="loadDialog_defaultU" value="0"><label
+                        for="loadDialog_defaultU_0">0</label>
+                    <input type="radio" id="loadDialog_defaultU_1" onchange="adjust_loadDialog_ntaOffset(1)" name="loadDialog_defaultU" value="1"><label
+                        for="loadDialog_defaultU_1">1</label>
+                    <input type="radio" id="loadDialog_defaultU_2" onchange="adjust_loadDialog_ntaOffset(2)" name="loadDialog_defaultU" value="2"><label
+                        for="loadDialog_defaultU_2">2</label>
+                    <input type="radio" id="loadDialog_defaultU_3" onchange="adjust_loadDialog_ntaOffset(3)" name="loadDialog_defaultU" value="3"><label
+                        for="loadDialog_defaultU_3">3</label>
+                    <input type="radio" id="loadDialog_defaultU_4" onchange="adjust_loadDialog_ntaOffset(4)" name="loadDialog_defaultU" value="4"><label
+                        for="loadDialog_defaultU_4">4</label>
+                </div>
+            </td>
+        </tr>
+        <tr id="loadDialog_maxU_row">
+            <td>
+                Max &micro;:
+                <div class="tooltip">[?]<span class="tooltip_text">If auto, max &micro; will be calculated as highest numerology from detected ones, else selected max &micro; will be used.</span>
+                </div>
+            </td>
+            <td>
+                <div class="horiz-radio"><input type="radio" id="loadDialog_maxU_auto" onchange="adjust_loadDialog_ntaOffset(-1)" name="loadDialog_maxU"
+                                                value="-1"><label for="loadDialog_maxU_auto">Auto</label></div>
+                /
+                <div class="horiz-radio">
+                    <input type="radio" id="loadDialog_maxU_0" onchange="adjust_loadDialog_ntaOffset(0)" name="loadDialog_maxU" value="0"><label
+                        for="loadDialog_maxU_0">0</label>
+                    <input type="radio" id="loadDialog_maxU_1" onchange="adjust_loadDialog_ntaOffset(1)" name="loadDialog_maxU" value="1"><label
+                        for="loadDialog_maxU_1">1</label>
+                    <input type="radio" id="loadDialog_maxU_2" onchange="adjust_loadDialog_ntaOffset(2)" name="loadDialog_maxU" value="2"><label
+                        for="loadDialog_maxU_2">2</label>
+                    <input type="radio" id="loadDialog_maxU_3" onchange="adjust_loadDialog_ntaOffset(3)" name="loadDialog_maxU" value="3"><label
+                        for="loadDialog_maxU_3">3</label>
+                    <input type="radio" id="loadDialog_maxU_4" onchange="adjust_loadDialog_ntaOffset(4)" name="loadDialog_maxU" value="4"><label
+                        for="loadDialog_maxU_4">4</label>
+                </div>
+            </td>
+        </tr>
+
+        <tr id="loadDialog_sampling_row">
+            <td>
+                Sampling:
+            </td>
+            <td>
+                <div class="horiz-radio" style="padding: 8px 0">
+                    <input type="radio" id="loadDialog_sampling_0" name="loadDialog_sampling" value="7.68"><label
+                        for="loadDialog_sampling_0">7.68</label>
+                    <input type="radio" id="loadDialog_sampling_1" name="loadDialog_sampling" value="15.36"><label
+                        for="loadDialog_sampling_1">15.36</label>
+                    <input type="radio" id="loadDialog_sampling_2" name="loadDialog_sampling" value="23.04"><label
+                        for="loadDialog_sampling_2">23.04</label>
+                    <input type="radio" id="loadDialog_sampling_3" name="loadDialog_sampling" value="30.72"><label
+                        for="loadDialog_sampling_3">30.72</label>
+                    <input type="radio" id="loadDialog_sampling_4" name="loadDialog_sampling" value="46.08"><label
+                        for="loadDialog_sampling_4">46.08</label>
+                    <input type="radio" id="loadDialog_sampling_5" name="loadDialog_sampling" value="61.44"><label
+                        for="loadDialog_sampling_5">61.44</label>
+                    <input type="radio" id="loadDialog_sampling_6" name="loadDialog_sampling" value="122.88" checked="checked"><label
+                        for="loadDialog_sampling_6">122.88</label>
+                </div>
+                <br>
+                <div class="horiz-radio" id="bw_horiz" style="padding: 8px 0">
+                    <input type="radio" id="loadDialog_sampling_7" name="loadDialog_sampling" value="245.76"><label
+                        for="loadDialog_sampling_7">245.76</label>
+                    <input type="radio" id="loadDialog_sampling_8" name="loadDialog_sampling" value="491.52"><label
+                        for="loadDialog_sampling_8">491.52</label>
+                    <input type="radio" id="loadDialog_sampling_9" name="loadDialog_sampling" value="983.04"><label
+                        for="loadDialog_sampling_9">983.04</label>
+                </div>
+            </td>
+        </tr>
+        <tr id="loadDialog_sync_row">
+            <td>
+                Synchronisation:
+            </td>
+            <td>
+                <div class="horiz-radio"><input type="radio" id="loadDialog_sync_auto" name="loadDialog_sync"
+                                                value="auto"><label for="loadDialog_sync_auto">Auto</label></div>
+                /
+                <div class="horiz-radio">
+                    <input type="radio" id="loadDialog_sync_0" name="loadDialog_sync" value="PTP"><label
+                        for="loadDialog_sync_0">PTP</label>
+                    <input type="radio" id="loadDialog_sync_1" name="loadDialog_sync" value="eCPRI"><label
+                        for="loadDialog_sync_1">eCPRI</label>
+                    <input type="radio" id="loadDialog_sync_2" name="loadDialog_sync" value="L2L1"><label
+                        for="loadDialog_sync_2">L2L1</label>
+                    <input type="radio" id="loadDialog_sync_3" name="loadDialog_sync" value="RoE"><label
+                        for="loadDialog_sync_3">RoE</label>
+                    <input type="radio" id="loadDialog_sync_4" name="loadDialog_sync" value="pcap"><label
+                        for="loadDialog_sync_4">pcap</label>
+                </div>
+            </td>
+        </tr>
+        <tr id="loadDialog_ignoreFrameId_row">
+            <td>
+                <label>Ignore frame ID:</label>
+                <div class="tooltip">[?]
+                    <span class="tooltip_text">Only for eCPRI packets with incorrect frame ID. When this option is checked the time relations are determined up to the radio frame boundary, i.e. modulo 10ms.</span>
+                </div>
+            </td>
+            <td><input type="checkbox" id="loadDialog_ignoreFrameId"></td>
+        </tr>
+        <tr id="loadDialog_timeShift_row">
+            <td>
+                Time shift:
+            </td>
+            <td><input type="text" maxlength="8" id="loadDialog_timeShift_us"> us | &alpha;: <input type="text"
+                                                                                                    maxlength="8"
+                                                                                                    id="loadDialog_timeShift_alfa">
+                &beta;: <input type="text" maxlength="6" id="loadDialog_timeShift_beta"></td>
+        </tr>
+        <tr id="loadDialog_ntaOffset_row">
+            <td>
+                nTA offset:
+            </td>
+            <td><input type="text" maxlength="7" id="loadDialog_ntaOffset_utu"> utu | <input type="text"
+                                                                                             maxlength="7"
+                                                                                             id="loadDialog_ntaOffset_tc"> Tc
+            </td>
+        </tr>
+        <tr id="loadDialog_advanced_ext11bundleWeights_row">
+            <td>
+                <label for="loadDialog_advanced_ext11bundleWeights">extType11: Weights per bundle:</label>
+                <div class="tooltip">[?]
+                    <span class="tooltip_text">Number of weights per bundle. Used for decoding of eCPRI section extension type 11.</span>
+                </div>
+            </td>
+            <td><input type="text" maxlength="7" id="loadDialog_advanced_ext11bundleWeights"></td>
+        </tr>
+        <tr id="loadDialog_prach_time_domain_mode_row">
+            <td>PRACH time domain:</td>
+            <td>  <input type="checkbox" name="loadDialog_prach_time_domain_mode_checkbox" id="loadDialog_prach_time_domain_mode_checkbox">
+                <span id="loadDialog_prach_time_domain_mode_toHide" hidden> |
+                    <label>PRACH cfg index:</label>
+                        <input type="text" id="loadDialog_prachConfigurationIndex" style="width: 100px">
+                    <label>PRACH start PRB:</label>
+                        <input type="text" id="loadDialog_prachStartPrb" style="width: 100px">
+                    </span>
+            </td>
+        </tr>
+        <tr id="loadDialog_interfaceResolution_row">
+            <td>Interface resolution:</td>
+            <td><span id="loadDialog_interfaceResolution"></span></td>
+        </tr>
+        <tr id="loadDialog_l2l1_autodetect_row">
+            <td><label for="loadDialog_l2l1_autodetect">L2L1 version autodetect:</label></td>
+            <td><input type="checkbox" id="loadDialog_l2l1_autodetect"></td>
+        </tr>
+        <tr id="loadDialog_l2l1_detailed_autodetect_row" hidden>
+            <td>
+                <label for="loadDialog_l2l1_detailed_autodetect">L2L1 version detailed autodetect:</label>
+                <div class="tooltip">[?]
+                    <span class="tooltip_text">WARNING this option will significantly lengthen loading time of file. Autodetect L2L1 version by loading all parsers from default autodetect algorithm and counting the number of incorrectly decoded packets</span>
+                </div>
+            </td>
+            <td><input type="checkbox" id="loadDialog_l2l1_detailed_autodetect"></td>
+        </tr>
+        <tr id="loadDialog_l2l1_version_row">
+            <td><label for="loadDialog_l2l1_version">L2L1 version:</label></td>
+            <td><select id="loadDialog_l2l1_version"></select></td>
+        </tr>
+        <!-- <tr id="loadDialog_l2l1_DCI_payload_decoding_row">
+            <td><label for="loadDialog_l2l1_DCI_payload_decoding">Decode DCI payload while loading file:</label></td>
+            <td><input type="checkbox" id="loadDialog_l2l1_DCI_payload_decoding"></td>
+        </tr> -->
+        <tr>
+            <td><label for="loadDialog_saveJsonConfig">JSON config: </label></td>
+            <td>
+                <input type="button" value="Save config" id="loadDialog_saveJsonConfig" onclick="loadDialog_saveConfig()">
+                <input type="button" value="Load config" id="loadDialog_loadJsonConfig" onclick="loadDialog_loadConfig()">
+            </td>
+        </tr>
+        <tr>
+            <td><label for="loadDialog_loadPMfile">Load PM file:</label></td>
+            <td>
+                <input type="button" value="Load PM file" id="loadDialog_loadPMfile" onclick="loadDialog_loadPmFile()" disabled>
+            </td>
+        </tr>
+
+    </table>
+
+    <div class="button_dialog sticky_button">
+        <input type="button" value="Load" onclick="loadDialog_loadFiles()">
+    </div>
+</bba-load-dialog>
+
+<bba-file-type-help-dialog id="fileTypeHelpDialog">
+    <table id="fileTypeHelpDialog_table" style = "border: 1px solid;">
+        <thead>
+        <tr style="background: #30629c; color:white;border: 1px solid;">
+            <th>File type</th>
+            <th>Description</th>
+            <th>Format</th>
+            <th>Domain</th>
+            <th>Extensions</th>
+            <th>Contains</th>
+        </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</bba-file-type-help-dialog>
+
+<bba-save-dialog id="saveDialog">
+    <table>
+        <tr>
+            <td><label for="saveDialog_filename">Filename:</label></td>
+            <td><input type="text" id="saveDialog_filename" value="ecpri" size="12"></td>
+        </tr>
+        <tr>
+            <td colspan="2"><h3>Packets</h3></td>
+        </tr>
+        <tr>
+            <td><label for="saveDialog_packetsFileType">File type:</label></td>
+            <td>
+                <select id="saveDialog_packetsFileType" onchange="saveDialog_packetsFileType_onChange()">
+                    <option value="pcap">PCAP</option>
+                    <option value="pcapng">PCAP NG</option>
+                    <!-- <option value="json">Packets in JSON format</option> todo -->
+                    <option value="csv">CSV</option>
+                </select>
+            </td>
+        </tr>
+        <tr id="saveDialog_csvAddExcelSeparator_row">
+            <td>
+                Add Excel separator:<div class="tooltip">[?]<span class="tooltip_text">Recommended for Excel users. Informs Excel of the non-default separator.</span></div>
+            </td>
+            <td>
+                <input type="checkbox" id="saveDialog_csvAddExcelSeparator">
+            </td>
+        </tr>
+        <tr>
+            <td>Packets range:</td>
+            <td class="horiz-radio">
+                <input type="radio" id="saveDialog_packetsRange_0" name="saveDialog_packetsRange" value="all"><label
+                    for="saveDialog_packetsRange_0">All</label>
+                <input type="radio" id="saveDialog_packetsRange_1" name="saveDialog_packetsRange"
+                       value="filtered"><label for="saveDialog_packetsRange_1">Filtered</label>
+                <input type="radio" id="saveDialog_packetsRange_2" name="saveDialog_packetsRange"
+                       value="filtered_sorted"><label for="saveDialog_packetsRange_2">Filtered and sorted</label>
+            </td>
+        </tr>
+        <tr>
+            <td>Endianness:</td>
+            <td class="horiz-radio">
+                <input type="radio" id="saveDialog_pcapEndian_0" name="saveDialog_pcapEndian" value="little"><label
+                    for="saveDialog_pcapEndian_0">Little</label>
+                <input type="radio" id="saveDialog_pcapEndian_1" name="saveDialog_pcapEndian" value="big"><label
+                    for="saveDialog_pcapEndian_1">Big</label>
+            </td>
+        </tr>
+        <tr>
+            <td>Timestamp prec.:</td>
+            <td class="horiz-radio">
+                <input type="radio" id="saveDialog_pcapTsPrecision_0" name="saveDialog_pcapTsPrecision"
+                       value="ms"><label for="saveDialog_pcapTsPrecision_0">ms</label>
+                <input type="radio" id="saveDialog_pcapTsPrecision_1" name="saveDialog_pcapTsPrecision"
+                       value="ns"><label for="saveDialog_pcapTsPrecision_1">ns</label>
+            </td>
+        </tr>
+        <tr>
+            <td>Timestamp column:</td>
+            <td class="horiz-radio">
+                <input type="radio" id="saveDialog_pcapTsColumn_0" name="saveDialog_pcapTsColumn" value="time">
+                <label for="saveDialog_pcapTsColumn_0">time</label>
+                <input type="radio" id="saveDialog_pcapTsColumn_1" name="saveDialog_pcapTsColumn" value="PtpTime">
+                <label for="saveDialog_pcapTsColumn_1">ptptime</label>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="text-align: center"><input type="button" value="Save packets"
+                                                              onclick="saveDialog_savePackets()"></td>
+        </tr>
+        <tr>
+            <td colspan="2"><h3>IQ</h3></td>
+        </tr>
+        <tr>
+            <td><label>Mode:</label>
+                <div class="tooltip">[?]<span class="tooltip_text">Either save Frequency or Time samples</span></div>
+            </td>
+            <td class="horiz-radio">
+                <input type="radio" id="saveDialog_iqData_0" name="saveDialog_iqMode"
+                       value="IQ" onchange="adjustSaveDialog();" checked><label for="saveDialog_iqData_0">Freq IQ</label>
+                <input type="radio" id="saveDialog_iqData_1" name="saveDialog_iqMode"
+                       value="Time_IQ" onchange="adjustSaveDialog();"><label for="saveDialog_iqData_1">Time IQ</label>
+            </td>
+        </tr>
+        <tr>
+            <td><label>Order: </label>
+                <div class="tooltip">[?]<span class="tooltip_text">Normal: IQ, Reverted: QI</span></div>
+            </td>
+            <td class="horiz-radio">
+                <input type="radio" id="saveDialog_order_0" name="saveDialog_order"
+                       value="normal" onchange="adjustSaveDialog();" checked><label for="saveDialog_order_0">Normal</label>
+                <input type="radio" id="saveDialog_order_1" name="saveDialog_order"
+                       value="reverted" onchange="adjustSaveDialog();"><label for="saveDialog_order_1">Reverted</label>
+            </td>
+        </tr>
+        <tr id="saveDialog_excluded_packets_tr">
+            <td><label>Excluded packets: </label>
+                <div class="tooltip">[?]<span class="tooltip_text">Do you want to fill empty and filtered places with zero amplitude samples?</span></div>
+            </td>
+            <td class="horiz-radio">
+                <input type="radio" id="saveDialog_excluded_0" name="saveDialog_excluded"
+                       value="fill" onchange="adjustSaveDialog();" checked><label for="saveDialog_excluded_0">Fill with zeros</label>
+                <input type="radio" id="saveDialog_excluded_1" name="saveDialog_excluded"
+                       value="skip" onchange="adjustSaveDialog();"><label for="saveDialog_excluded_1">Skip</label>
+            </td>
+        </tr>
+        <tr>
+            <td><label for="saveDialog_iqFileType">File type:</label></td>
+            <td>
+                <select id="saveDialog_iqFileType">
+                    <option value="hex">Hex</option>
+                    <option value="binary_16_bit_IQ">Binary 16 bit IQ</option>
+                    <option value="binary_32_bit_IQ">Binary 32 bit IQ</option>
+                    <option value="textual_raw">Textual (for matlab)</option>
+                    <option value="textual_fxp">Textual FXP</option>
+                    <option value="c_table">C table</option>
+                    <option value="vsa">Wavejudge vsa</option>
+                    <option value="5gmax_ecpri_dec_export">5GMAX decimal export for eCPRI</option>
+                    <option value="lmts">LMTS</option>
+                    <option value="IQFP">IQFP</option>
+                </select>
+            </td>
+        </tr>
+        <tr id="saveDialog_iqAntenna_tr">
+            <td><label for="saveDialog_iqAntenna">Antenna:</label>
+                <div class="tooltip">[?]<span class="tooltip_text">Select antennas. You can select multiple antenas (press CTRL key).</span></div>
+            </td>
+            <td>
+                <div id="saveDialog_iqAntenna"></div>
+            </td>
+        </tr>
+
+        <tr id="saveDialog_iqSelected_tr">
+            <td><label>Apply filters</label>
+                <div class="tooltip">[?]<span class="tooltip_text">If you want to save all samples press ALL. If you want to save only filtered packets press SELECTED</span></div>
+            </td>
+            <td class="horiz-radio">
+                <input type="radio" id="saveDialog_mode_0" name="saveDialog_iqSelected"
+                       value="All" checked><label for="saveDialog_mode_0">All</label>
+                <input type="radio" id="saveDialog_mode_1" name="saveDialog_iqSelected"
+                       value="Selected"><label for="saveDialog_mode_1">Selected</label>
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="2" style="text-align: center"><input type="button" value="Save IQ" onclick="saveDialog_saveIQ()"></td>
+        </tr>
+    </table>
+</bba-save-dialog>
+
+<bba-prach-dialog id="prachDialog">
+    <div id="prachDialog_info"></div>
+    <div id="prach_graphs">
+        <bba-graph2d id="prachDialog_amp_graph" caption="PRACH Amplitude"></bba-graph2d>
+        <bba-graph2d id="prachDialog_code_graph" caption="Max correlation per U-root"></bba-graph2d>
+        <div id="prachDialog_code_graph_placeholder"></div>
+        <!-- <bba-graph2d id="prachDialog_pdp_graph" caption="PDP code"></bba-graph2d> -->
+    </div>
+</bba-prach-dialog>
+
+<bba-packet-details-dialog id="packetDetailsDialog">
+    <div style="display: flex; justify-content: center;">
+        <bba-graph2d id="packetDetailsDialog_iq_graph" caption="Constellation"></bba-graph2d>
+        <bba-graph2d id="packetDetailsDialog_amp_graph" caption="Amplitude"></bba-graph2d>
+
+    </div>
+    <div id="packetDetailsDialog_beamplotting_options">
+        Beamplotting: <select id="packetDetailsDialog_beamplotting_select"></select>
+        &#955;: <input id="packetDetailsDialog_beamplotting_lambda" value="0.5"/>
+        <input type="button" value="Draw" onclick="drawBeamformingWeights()">
+        <bba-graph2d id="packetDetailsDialog_beam_graph" caption="BEST ANGLE" style="display: flex; justify-content: left;"></bba-graph2d>
+        <div id="packetDetailsDialog_beamplotting_options_2D"></div>
+    </div>
+    <div id="show_in_iq_mode" hidden>
+        Show
+        <select name="section_select" id="section_select"></select> in IQ  mode
+        <button onclick="jump_to_IQ_view()">Show in IQ</button>
+    </div>
+    <div id="edit_packet">
+        <input id="edit_packet_edit_button" type="button" onclick="clicked_edit_packet_button()" value="Edit packet"/>
+        <input id="edit_packet_accept_button" type="button" onclick="edit_packet_accept_changes()" hidden value="Accept changes"/>
+        <input id="edit_packet_discard_button" type="button" onclick="edit_packet_discard_changes()" hidden value="Discard changes"/>
+    </div>
+    <div id="decode_DCI_payload" hidden>
+        Decode DCI payload
+        <select name="section_select" id="dciInfo_select"></select>
+        <button onclick="decode_DCI_clickedPacket()">Decode DCI</button>
+        <div id="decode_DCI_payload_decodedInfo"></div>
+    </div>
+    <div id="decode_PDSCH_payload" hidden>
+        Decode PDSCH payload
+        <button onclick="decode_PDSCH_packet_payload()">Decode PDSCH</button>
+        <!-- <div id="decode_DCI_payload_decodedInfo"></div> -->
+    </div>
+    <div id="error_dialog"></div>
+    <div id="prach_decode_packets_tab" hidden>
+    </div>
+    <table class="evenOddTable" id="packetDetailsDialog_propTable">
+        <thead>
+        <tr>
+            <td>Name</td>
+            <td>Value</td>
+        </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <br>
+    <div id="packetDetailsDialog_hacRx_debugTrace"></div>
+    <div id="packetDetailsDialog_pm_file"></div>
+    <div id="packetDetailsDialog_noPayload"><b>No payload available</b></div>
+    <div id="packetDetailsDialog_linkedPackets"></div>
+    <div id="packetDetailsDialog_payload">
+        <div><b>------------------------ Payload -----------------------</b></div>
+        <div><b>Offset: 0 1 2 3 4 5 6 7 8 9 A B C D E F</b></div>
+        <div><b>--------------------------------------------------------</b></div>
+        <div id="packetDetailsDialog_payload_bytes"></div>
+    </div>
+</bba-packet-details-dialog>
+
+<bba-analyze-dialog id="analyzeDialog">
+    <input id="analyze_filtered_packets_checkbox" type="checkbox" checked>
+    <label for="analyze_filtered_packets_checkbox">Analyze only filtered packets</label>
+
+    <div style="display: flex">
+        <div style="display: flex; flex-direction: column; min-width: 250px" id="analyze-buttons-div">
+            <input class="analyzeDialog_option" id="analyzeDialog_view_bip_completeness_button" type="button"
+                   onclick="analyzeDialog_open('analyzeDialog_view_bip_completeness')" value="BIP Completeness">
+            <input class="analyzeDialog_option" id="analyzeDialog_view_l1_allocations_button" type="button"
+                   onclick="analyzeDialog_open('analyzeDialog_view_l1_allocations')" value="L1 Allocations">
+            <input class="analyzeDialog_option" id="analyzeDialog_view_antenna_info_button" type="button"
+                   onclick="analyzeDialog_open('analyzeDialog_view_antenna_info')"
+                   value="Antenna Info">
+            <input class="analyzeDialog_option" id="analyzeDialog_view_packet_errors_button" type="button"
+                   onclick="analyzeDialog_open('analyzeDialog_view_packet_errors')" value="Packet errors">
+            <input class="analyzeDialog_option" id="analyzeDialog_check_bip_call_button" type="button"
+                   onclick="analyzeDialog_open('analyzeDialog_check_bip_call')" value="Check BIP Call">
+            <!--<input class="analyzeDialog_option" type="button"
+                   onclick="refModelDialog.toggle()" value="RefModel 7-3 FH">-->
+            <input class="analyzeDialog_option" id="analyzeDialog_view_timing_analysis_button" type="button"
+                   onclick="analyzeDialog_open('analyzeDialog_view_timing_analysis')" value="Timing analysis">
+            <input class="analyzeDialog_option" id="analyzeDialog_check_ecpri_pattern_button" type="button"
+                   onclick="analyzeDialog_open('analyzeDialog_check_ecpri_pattern')" value="Check eCPRI pattern">
+            <input class="analyzeDialog_option" id="analyzeDialog_ppaas_job_detection_button" type="button"
+                   onclick="analyzeDialog_open('analyzeDialog_ppaas_job_detection')" value="Proto Plat job detection">
+            <input class="analyzeDialog_option" id="analyzeDialog_find_best_shift_button" type="button"
+                   onclick="analyzeDialog_open('analyzeDialog_find_best_shift')" value="Find best sample shift">
+            <input class="analyzeDialog_option" id="analyzeDialog_find_numerology_sampling_button" type="button"
+                   onclick="analyzeDialog_open('analyzeDialog_find_numerology_sampling')" value="Find numerology and sampling">
+            <input class="analyzeDialog_option" id="analyzeDialog_deep_checker_button" type="button"
+                   onclick="analyzeDialog_open('analyzeDialog_deep_checker')" value="Deep L2L1+ecpri inspector">
+            <input class="analyzeDialog_option" id="analyzeDialog_pdp_prach_button" type="button"
+                   onclick="analyzeDialog_open('analyzeDialog_pdp_prach')" value="PDP Prach">
+            <input class="analyzeDialog_option" id="analyzeDialog_hac_rx_button" type="button"
+                   onclick="analyzeDialog_open('analyzeDialog_hac_rx')" value="HAC-RX">
+        </div>
+
+        <!-- Vertical Separator -->
+        <div style="width: 2px; padding: 10px; background-color: black; background-clip: content-box"></div>
+
+        <div style="display: flex; flex-direction: column; min-width: 600px">
+            <div id="analyzeDialog_view_description_box">
+                <p id="analyzeDialog_view_descriptionHeader"><b>Description:</b></p>
+                <p id="analyzeDialog_view_description"></p>
+            </div>
+
+            <div id="analyzeDialog_view_bip_completeness" class="analyzeDialog_view"
+                 style="display: none; flex-direction: column">
+                <table class="evenOddTable">
+                    <thead>
+                    <tr>
+                        <th>BIP Stream</th>
+                        <th>MAC Source</th>
+                        <th>Status</th>
+                    </tr>
+                    </thead>
+                    <tbody id="analyzeDialog_view_bip_completeness_table_body">
+
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="analyzeDialog_view_l1_allocations" class="analyzeDialog_view"
+                 style="display: none; flex-direction: column">
+                <div style="display: flex; flex-direction: row">
+                    <label for="analyzeDialog_view_l1_allocations_nprb">Assuming PRBs: </label>
+                    <b id="analyzeDialog_view_l1_allocations_nprb" ></b>
+                </div>
+
+                <p>DL Allocations:</p>
+                <div id="analyzeDialog_view_l1_allocations_dl"></div>
+                <p>UL Allocations:</p>
+                <div id="analyzeDialog_view_l1_allocations_ul"></div>
+            </div>
+
+            <div id="analyzeDialog_view_antenna_info" class="analyzeDialog_view"
+                 style="display: none; flex-direction: column">
+                <table class="evenOddTable">
+                    <thead>
+                    <tr>
+                        <th>Antenna rtcID</th>
+                        <th>Numerology (u)</th>
+                        <th>Subcarrier spacing [kHz]</th>
+                        <th>Direction</th>
+                    </tr>
+                    </thead>
+                    <tbody id="analyzeDialog_view_antenna_info_table_body"></tbody>
+                </table>
+            </div>
+
+            <div id="analyzeDialog_view_packet_errors" class="analyzeDialog_view"
+                 style="display: none; flex-direction: column">
+                <div id="analyzeDialog_view_packet_errors_list"></div>
+            </div>
+
+            <div id="analyzeDialog_check_bip_call" class="analyzeDialog_view"
+                 style="display: none; flex-direction: column">
+                <div id="analyzeDialog_check_bip_call_constants"></div>
+
+                <div style="display: inline-block">
+                    <label for="analyzeDialog_check_bip_call_selectRnti">rnti:</label>
+                    <select name="rnti" id="analyzeDialog_check_bip_call_selectRnti">
+                    </select>
+
+                    <input type="button"
+                           onclick="analyzeDialog_check_bip_call_button()" value="Check">
+                </div>
+
+
+                <div id="analyzeDialog_check_bip_callGraphs" style="display: flex; flex-wrap: wrap"></div>
+                <div id="analyzeDialog_check_bip_call_emptyPlotInfo"></div>
+                <hr style="margin: 10px">
+                <div id="analyzeDialog_check_bip_callTables">
+                </div>
+            </div>
+
+            <div id="analyzeDialog_view_timing_analysis" class="analyzeDialog_view"
+                 style="display: none; flex-direction: column">
+                <div style="display:flex; flex-direction: row; justify-content: left; align-items: center">
+                    <label for="analyzeDialog_view_timing_analysis_noPacketsIgnore">Ignore packet count (applies to eCPRI streams)</label>
+                    <input id="analyzeDialog_view_timing_analysis_noPacketsIgnore" type="text" value="ERROR" onblur="analyzeDialog_view_timing_analysis_noPacketsIgnore_onBlur()">
+                </div>
+                <div id="analyzeDialog_view_timing_analysis_results"></div>
+            </div>
+
+            <div id="analyzeDialog_check_ecpri_pattern" class="analyzeDialog_view"
+                 style="display: none; flex-direction: column">
+            </div>
+
+            <div id="analyzeDialog_ppaas_job_detection" class="analyzeDialog_view"
+                 style="display: none; flex-direction: column">
+            </div>
+            <div id="analyzeDialog_find_best_shift" class="analyzeDialog_view"
+                 style="display: none; flex-direction: column">
+
+                <div style="display: inline-block">
+                    <label for="analyzeDialog_find_best_shift_select">RtcId:</label>
+                    <select name="rnti" id="analyzeDialog_find_best_shift_select"></select>
+
+                    <input type="button" onclick="analyzeDialog_find_best_sample_shift()" value="Check">
+
+                    <table class="evenOddTable">
+                        <thead>
+                        <tr>
+                            <th>Sample Shift</th>
+                            <th>Mean correlation</th>
+                            <th>Lowest correlation</th>
+                        </tr>
+                        </thead>
+                        <tbody id="analyzeDialog_find_best_shift_table_body">
+
+                        </tbody>
+                    </table>
+
+                </div>
+
+            </div>
+
+            <div id="analyzeDialog_find_numerology_sampling" class="analyzeDialog_view"
+                 style="display: none; flex-direction: column">
+
+                <div style="display: inline-block">
+                    <label for="analyzeDialog_find_best_shift_select">RtcId:</label>
+                    <select name="rnti" id="analyzeDialog_numerology_sampling_select"></select>
+
+                    <input type="button" onclick="analyzeDialog_find_numerology_and_sampling_setTable()" value="Check">
+
+                    <table id="" class="evenOddTable">
+                        <thead>
+                        <tr>
+                            <th>Numerology</th>
+                            <th>Sampling</th>
+                            <th>Sample Shift</th>
+                            <th>Mean correlation</th>
+                        </tr>
+                        </thead>
+                        <tbody id="analyzeDialog_find_numerology_sampling_table_body">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="analyzeDialog_deep_checker" class="analyzeDialog_view"
+                 style="display: none; flex-direction: column">
+
+                <div style="display: inline-block">
+                    <div style="display: inline-block" id="analyzeDialog_deep_checker_result">
+                        <table class="evenOddTable">
+                            <thead>
+                            <tr>
+                                <th>Row</th>
+                                <th>Channel</th>
+                                <th>Message</th>
+                            </tr>
+                            </thead>
+                            <tbody id="analyzeDialog_deep_checker_table_body">
+
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div id="analyzeDialog_pdp_prach" class="analyzeDialog_view" style="display: none; flex-direction: column">
+                <bba-graph2d id="analyzeDialog_pdp_graph" caption="PDP Roots"></bba-graph2d>
+                <p id="analyzeDialog_pdp_message"></p>
+            </div>
+
+            <div id="analyzeDialog_hac_rx" class="analyzeDialog_view"
+                 style="display: none; flex-direction: column">
+            </div>
+        </div>
+    </div>
+</bba-analyze-dialog>
+
+<bba-modify-dialog id="modifyDialog">
+    <table>
+        <tbody>
+        <tr>
+            <td><button onclick="modify_addDegrees()">Correct signal (constant)</button></td>
+            <td><input id="modify_addDegrees_deg" type="text" value="0"> deg</td>
+        </tr>
+        <tr hidden>
+            <td><button onclick="modify_degSC()">Correct signal (spiral)</button></td>
+            <td><input id="modify_degSC" type="text" value="0"> deg/sc</td>
+        </tr>
+        <tr hidden>
+            <td><button onclick="modify_degSymbol()">Correct signal (per symbol)</button></td>
+            <td><input id="modify_degSymbol" type="text" value="0"> deg/symbol</td>
+        </tr>
+        <tr hidden>
+            <td><button onclick="modify_degSymbolSC()">Correct signal (per symbol/sc)</button></td>
+            <td><input id="modify_degSymbolSC" type="text" value="0"> deg/symbol/sc</td>
+        </tr>
+        <tr>
+            <td><button onclick="modify_multiplyByConstant()">Multiply by constant</button></td>
+            <td><input id="multiplyByConstant_r" type="text" value="0"> + <input id="multiplyByConstant_i" type="text" value="0">i</td>
+        </tr>
+        <tr>
+            <td><button onclick="modify_sampleShift()">Time domain sample shift</button></td>
+            <td>Sample shift: <input id="modify_sampleShift" type="text" value="0"></td>
+        </tr>
+        <tr>
+            <td><button onclick="swapIq()">Swap IQ</button></td>
+        </tr>
+        </tbody>
+    </table>
+</bba-modify-dialog>
+
+<bba-config-dialog id="configDialog">
+    <table>
+        <tr id="configureDialog_arfcn_row" style="font-size: 13px">
+            <td>ARFCN:</td>
+            <td><input type="text" style="font-size:9px; width: 50px" id="configureDialog_arfcn"> |
+                NR frequency: <input type="text" style="font-size:9px; width: 50px" id="configureDialog_nr_frequency">kHz |
+                Currently applied Arfcn: <input disabled type="text" style="font-size:9px; width: 50px" id="configureDialog_appliedArfcn" value="0">
+            </td>
+        </tr>
+    </table>
+
+
+    <div class="button_dialog">
+        <input type="button" id="configureDialog_arfcn_row_button" value="Phase compensation" onclick="configDialog_apply()">
+    </div>
+
+    <div class="separator"></div>
+
+    <table>
+        <tr>
+            <td>SSB/PBCH config:</td>
+        </tr>
+        <tr>
+            <td>SSB/PBCH detection:</td>
+            <td>
+                <div class="horiz-radio">
+                    <input type="radio" id="configDialog_SSBdetectType_0" name="configDialog_SSBdetectType"
+                           value="AUTO"><label for="configDialog_SSBdetectType_0">Auto</label>
+                    <input type="radio" id="configDialog_SSBdetectType_1" name="configDialog_SSBdetectType"
+                           value="MANUAL"><label for="configDialog_SSBdetectType_1">Manual</label>
+                </div>
+
+                <div class="tooltip">[?]<span class="tooltip_text">Use auto mode if you're unsure about location and type of an SSB/PBCH.
+                            Auto mode provides best accuracy, but is more time consuming. After detecting SSB, BBA will display correct setup which you can use in manual mode.
+                            Auto mode might fail when samples have very low power. This can be fixed by loading file with ,,Power scaling mode" set to 2.</span>
+                </div>
+            </td>
+
+        </tr>
+        <tr>
+            <td>&micro;</td>
+            <td>
+                <select id="configureDialog_u" name = "configureDialog_u">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+                <div class="tooltip">[?]<span class="tooltip_text">Select u for which you want to display SSB/PBCH in resource grid</span></div>
+            </td>
+
+
+        </tr>
+        <tr id = "configDialog_antenna_row">
+            <td>DL Antenna:</td>
+            <td>
+                <select id="configDialog_antenna" name="configDialog_antenna"></select>
+                <div class="tooltip">[?]<span class="tooltip_text">Select antenna for which you want to display SSB/PBCH in resource grid. If there are no available options
+                        make sure you selected correct numerology and that it contains at least one DL antenna.
+                    </span></div>
+            </td>
+        </tr>
+        <tr>
+            <td>Carrier Frequency:</td>
+            <td>
+                <div class="horiz-radio">
+                    <input type="radio" id="configDialog_carrier_frequency_0" name="configDialog_carrierFrequency"
+                           value="<3" checked="checked"><label for="configDialog_carrier_frequency_0">Below 3</label>
+                    <input type="radio" id="configDialog_carrier_frequency_1" name="configDialog_carrierFrequency"
+                           value="3_6"><label for="configDialog_carrier_frequency_1">Between 3 and 6</label>
+                    <input type="radio" id="configDialog_carrier_frequency_2" name="configDialog_carrierFrequency"
+                           value="6<"><label for="configDialog_carrier_frequency_2">Above 6</label>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td><label for="configDialog_pci">PCI:</label></td>
+            <td>
+                <input type="button" value="&ndash;" onclick="configDialog_decInc( false, 'pci' )">
+                <input type="text" id="configDialog_pci" onchange="configDialog_apply()">
+                <input type="button" value="+" onclick="configDialog_decInc( true, 'pci' )">
+            </td>
+        </tr>
+        <tr>
+            <td>PBCH case:</td>
+            <td>
+                <div class="horiz-radio">
+                    <input type="radio" id="configDialog_pbchCase_0" name="configDialog_pbchCase" value="A"><label
+                        for="configDialog_pbchCase_0">A</label>
+                    <input type="radio" id="configDialog_pbchCase_1" name="configDialog_pbchCase" value="B"><label
+                        for="configDialog_pbchCase_1">B</label>
+                    <input type="radio" id="configDialog_pbchCase_2" name="configDialog_pbchCase" value="C"><label
+                        for="configDialog_pbchCase_2">C</label>
+                    <input type="radio" id="configDialog_pbchCase_3" name="configDialog_pbchCase" value="D"><label
+                        for="configDialog_pbchCase_3">D</label>
+                    <input type="radio" id="configDialog_pbchCase_4" name="configDialog_pbchCase" value="E"><label
+                        for="configDialog_pbchCase_4">E</label>
+                    <input type="radio" id="configDialog_pbchCase_5" name="configDialog_pbchCase" value="F"><label
+                        for="configDialog_pbchCase_5">F</label>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>PBCH periodicity:</td>
+            <td>
+                <div class="horiz-radio">
+                    <input type="radio" id="configDialog_pbchPeriodicity_0" name="configDialog_pbchPeriodicity"
+                           value="5"><label for="configDialog_pbchPeriodicity_0">5</label>
+                    <input type="radio" id="configDialog_pbchPeriodicity_1" name="configDialog_pbchPeriodicity"
+                           value="10"><label for="configDialog_pbchPeriodicity_1">10</label>
+                    <input type="radio" id="configDialog_pbchPeriodicity_2" name="configDialog_pbchPeriodicity"
+                           value="20"><label for="configDialog_pbchPeriodicity_2">20</label>
+                    <input type="radio" id="configDialog_pbchPeriodicity_3" name="configDialog_pbchPeriodicity"
+                           value="40"><label for="configDialog_pbchPeriodicity_3">40</label>
+                    <input type="radio" id="configDialog_pbchPeriodicity_4" name="configDialog_pbchPeriodicity"
+                           value="80"><label for="configDialog_pbchPeriodicity_4">80</label>
+                    <input type="radio" id="configDialog_pbchPeriodicity_5" name="configDialog_pbchPeriodicity"
+                           value="160"><label for="configDialog_pbchPeriodicity_5">160</label>
+                </div>
+                ms
+            </td>
+        </tr>
+        <tr>
+            <td><label for="configDialog_pbchHalfFrameOffset">PBCH Half Frame offset:</label></td>
+            <td>
+                <input type="button" value="&ndash;" onclick="configDialog_decInc( false, 'pbch_halfFrameOffset' )">
+                <input type="text" id="configDialog_pbchHalfFrameOffset" onchange="configDialog_apply()">
+                <input type="button" value="+" onclick="configDialog_decInc( true, 'pbch_halfFrameOffset' )">
+            </td>
+        </tr>
+        <tr>
+            <td><label for="configDialog_pbchPrbOffset">PBCH PRB offset:</label></td>
+            <td>
+                <input type="button" value="&ndash;" onclick="configDialog_decInc( false, 'pbch_prbOffset' )">
+                <input type="text" id="configDialog_pbchPrbOffset" onchange="configDialog_apply()">
+                <input type="button" value="+" onclick="configDialog_decInc( true, 'pbch_prbOffset' )">
+            </td>
+        </tr>
+        <tr>
+            <td><label for="configDialog_pbchScOffset">PBCH SC offset:</label></td>
+            <td>
+                <input type="button" value="&ndash;" onclick="configDialog_decInc( false, 'pbch_scOffset' )">
+                <input type="text" id="configDialog_pbchScOffset" onchange="configDialog_apply()">
+                <input type="button" value="+" onclick="configDialog_decInc( true, 'pbch_scOffset' )">
+            </td>
+        </tr>
+        <tr>
+            <td><label for="configDialog_pbchNumOfBlocks">PBCH Num of Blocks:</label></td>
+            <td>
+                <input type="button" value="&ndash;" onclick="configDialog_decInc( false, 'pbch_numOfBlocks' )">
+                <input type="text" id="configDialog_pbchNumOfBlocks" onchange="configDialog_apply()">
+                <input type="button" value="+" onclick="configDialog_decInc( true, 'pbch_numOfBlocks' )">
+            </td>
+        </tr>
+    </table>
+
+    <div style="display: flex; justify-content: center;">
+        <div class="button_dialog" >
+            <input id="getSSBFromArfcnButton" type="button" value="Load offset from Arfcn" onclick="getSSB_from_arfcn()">
+        </div>
+        <div class="button_dialog">
+            <input id="apply_ssbDetection" type="button" value="Detect SSB" name="apply_ssbDetection", onclick="configDialog_detectSSB()">
+        </div>
+    </div>
+
+    <div class="separator"></div>
+
+    <table>
+        <tr>
+            <td>PRACH config:</td>
+        </tr>
+        <tr>
+            <td>
+                <label for="configDialog_prachCfgIdx">PRACH cfg index:</label>
+            </td>
+            <td>
+                <input type="button" value="&ndash;" onclick="configDialog_decInc( false, 'prach_cfgIdx' )">
+                <input type="text" id="configDialog_prachCfgIdx" name="configDialog_prachCfgIdx">
+                <input type="button" value="+" onclick="configDialog_decInc( true, 'prach_cfgIdx' )">
+            </td>
+        </tr>
+        <tr>
+            <td><label for="configDialog_prachPrbOffset">PRACH PRB offset:</label></td>
+            <td>
+                <input type="button" value="&ndash;" onclick="configDialog_decInc( false, 'prach_prbOffset' )">
+                <input type="text" id="configDialog_prachPrbOffset">
+                <input type="button" value="+" onclick="configDialog_decInc( true, 'prach_prbOffset' )">
+            </td>
+        </tr>
+        <tr>
+            <td>Prach table</td>
+            <td>
+                <select id="configDialog_prachTable" name = "configDialog_prachTable">
+                    <option value="FR1_FDD">FR1 FDD</option>
+                    <option value="FR1_TDD">FR1 TDD</option>
+                    <option value="FR2">FR2</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td><label for="configDialog_possiblePrachCfgIdx">Possible PRACH cfg idx:</label></td>
+            <td>
+                <input type="text" id="configDialog_possiblePrachCfgIdx" disabled>
+            </td>
+        </tr>
+        <tr>
+            <td>PRACH Coherent combining</td>
+            <td>
+                <input type="checkbox" id="configDialog_prachRepetitions_cb" onchange="configDialog_apply()">
+                <div class="tooltip">[?]
+                    <span class="tooltip_text">During decoding of short PRACH, repetitions will be summed up. Requires correct cfgIndex</span>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>PRACH Non-Coherent combining</td>
+            <td>
+                <input type="checkbox" id="configDialog_prachAntennaCombining_cb" onchange="configDialog_apply()">
+                <input type="text" id="configDialog_prachAntennaCombining_input" name="configDialog_prachAntennaCombining_input">
+            </td>
+        </tr>
+    </table>
+
+    <div class="button_dialog">
+        <input id="apply_prachDetection" type="button" value="Detect PRACH cfg" onclick="configDialog_detectPrachCfgIdx()">
+    </div>
+    <div class="separator"></div>
+    <table>
+        <tr>
+            <td>eAxc fiels sizes (must equal to 16 bits)</td>
+        </tr>
+        <tr>
+            <td>
+                <div id="configDialog_eAxc_field_sizes">
+                    <div class="configDialog_eAxc_bar" id="configDialog_DU_Port_ID"><div>DU_Port_ID</div><input id="configDialog_DU_Port_ID_input" onchange="configureDialog_changeEAxc('DU_Port_ID')" type="number" value="2" min="1" max="13"></div>
+                    <div class="configDialog_eAxc_bar" id="configDialog_BandSector_ID"><div>BandSector_ID</div><input id="configDialog_BandSector_ID_input" onchange="configureDialog_changeEAxc('BandSector_ID')" type="number" value="3" min="1" max="13"></div>
+                    <div class="configDialog_eAxc_bar" id="configDialog_CC_ID"><div>CC_ID</div><input id="configDialog_CC_ID_input" onchange="configureDialog_changeEAxc('CC_ID')" type="number" value="3" min="1" max="13"></div>
+                    <div class="configDialog_eAxc_bar" id="configDialog_RU_Port_ID"><div>RU_Port_ID</div><input id="configDialog_RU_Port_ID_input" onchange="configureDialog_changeEAxc('RU_Port_ID')" type="number" value="8" min="1" max="13"></div>
+                    <div class="configDialog_eAxc_bar" id="configDialog_Pol_ID"><div>Pol_ID</div><input id="configDialog_Pol_ID_input" onchange="configureDialog_changeEAxc('Pol_ID')" type="number" value="1" min="1" max="13"></div>
+                    <div class="configDialog_eAxc_bar" id="configDialog_PRACH"><div>PRACH</div><input id="configDialog_PRACH_input" onchange="configureDialog_changeEAxc('PRACH')" type="number" value="1" min="1" max="13"></div>
+                    <div class="configDialog_eAxc_bar" id="configDialog_AxC"><div>AxC</div><input id="configDialog_AxC_input" onchange="configureDialog_changeEAxc('AxC')" type="number" value="4" min="1" max="13"></div>
+                    <div class="configDialog_eAxc_bar" id="configDialog_BWP"><div>BWP</div><input id="configDialog_BWP_input" onchange="configureDialog_changeEAxc('BWP')" type="number" value="2" min="1" max="13"></div>
+                </div>
+            </td>
+            <td><input type="button" value="Recalculate eAxc values" onclick="recalculate_eAxc_values()"></td>
+        </tr>
+        <tr>
+            <td id="configDialog_eAxc_info"></td>
+        </tr>
+    </table>
+    <div class="separator"></div>
+
+    <table>
+        <tr>
+            <td>PDCCH config:</td>
+        </tr>
+
+        <tr>
+            <td>PDCCH symbols:</td>
+            <td>
+                <div class="horiz-radio">
+                    <input type="radio" id="configDialog_numOfPdcchSym_1" name="configDialog_numOfPdcchSym"
+                           value="1"><label for="configDialog_numOfPdcchSym_1">1</label>
+                    <input type="radio" id="configDialog_numOfPdcchSym_2" name="configDialog_numOfPdcchSym"
+                           value="2"><label for="configDialog_numOfPdcchSym_2">2</label>
+                    <input type="radio" id="configDialog_numOfPdcchSym_3" name="configDialog_numOfPdcchSym"
+                           value="3"><label for="configDialog_numOfPdcchSym_3">3</label>
+                </div>
+            </td>
+        </tr>
+
+        <tr>
+            <td><label for="configDialog_pdcch_dciSize">DCI Size:</label></td>
+            <td>
+                <input type="button" value="&ndash;" onclick="configDialog_decInc( false, 'pdcch_dciSize' )">
+                <input type="text" id="configDialog_pdcch_dciSize" onchange="configDialog_apply()">
+                <input type="button" value="+" onclick="configDialog_decInc( true, 'pdcch_dciSize' )">
+            </td>
+        </tr>
+        <tr>
+            <td><label for="configDialog_pdcch_nID">n_ID:</label></td>
+            <td>
+                <input type="button" value="&ndash;" onclick="configDialog_decInc( false, 'pdcch_nID' )">
+                <input type="text" id="configDialog_pdcch_nID" onchange="configDialog_apply()">
+                <input type="button" value="+" onclick="configDialog_decInc( true, 'pdcch_nID' )">
+            </td>
+        </tr>
+
+        <tr>
+            <td><label for="configDialog_pdcch_nRNTI">n_RNTI:</label></td>
+            <td>
+                <input type="button" value="&ndash;" onclick="configDialog_decInc( false, 'pdcch_nRNTI' )">
+                <input type="text" id="configDialog_pdcch_nRNTI" onchange="configDialog_apply()">
+                <input type="button" value="+" onclick="configDialog_decInc( true, 'pdcch_nRNTI' )">
+            </td>
+        </tr>
+    </table>
+
+    <div class="separator"></div>
+
+    <table>
+
+        <tr>
+            <td>DCI config:</td>
+        </tr>
+
+        <tr id = "configDialog_dci_subcellRow">
+            <td>Subcell:</td>
+            <td>
+                <select id="configDialog_dci_subcell" name="configDialog_dci_subcell">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                </select>
+                <div class="tooltip">[?]<span class="tooltip_text">BBA will try to aquire sizes of DCI fields based on L2L1 packets with ,,subcell" field set to
+                        provided value. If your capture contains no L2L1 packets (such as BIP) then you have to manually set the field sizes.
+                    </span></div>
+            </td>
+        </tr>
+
+        <tr>
+            <div class="button_dialog">
+                <input id="apply_dciConfig" type="button" value="Detect DCI config" name="configDialog_dci_autodetect", onclick="dci_autodetect_from_L2L1()">
+            </div>
+        </tr>
+
+        <tr>
+            <td><label for="configDialog_dci_RA_RNTIs">RA-RNTIs:</label></td>
+            <td>
+                <input type="text" id="configDialog_dci_RA_RNTIs" onchange="configDialog_apply()">
+            </td>
+        </tr>
+
+        <tr>
+            <td><label for="configDialog_dci_TC_RNTIs">TC-RNTIs:</label></td>
+            <td>
+                <input type="text" id="configDialog_dci_TC_RNTIs" onchange="configDialog_apply()">
+            </td>
+        </tr>
+
+        <tr><td>--------</td></tr>
+
+        <tr>
+            <td>DCI 0_1 size of BWP Indicator:</td>
+            <td>
+                <select id="configDialog_dci_0_1_sizeof_BWP_Indicator" onchange="configDialog_set_DCI_field_sizes()">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td><label for="configDialog_dci_0_1_sizeof_FD_ResAssignment">DCI 0_1 size of FreqDomainResAssign:</label></td>
+            <td>
+                <input type="button" value="&ndash;" onclick="configDialog_decInc( false, 'dci_0_1_sizeof_FD_ResAssignment' ); configDialog_set_DCI_field_sizes()">
+                <input type="text" id="configDialog_dci_0_1_sizeof_FD_ResAssignment" onchange="configDialog_set_DCI_field_sizes()">
+                <input type="button" value="+" onclick="configDialog_decInc( true, 'dci_0_1_sizeof_FD_ResAssignment' ); configDialog_set_DCI_field_sizes()">
+            </td>
+        </tr>
+
+        <tr>
+            <td>DCI 0_1 size of TimeDomainResAssign:</td>
+            <td>
+                <select id="configDialog_dci_0_1_sizeof_TD_ResAssignment" name = "configDialog_dci_0_1_sizeof_TD_ResAssignment" onchange="configDialog_set_DCI_field_sizes()">
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>DCI 0_1 size of PrecodingInfoAndNumOfLayers:</td>
+            <td>
+                <select id="configDialog_dci_0_1_sizeof_PrecodingInfoAndNumOfLayers" onchange="configDialog_set_DCI_field_sizes()">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>DCI 0_1 size of AntennaPorts:</td>
+            <td>
+                <select id="configDialog_dci_0_1_sizeof_AntennaPorts" name = "configDialog_dci_0_1_sizeof_AntennaPorts" onchange="configDialog_set_DCI_field_sizes()">
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>DCI 0_1 size of CsiRequest:</td>
+            <td>
+                <select id="configDialog_dci_0_1_sizeof_CsiRequest" onchange="configDialog_set_DCI_field_sizes()">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>DCI 0_1 size of PTRS-DMRS Association:</td>
+            <td>
+                <select id="configDialog_dci_0_1_sizeof_PTRS_DMRS_Association" onchange="configDialog_set_DCI_field_sizes()">
+                    <option value="0">0</option>
+                    <option value="2">2</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>DCI 0_1 size of BetaOffsetIndicator:</td>
+            <td>
+                <select id="configDialog_dci_0_1_sizeof_BetaOffsetIndicator" onchange="configDialog_set_DCI_field_sizes()">
+                    <option value="0">0</option>
+                    <option value="2">2</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>DCI 0_1 size of DmrsSequenceInit:</td>
+            <td>
+                <select id="configDialog_dci_0_1_sizeof_DmrsSequenceInit" onchange="configDialog_set_DCI_field_sizes()">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>DCI 0_1 size of UL-SCH indicator:</td>
+            <td>
+                <select id="configDialog_dci_0_1_sizeof_UL_SCH_indicator" onchange="configDialog_set_DCI_field_sizes()">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                </select>
+            </td>
+        </tr>
+
+        <tr><td>--------</td></tr>
+
+        <tr>
+            <td>DCI 1_1 size of BWP Indicator:</td>
+            <td>
+                <select id="configDialog_dci_1_1_sizeof_BWP_Indicator" onchange="configDialog_set_DCI_field_sizes()">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td><label for="configDialog_dci_1_1_sizeof_FD_ResAssignment">DCI 1_1 size of FreqDomainResAssign:</label></td>
+            <td>
+                <input type="button" value="&ndash;" onclick="configDialog_decInc( false, 'dci_1_1_sizeof_FD_ResAssignment' ); configDialog_set_DCI_field_sizes()">
+                <input type="text" id="configDialog_dci_1_1_sizeof_FD_ResAssignment" onchange="configDialog_set_DCI_field_sizes()">
+                <input type="button" value="+" onclick="configDialog_decInc( true, 'dci_1_1_sizeof_FD_ResAssignment' ); configDialog_set_DCI_field_sizes()">
+            </td>
+        </tr>
+
+        <tr>
+            <td>DCI 1_1 size of AntennaPorts:</td>
+            <td>
+                <select id="configDialog_dci_1_1_sizeof_AntennaPorts" name = "configDialog_dci_1_1_sizeof_AntennaPorts" onchange="configDialog_set_DCI_field_sizes()">
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>DCI 1_1 size of DL-AssignmentIndex:</td>
+            <td>
+                <select id="configDialog_dci_1_1_sizeof_DAI" name = "configDialog_dci_1_1_sizeof_DAI" onchange="configDialog_set_DCI_field_sizes()">
+                    <option value="2">2</option>
+                    <option value="4">4</option>
+                </select>
+            </td>
+        </tr>
+
+        <tr><td>--------</td></tr>
+
+        <tr>
+            <td>DCI calculated size of format 0_1:</td>
+            <td id="configDialog_dci_sizeof_0_1"></td>
+        </tr>
+        <tr>
+            <td>DCI calculated size of format 1_1:</td>
+            <td id="configDialog_dci_sizeof_1_1"></td>
+        </tr>
+    </table>
+
+    <div class="separator"></div>
+
+    <table>
+        <tr>
+            <td>CSI-RS config:</td>
+        </tr>
+
+        <tr>
+            <td><label for="configDialog_csirsStartPrb">CSI-RS StartPrb:</label></td>
+            <td>
+                <input type="button" value="&ndash;" onclick="configDialog_decInc( false, 'csirs_startPrb' )">
+                <input type="text" id="configDialog_csirsStartPrb" onchange="configDialog_apply()">
+                <input type="button" value="+" onclick="configDialog_decInc( true, 'csirs_startPrb' )">
+            </td>
+        </tr>
+        <tr>
+            <td><label for="configDialog_csirsNumOfPrb">CSI-RS NumOfPrb:</label></td>
+            <td>
+                <input type="button" value="&ndash;" onclick="configDialog_decInc( false, 'csirs_numOfPrb' )">
+                <input type="text" id="configDialog_csirsNumOfPrb" onchange="configDialog_apply()">
+                <input type="button" value="+" onclick="configDialog_decInc( true, 'csirs_numOfPrb' )">
+            </td>
+        </tr>
+
+
+        <tr>
+            <td><label for="configDialog_csirsFrequencyDomainAllocation">CSI-RS FreqDomainAllocation:</label></td>
+            <td>
+                <input type="text" id="configDialog_csirsFrequencyDomainAllocation" onchange="configDialog_apply()">
+                <div class="tooltip">[?]
+                    <span class="tooltip_text">Bitstring of length 4, 12 or 6 depending on config. Example: 0001
+                        </span>
+                </div>
+            </td>
+        </tr>
+
+        <tr>
+            <td><label for="configDialog_csirsStartSymbol">CSI-RS StartSymbol:</label></td>
+            <td>
+                <input type="button" value="&ndash;" onclick="configDialog_decInc( false, 'csirs_startSymbol' )">
+                <input type="text" id="configDialog_csirsStartSymbol" onchange="configDialog_apply()">
+                <input type="button" value="+" onclick="configDialog_decInc( true, 'csirs_startSymbol' )">
+            </td>
+        </tr>
+        <tr>
+            <td>CSI-RS Slot Periodicity:</td>
+            <td>
+                <select id="configDialog_csirsSlotPeriodicity" name = "configDialog_csirsSlotPeriodicity" onchange="configDialog_apply()">
+                    <option value="4">slots4</option>
+                    <option value="5">slots5</option>
+                    <option value="8">slots8</option>
+                    <option value="10">slots10</option>
+                    <option value="16">slots16</option>
+                    <option value="20">slots20</option>
+                    <option value="32">slots32</option>
+                    <option value="40">slots40</option>
+                    <option value="64">slots64</option>
+                    <option value="80">slots80</option>
+                    <option value="160">slots160</option>
+                    <option value="320">slots320</option>
+                    <option value="640">slots640</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td><label for="configDialog_csirsSlotOffset">CSI-RS Slot Offset:</label></td>
+            <td>
+                <input type="button" value="&ndash;" onclick="configDialog_decInc( false, 'csirs_slotOffset' )">
+                <input type="text" id="configDialog_csirsSlotOffset" onchange="configDialog_apply()">
+                <input type="button" value="+" onclick="configDialog_decInc( true, 'csirs_slotOffset' )">
+            </td>
+        </tr>
+        <tr>
+            <td>CSI-RS Config:</td>
+            <td>
+                <select id="configDialog_csirsConfig" name = "configDialog_csirsConfig" onchange="configDialog_onChange.call(this);">
+                    <option value="1">row_1</option>
+                    <option value="2">row_2</option>
+                    <option value="3">row_3</option>
+                </select>
+
+                <div class="tooltip">[?]
+                    <span class="tooltip_text">Row of Table 7.4.1.5.3-1 from 38_211 (CSI-RS locations within a slot), BIP parameter "csiRsConfig"
+                        </span>
+                </div>
+            </td>
+        </tr>
+
+        <tr>
+            <td>CSI-RS Density:</td>
+            <td>
+                <div class="horiz-radio">
+                    <input type="radio" id="configDialog_csirsDensity_0" name="configDialog_csirsDensity"
+                           value="0"><label for="configDialog_csirsDensity_0">Dot5</label>
+                    <input type="radio" id="configDialog_csirsDensity_1" name="configDialog_csirsDensity"
+                           value="1"><label for="configDialog_csirsDensity_1">One</label>
+                    <input type="radio" id="configDialog_csirsDensity_3" name="configDialog_csirsDensity"
+                           value="3"><label for="configDialog_csirsDensity_3">Three</label>
+                </div>
+            </td>
+        </tr>
+
+        <tr>
+            <td>CSI-RS Density Dot5:</td>
+            <td>
+                <div class="horiz-radio">
+                    <input type="radio" id="configDialog_csirsDensityDot5_0" name="configDialog_csirsDensityDot5"
+                           value="0"><label for="configDialog_csirsDensityDot5_0">Even</label>
+                    <input type="radio" id="configDialog_csirsDensityDot5_1" name="configDialog_csirsDensityDot5"
+                           value="1"><label for="configDialog_csirsDensityDot5_1">Odd</label>
+                </div>
+            </td>
+        </tr>
+
+        <tr>
+            <td><label for="configDialog_csirsScramblingID">CSI-RS ScramblingID:</label></td>
+            <td>
+                <input type="button" value="&ndash;" onclick="configDialog_decInc( false, 'csirs_scramblingID' )">
+                <input type="text" id="configDialog_csirsScramblingID" onchange="configDialog_apply()">
+                <input type="button" value="+" onclick="configDialog_decInc( true, 'csirs_scramblingID' )">
+            </td>
+        </tr>
+
+        <!-- <tr>
+            <table>
+                <tr>
+                    <td style="font-size: 13px">startSlot:</td>
+                    <td style="font-size: 13px">slotStep:</td>
+                    <td style="font-size: 13px">symbols:</td>
+                    <td style="font-size: 13px">startPrb:</td>
+                    <td style="font-size: 13px">numPrb:</td>
+                    <td style="font-size: 13px">reMask:</td>
+                    <td><input type="button" value="+" onclick="configDialog_add_csirs_resource()"></td>
+                </tr>
+            </table>
+        </tr>
+        <tr>
+            <table id="configDialog_csirs"></table>
+        </tr> -->
+    </table>
+
+    <div class="separator"></div>
+
+    <table>
+        <tr>
+            <td>Channels from BIP packets:</td>
+            <td>
+                <input type="checkbox" id="configDialog_moreChannels_cb" name="configDialog_moreChannels_cb" onchange="configDialog_apply(); configDialog_onChange.call(this);">
+                <div class="tooltip">[?]
+                    <span class="tooltip_text">BBA will make an attempt to draw DM-RS, CSI-RS, PDCCH and PUCCH based on packets containing l2l1 data.</span>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div id="configDialog_subcellAntDiv">
+                    <table id="configDialog_subcellAntTable">
+                        <tr>
+                            <td>u</td><td>dir</td><td>Antenna</td><td>SubcellId</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="tooltip">[?]<span class="tooltip_text">Match subcells from BIP packets to antennas</span></div>
+            </td>
+        </tr>
+    </table>
+
+    <div class="separator"></div>
+    <div class="button_dialog">
+        <input id="apply_config" type="button" value="Apply" onclick="configDialog_apply()">
+    </div>
+</bba-config-dialog>
+
+<bba-log-dialog id="logDialog" defaultWidth="1000px" defaultHeight="600px">
+    <div id="dialog_body_tools">
+        <div>
+            <label for="dialog_body_file_dropdown">Choose a file</label>
+            <select id="dialog_body_file_dropdown" onchange="logTaskProc()">
+                <option value="ALL">All</option>
+            </select>
+        </div>
+
+
+        <button id="dialog_body_clear" onclick="logDialog_onClear()"
+                style="background-color: white; color:black;">Clear Log</button>
+        <!-- <label for="dialog_body_clear">Clear Log</label>
+        <input type="button" id="dialog_body_clear"> -->
+    </div>
+    <div id="dialog_body_checkboxes">
+        <div class="dialog_body_checkboxes_div">
+            <input type="checkbox" id="dialog_body_cb_err" onclick="logTaskProc()" checked/>
+            <label for="dialog_body_cb_err">Errors</label>
+        </div>
+        <div class="dialog_body_checkboxes_div">
+            <input type="checkbox" id="dialog_body_cb_warn" onclick="logTaskProc()" checked/>
+            <label for="dialog_body_cb_warn">Warnings</label>
+        </div>
+        <div class="dialog_body_checkboxes_div">
+            <input type="checkbox" id="dialog_body_cb_info" onclick="logTaskProc()" checked/>
+            <label for="dialog_body_cb_info">Info</label>
+        </div>
+        <div class="dialog_body_checkboxes_div">
+            <input type="checkbox" id="dialog_body_cb_debug" onclick="logTaskProc()"/>
+            <label for="dialog_body_cb_debug">Debug</label>
+        </div>
+    </div>
+    <div id="logDialog_log"></div>
+</bba-log-dialog>
+
+<bba-settings-dialog id="settingsDialog">
+    <table>
+        <tr>
+            <td>
+                <label for="settingsDialog_fileAutoload_enabled">Autoloaded file:</label>
+                <div class="tooltip">[?]<span class="tooltip_text">If not empty - the path to automatically loaded file on page loading. Current directory is where the index.html located. Example: ../test.pcap<br>
+                generator //to load generated file<br>
+                http://localhost/<br>
+                |-- test.pcap<br>
+                |-- bba<br>
+                |-- |-- index.html
+              </span></div>
+            </td>
+            <td>
+                <input type="checkbox" id="settingsDialog_fileAutoload_enabled">
+                <input type="text" id="settingsDialog_fileAutoload_filePath">
+            </td>
+        </tr>
+
+        <!-- <div class="separator"></div> -->  </table>
+    <div class="separator"></div>
+    <div class="button_dialog"><input type="button" value="Apply" onclick="settingsDialog_apply()"><input
+            type="button" value="Reset to default" onclick="settingsDialog_resetToDefault()"></div>
+    <!--            <input type="button" value="Reset filters" onclick="settingsDialog_resetFilters()">-->
+</bba-settings-dialog>
+
+<bba-analysis-dialog id="analysisDialog">
+    <div class="frame_structure"></div>
+    <table>
+        <thead>
+        <tr><th>Numerology (u)</th><th>Slot</th><th>Symbol</th><th>RB</th><th>RE</th><th></th><th></th></tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <div class="clicked_fcp" hidden></div>
+    <div id="decode_information"></div>
+</bba-analysis-dialog>
+
+<bba-pdsch-decode-result-dialog id="pdschDecodeResultDialog" style="width: auto; min-width: 400px; z-index: 3; overflow-y: auto;">
+</bba-pdsch-decode-result-dialog>
+
+<bba-iq-tab-dbl-click-dialog id="iqTabDblClickDialog">
+    <p>I: 0</p>
+    <p>Q: 0</p>
+</bba-iq-tab-dbl-click-dialog>
+
+<bba-graph2d-dialog id="graph2dDialog" alwaysOnTop="true" defaultWidth="360px">
+    <label for="graph2dDialog_setModeRadio">Mode:</label>
+    <div class="horiz-radio" id="graph2dDialog_setModeRadio">
+        <input type="radio" id="graph2dDialog_setModePoint" value="0" name="graph2dDialog_setMode"
+               onchange="graph2dDialog_setModePoint()">
+        <label for="graph2dDialog_setModePoint">Point</label>
+
+        <input type="radio" id="graph2dDialog_setModeLine" value="1" name="graph2dDialog_setMode"
+               onchange="graph2dDialog_setModeLine()">
+        <label for="graph2dDialog_setModeLine">Line</label>
+
+        <input type="radio" id="graph2dDialog_setModeBar" value="2" name="graph2dDialog_setMode"
+               onchange="graph2dDialog_setModeBar()">
+        <label for="graph2dDialog_setModeBar">Bar</label>
+
+        <input type="radio" id="graph2dDialog_setModeThickbar" value="3" name="graph2dDialog_setMode"
+               onchange="graph2dDialog_setModeThickbar()">
+        <label for="graph2dDialog_setModeThickbar">Thickbar</label>
+    </div>
+
+    <table style="table-layout: fixed; width: 100%">
+        <tr>
+            <td><input type="button" class="tableButton" value="Fullscreen" onclick="graph2dDialog_fullscreen()"></td>
+            <td><input type="button" class="tableButton" value="Normalscreen" onclick="graph2dDialog_normalscreen()">
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <label for="graph2dDialog_trendlineCheckbox">Trendline:</label>
+                <label class="switch" style="font-size: 0.5rem">
+                    <input type="checkbox" id="graph2dDialog_trendlineCheckbox"
+                           onclick="graph2dDialog_trendlineHandler(this)">
+                    <span class="slider round"></span>
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td><input type="button" class="tableButton" value="Remove trend" onclick="graph2dDialog_trendRemove()">
+            </td>
+            <td><input type="button" class="tableButton" value="differential" onclick="graph2dDialog_differential()">
+            </td>
+        </tr>
+        <tr>
+            <td><input type="button" class="tableButton" value="Reset zoom" onclick="graph2dDialog_zoomReset()"></td>
+        </tr>
+        <tr>
+            <td><input type="button" class="tableButton" value="Sort data" onclick="graph2dDialog_sortData()"></td>
+            <td><input type="button" class="tableButton" value="Download data" onclick="graph2dDialog_downloadData()">
+            </td>
+        </tr>
+    </table>
+</bba-graph2d-dialog>
+
+<bba-ref-model-dialog id="refModelDialog">
+    <table>
+        <tr>
+            <td><label for="refModelDialog_mantissa">Mantissa:</label></td>
+            <td><input type="number" id="refModelDialog_mantissa" min="0" max="64"></td>
+        </tr>
+        <tr>
+            <td><label for="refModelDialog_timingWindow">Timing Window:</label></td>
+            <td><input type="number" id="refModelDialog_timingWindow" step="any"></td>
+        </tr>
+        <tr>
+            <td><label for="refModelDialog_numerology">Numerology:</label></td>
+            <td><input type="number" id="refModelDialog_numerology"></td>
+        </tr>
+        <tr>
+            <td><label for="refModelDialog_staticLongPucch">StaticLongPucch:</label></td>
+            <td><input type="checkbox" id="refModelDialog_staticLongPucch"></td>
+        </tr>
+        <tr>
+            <td><label for="refModelDialog_timeDensity">Time Density:</label></td>
+            <td><input type="number" id="refModelDialog_timeDensity"></td>
+        </tr>
+        <tr>
+            <td><label for="refModelDialog_mac73">Mac Split7-3:</label></td>
+            <td><input type="text" id="refModelDialog_mac73"></td>
+        </tr>
+        <tr>
+            <td><label for="refModelDialog_mac_proxy73_72">Mac Proxy7-3_7-2:</label></td>
+            <td><input type="text" id="refModelDialog_mac_proxy73_72"></td>
+        </tr>
+        <tr>
+            <td><label for="refModelDialog_mac72">Mac Split7-2:</label></td>
+            <td><input type="text" id="refModelDialog_mac72"></td>
+        </tr>
+    </table>
+
+    <details>
+        <summary>Timing</summary>
+        <table>
+            <tr>
+                <td>
+                    Timestamps
+                </td>
+                <td>
+                    <div class="horiz-radio">
+                        <input type="radio" id="refModelDialog_timestamps_base" name="refModelDialog_timestamps"
+                               value="0"><label for="refModelDialog_timestamps_base">Base</label>
+                        <input type="radio" id="refModelDialog_timestamps_gen" name="refModelDialog_timestamps"
+                               value="1"><label for="refModelDialog_timestamps_gen">Generated</label>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="refModelDialog_cplane_ul_advance72">C-Plane UL 7-2 advance:</label></td>
+                <td><input type="number" id="refModelDialog_cplane_ul_advance72"></td>
+                <td><label for="refModelDialog_cplane_ul_advance72">&micro;s</label></td>
+            </tr>
+            <tr>
+                <td><label for="refModelDialog_cplane_dl_advance72">C-Plane DL 7-2 advance:</label></td>
+                <td><input type="number" id="refModelDialog_cplane_dl_advance72"></td>
+                <td><label for="refModelDialog_cplane_dl_advance72">&micro;s</label></td>
+            </tr>
+            <tr>
+                <td><label for="refModelDialog_uplane_ul_advance72">U-Plane UL 7-2 advance:</label></td>
+                <td><input type="number" id="refModelDialog_uplane_ul_advance72"></td>
+                <td><label for="refModelDialog_uplane_ul_advance72">&micro;s</label></td>
+            </tr>
+            <tr>
+                <td><label for="refModelDialog_uplane_dl_advance72">U-Plane DL 7-2 advance:</label></td>
+                <td><input type="number" id="refModelDialog_uplane_dl_advance72"></td>
+                <td><label for="refModelDialog_uplane_dl_advance72">&micro;s</label></td>
+            </tr>
+            <tr><td><br></td></tr>
+            <tr>
+                <td><label for="refModelDialog_cplane_ul_advance73">C-Plane UL 7-3 advance:</label></td>
+                <td><input type="number" id="refModelDialog_cplane_ul_advance73"></td>
+                <td><label for="refModelDialog_cplane_ul_advance73">&micro;s</label></td>
+            </tr>
+            <tr>
+                <td><label for="refModelDialog_cplane_dl_advance73">C-Plane DL 7-3 advance:</label></td>
+                <td><input type="number" id="refModelDialog_cplane_dl_advance73"></td>
+                <td><label for="refModelDialog_cplane_dl_advance73">&micro;s</label></td>
+            </tr>
+            <tr>
+                <td><label for="refModelDialog_uplane_ul_advance73">U-Plane UL 7-3 advance:</label></td>
+                <td><input type="number" id="refModelDialog_uplane_ul_advance73"></td>
+                <td><label for="refModelDialog_uplane_ul_advance73">&micro;s</label></td>
+            </tr>
+            <tr>
+                <td><label for="refModelDialog_uplane_dl_advance73">U-Plane DL 7-3 advance:</label></td>
+                <td><input type="number" id="refModelDialog_uplane_dl_advance73"></td>
+                <td><label for="refModelDialog_uplane_dl_advance73">&micro;s</label></td>
+            </tr>
+        </table>
+    </details>
+
+    <details>
+        <summary>Subcells</summary>
+        <table>
+            <tr>
+                <td><label for="refModelDialog_subcells_count">Subcell Count:</label></td>
+                <td><input type="number" id="refModelDialog_subcells_count" min="1" value="0" style="width: 35px" onchange="refModelDialog_subcells_updateCount()"></td>
+            </tr>
+
+            <tr>
+                <td>
+                    <table id="refModelDialog_subcells_table">
+
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </details>
+
+    <table>
+        <tr>
+            <td><label for="refModelDialog_genSplit72">Generate Split72:</label></td>
+            <td><input type="checkbox" id="refModelDialog_genSplit72"></td>
+        </tr>
+        <tr>
+            <td><label for="refModelDialog_genProxy73_72">Generate Proxy73_72:</label></td>
+            <td><input type="checkbox" id="refModelDialog_genProxy73_72"></td>
+        </tr>
+    </table>
+
+    <div class="separator"></div>
+    <div class="button_dialog">
+        <input type="button" value="Generate" onclick="refModelDialog_generate()">
+    </div>
+</bba-ref-model-dialog>
+
+<!-- THIRD-PARTY -->
+<script src="libs/zip.min.js" type="text/javascript"></script>
+<script src="libs/pako_inflate.min.js" type="text/javascript"></script>
+<script src='libs/decimal.js' type="text/javascript"></script>
+<script src='libs/plotly-2.32.0.min.js' type="text/javascript"></script>
+
+<script src="js/core.js"></script>
+<script src="js/config.js"></script>
+<script src="js/statistics.js"></script>
+<script src="js/core/buffer.js"></script>
+
+<!-- UTILITIES -->
+<script src="js/utils/5GMaxUtils.js"></script>
+<script src="js/utils/arithmeticUtils.js"></script>
+<script src="js/utils/filterUtils.js"></script>
+<script src="js/utils/ecpriUtils.js"></script>
+<script src="js/utils/conversionUtils.js"></script>
+<script src="js/utils/formatUtils.js"></script>
+<script src="js/utils/graph2dUtils.js"></script>
+<script src="js/utils/iqDecoder.js"></script>
+<script src="js/utils/l2l1Utils.js"></script>
+<script src="js/utils/packetsUtils.js"></script>
+<script src="js/utils/tableBuilder.js"></script>
+
+<!-- eCoG/Generator -->
+<script src="js/generator/ecog_72e.js"></script>
+<script src="js/generator/ecog.js"></script>
+
+<!-- PROTOCOLS -->
+<script src="js/protocols/ecpri/definitions.js"></script>
+<script src="js/ecpri/analyze.js"></script>
+<script src="js/protocols/ecpri/ecpriSectionExtensions.js"></script>
+<script src="js/protocols/ecpri/ecpriSections.js"></script>
+<script src="js/protocols/ecpri/extraInfo.js"></script>
+<script src="js/ecpri/ecpri.js"></script>
+<script src="js/ecpri/pm_file.js"></script>
+
+<script src="js/beamplotting.js"></script>
+<script src="js/cpri/cpri.js"></script>
+
+<!-- <script src="js/protocols/ecpri/ecpri.js"></script> -->
+<script src="js/protocols/ethernet/ethernet.js"></script>
+<script src="js/protocols/bip/analyze.js"></script>
+<script src="js/protocols/bip/bip.js"></script>
+<script src="js/protocols/ip/ipv4.js"></script>
+<script src="js/protocols/ip/ipv6.js"></script>
+<script src="js/protocols/ptp/ptp.js"></script>
+<script src="js/protocols/roe/roe.js"></script>
+
+<script src="js/l2l1.js"></script>
+
+<!-- FILE FORMATS -->
+<script src="js/fileFormats/general.js"></script>
+
+<script src="js/fileFormats/file_format_info.js"></script>
+<script src="js/fileFormats/json.js"></script>
+<script src="js/fileFormats/loki.js"></script>
+<script src="js/fileFormats/pcap_decode.js"></script>
+<script src="js/fileFormats/pcap_encode.js"></script>
+<script src="js/fileFormats/ims2_decoder.js"></script>
+<script src="js/fileFormats/l1radioSnapshot.js"></script>
+<script src="js/fileFormats/lonerDDR4.js"></script>
+<script src="js/fileFormats/misc_formats.js"></script>
+<script src="js/fileFormats/testForAnia.js"></script>
+<script src="js/fileFormats/file_types.js"></script>
+
+<script src="js/nr/prach.js"></script>
+<script src="js/nr/pucch.js"></script>
+<script src="js/nr/pdcch.js"></script>
+<script src="js/nr/pdsch.js"></script>
+<script src="js/nr/pusch.js"></script>
+<script src="js/nr/csirs.js"></script>
+<script src="js/nr/srs.js"></script>
+<script src="js/nr/nr.js"></script>
+<script src="js/nr/algo.js"></script>
+<script src="js/nr/decode.js"></script>
+<script src="js/nr/analyze.js"></script>
+<script src="js/nr/PBCH.js"></script>
+<script src="js/nr/sss.js"></script>
+<script src="js/nr/pss.js"></script>
+<script src="js/nr/sib.js"></script>
+<script src="js/nr/dci.js"></script>
+<script src="js/nr/ccch.js"></script>
+
+<script src="js/modify.js"></script>
+
+<!-- LEGACY -->
+<script src="js/old_BBA/util.js"></script>
+<script src="js/old_BBA/dsp_complex_array.js"></script>
+<script src="js/old_BBA/dsp_fft.js"></script>
+<script src="js/old_BBA/dsp_matlab_vector.js"></script>
+<script src="js/old_BBA/dsp_matlab.js"></script>
+
+<!-- REF-MODEL 7-3 -->
+<script src="js/spec/config.js"></script>
+<script src="js/spec/frames.js"></script>
+<script src="js/spec/symbols.js"></script>
+<script src="js/spec/pcap_writer.js"></script>
+
+<script src="js/spec/ingress.js"></script>
+<script src="js/spec/app_table_mem.js"></script>
+<script src="js/spec/l2l1process.js"></script>
+
+<script src="js/spec/l1unit.js"></script>
+
+<script src="js/spec/UlData_PuschReceiveReq_stream.js"></script>
+<script src="js/spec/test_73_split_model.js"></script>
+
+<script src="js/UI/ActionClass.js"></script>
+<script src="js/UI/Actions.js"></script>
+
+<!-- WEB -->
+<script src="js/webUtils/graph2dWebWrapper.js"></script>
+<script src="js/web.js"></script>
+
+<script src="js/UI/customElements/graph2dElement.js"></script>
+
+<script src="js/UI/Dialog.js"></script>
+<script src="js/UI/dialogs/ColumnDetailsDialog.js"></script>
+<script src="js/UI/dialogs/IqTabDisplaySettingsDialog.js"></script>
+<script src="js/UI/dialogs/IqTabFiltersDialog.js"></script>
+<script src="js/UI/dialogs/GeneratorPBCHDialog.js"></script>
+<script src="js/UI/dialogs/Graph2dDialog.js"></script>
+<script src="js/UI/dialogs/FileTypeHelpDialog.js"></script>
+<script src="js/UI/dialogs/RefModelDialog.js"></script>
+<script src="js/UI/dialogs/PdschDecodeResultDialog.js"></script>
+<script src="js/UI/dialogs/AnalysisDialog.js"></script>
+<script src="js/UI/dialogs/SettingsDialog.js"></script>
+<script src="js/UI/dialogs/LogDialog.js"></script>
+<script src="js/UI/dialogs/ConfigDialog.js"></script>
+<script src="js/UI/dialogs/ModifyDialog.js"></script>
+<script src="js/UI/dialogs/AnalyzeDialog.js"></script>
+<script src="js/UI/dialogs/SaveDialog.js"></script>
+<script src="js/UI/dialogs/LoadDialog.js"></script>
+<script src="js/UI/dialogs/PrachDialog.js"></script>
+<script src="js/UI/dialogs/CellContextMenuDialog.js"></script>
+<script src="js/UI/dialogs/PacketDetailsDialog.js"></script>
+<script src="js/UI/dialogs/PacketsTabCompareDialog.js"></script>
+<script src="js/UI/dialogs/PacketsTabCustomizeDialog.js"></script>
+<script src="js/UI/dialogs/IqTabDblClickDialog.js"></script>
+
+<script src="js/packetsTab.js"></script>
+<script src="js/edit_packets.js"></script>
+
+<script src="js/iqTab/shader.js"></script>
+<script src="js/iqTab/shaders/blue.js"></script>
+<script src="js/iqTab/shaders/constAngle.js"></script>
+<script src="js/iqTab/shaders/constChannel.js"></script>
+<script src="js/iqTab/shaders/constHeat.js"></script>
+<script src="js/iqTab/shaders/constTime.js"></script>
+<script src="js/iqTab/shaders/constWhite.js"></script>
+
+<script src="js/iqTab/iqTabRegridCache.js"></script>
+<script src="js/iqTab/iqTabRegrid.js"></script>
+<script src="js/iqTab/iqTabConstellation.js"></script>
+<script src="js/iqTab/iqTabTimeConstelation.js"></script>
+<script src="js/iqTab/iqTabRendering.js"></script>
+<script src="js/iqTab/iqTabFFT.js"></script>
+<script src="js/iqTab/iqTabTime.js"></script>
+<script src="js/iqTab.js"></script>
+<!--    <script src="js/generatorTab.js"></script>-->
+<script src="js/generator/ecog_web.js"></script>
+<script src="js/5GMaxTab.js"></script>
+
+<script src="js/webUtils/extraInfoModal.js"></script>
+<script src="js/webUtils/webControlsUtil.js"></script>
+
+</body>
+</html>

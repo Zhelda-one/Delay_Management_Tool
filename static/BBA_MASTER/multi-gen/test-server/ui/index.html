@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Multi test server UI</title>
+    <link rel="stylesheet" href="./index.css" />
+  </head>
+  <body>
+    <div class="grouping grouping-flex-row grouping-main">
+      <div class="grouping-flex-col gapped p30">
+        <section id="run-grouping" class="grouping gapped">
+          <h1 class="mono">Run tests</h1>
+          <label class="mono block">
+            L2L1 version
+            <input id="l2l1-version-input" class="mono block" type="text" value="5G21A_FB2010_061"
+                   /></label>
+          <button id="l2l1-run-button" class="mono block btn">Run tests</button>
+          <p class="mono error" id="run-error" hidden></p>
+        </section>
+
+        <section id="dev-grouping" class="grouping grouping-flex-col gapped" style="flex-grow: 1;">
+          <h1 class="mono">Development</h1>
+          <section class="grouping gapped">
+            <h1 class="mono">Log</h1>
+            <div id="log-destination"></div>
+          </section>
+          <section class="grouping gapped">
+            <h1 class="mono">Panel</h1>
+            <button id="dev-panel-button" class="block icon-container">
+              <img src="./warning-icon.svg" class="icon" />
+              <span class="mono">Open the <b>dev panel</b></span>
+            </button>
+          </section>
+        </section>
+      </div>
+
+      <div class="grouping-flex-col gapped p70">
+        <section class="grouping grouping-flex-col gapped" id="test-results-grouping" style="flex-grow: 1;">
+          <h1 class="mono">Test results</h1>
+          <div class="grouping-flex-row gapped expand m0">
+            <section class="grouping grouping-flex-col gapped" id="test-result-dashboard">
+              <h1 class="mono block">Dashboard</h1>
+              <div id="test-results-dashboard" class="dashboard"></div>
+            </section>
+            <section class="grouping grouping-flex-col gapped" id="test-result-details">
+              <h1 class="mono">Details</h1>
+              <div id="test-result-details-contents" class="mono grouping-flex-col expand">Nothing selected</div>
+            </section>
+          </div>
+        </section>
+      </div>
+    </div>
+    <script src="./rib.js" type="text/javascript"></script>
+    <script src="./rib-dsl.js" type="text/javascript"></script>
+    <script src="./index.js" type="text/javascript"></script>
+  </body>
+</html>

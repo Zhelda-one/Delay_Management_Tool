@@ -1,0 +1,16 @@
+#fileTypeHelpDialog_table {
+    border-collapse: collapse;
+    text-align: center;
+}
+
+#fileTypeHelpDialog_table th,
+#fileTypeHelpDialog_table td {
+    border: 1px solid black;
+    padding: 5px;
+}
+
+.pretty-select {
+    cursor: pointer;
+    border-radius: 5px;
+    padding: 2px;
+}

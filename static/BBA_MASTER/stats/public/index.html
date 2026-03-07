@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+    <TITLE> Usage statistics </TITLE>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="styles.css">
+        <script src="libs/chart.js"></script>
+        <script src="scripts/handleRequests.js"></script>
+        <script src="scripts/drawCharts.js"></script>
+        <script src="scripts/generateDatasets.js"></script>
+        <script src="scripts/generateCharts.js"></script>
+        <script src="scripts/generateTable.js"></script>
+        <script src="scripts/handleLoad.js"></script>
+    </head>
+    <body>
+
+    <header>
+        <h2>New Baseband analyzer statistics page</h2>
+        <button onclick="basicStatistics()">Generate basic statistics</button>
+        <button onclick="extendedStatistics()">Generate extended statistics</button>
+        <button onclick="usageStatistics()">Generate usage statistics</button>
+        <button onclick="performanceStatistics()">Generate performance statistics</button>
+        <button onclick="softwareStatistics()">Generate user software statistics</button>
+        <button onclick="telemetryStatistics()">Generate telemetry statistics</button>
+    </header>
+    <div id="basicStats"></div>
+    <div id="charts"></div>
+
+    </body>
+
+</html>

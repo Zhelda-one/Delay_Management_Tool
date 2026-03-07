@@ -1,0 +1,88 @@
+[Packet]
+typedef = "struct"
+
+[Packet.timestamp]
+offset = 0
+type = "u32"
+
+[Packet.timestampFrac]
+offset = 4
+type = "u32"
+
+[Packet.length]
+offset = 8
+type = "u32"
+
+[Packet.origLength]
+offset = 12
+type = "u32"
+
+[Packet.data]
+offset = 16
+type = "[u8]"
+length = "length"
+
+[Packet.FCS]
+follow = "data"
+type = "[u16]"
+optional = { op = "!=", lhs = "PCAP.fcsBit", rhs = "0" }
+length = "PCAP.fcsLength"
+
+[PCAP]
+typedef = "struct"
+
+[PCAP.magic]
+offset = 0
+type = "u32"
+
+[PCAP.littleEndian]
+synthetic = true
+type = "b8"
+value = { op = "=", lhs = "magic", rhs = "0xD4C3B2A1" }
+set_decoder_param = { param = "little_endian", value = { op = "id", value = "$self" }, propagate = true }
+
+[PCAP.majorVersion]
+offset = 4
+type = "u16"
+
+[PCAP.minorVersion]
+offset = 6
+type = "u16"
+
+[PCAP.reserved1]
+offset = 8
+reserved = true
+type = "u32"
+
+[PCAP.reserved2]
+offset = 12
+reserved = true
+type = "u32"
+
+[PCAP.snapLen]
+offset = 16
+type = "u32"
+
+[PCAP.fcsLength]
+offset = 20
+type = "u3"
+
+[PCAP.fcsBit]
+bit_offset = 163
+type = "u1"
+
+[PCAP.headerZeroBits]
+bit_offset = 164
+type = "u12"
+# TODO: this should be uncommented once the JS code for this can be generetad properly
+# ensure = "zero"
+skip = true
+
+[PCAP.linkType]
+offset = 22
+type = "u16"
+
+[PCAP.packets]
+offset = 24
+type = "[Packet]"
+length = "$fill"

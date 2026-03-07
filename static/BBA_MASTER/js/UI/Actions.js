@@ -1,0 +1,1 @@
+const Action_OnColumnDetailsDialogRefresh = new Action();

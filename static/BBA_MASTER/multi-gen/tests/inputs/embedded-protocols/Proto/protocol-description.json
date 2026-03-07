@@ -1,0 +1,8 @@
+{
+    "general": {
+        "size_unit": "octet",
+        "maximum_message_size": 64,
+        "minimum_message_size": 1,
+        "endianness": "little"
+    }
+}
