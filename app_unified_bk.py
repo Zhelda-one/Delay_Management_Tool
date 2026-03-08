@@ -23,17 +23,12 @@ except Exception:
 app = Flask(__name__)
 app.secret_key = os.environ.get('FLASK_SECRET_KEY', 'dev-only-secret')
 
-TIMING_APP_URL = os.environ.get('TIMING_APP_URL', '').strip()
+TIMING_APP_URL = os.environ.get('TIMING_APP_URL', 'http://192.168.1.237:5001')
 
-def get_timing_app_url(req_host: str | None = None) -> str:
+def get_timing_app_url() -> str:
     url = (os.environ.get('TIMING_APP_URL') or TIMING_APP_URL or '').strip()
     if not url:
-        host = (req_host or '').strip()
-        if host:
-            host = host.split(':', 1)[0]
-        else:
-            host = '127.0.0.1'
-        url = f'http://{host}:5001'
+        url = TIMING_APP_URL
     if not re.match(r'^https?://', url):
         url = 'http://' + url.lstrip('/')
     return url.rstrip('/')
@@ -1243,7 +1238,7 @@ def current_params(src, mode='dl'):
 # ------------------------- 라우트 -------------------------
 @app.route("/")
 def index():
-    return render_template("index_main.html", timing_url=get_timing_app_url())
+    return render_template("index_main.html")
 
 @app.route("/bba/")
 def bba_index():
@@ -1637,7 +1632,7 @@ def ul_report_pdf():
 # ------------------------- Timing Wrapper 라우트 -------------------------
 @app.route("/timing/")
 def timing_index():
-    timing_url = get_timing_app_url(request.host)
+    timing_url = get_timing_app_url()
     return render_template(
         "timing_embed.html",
         timing_url=timing_url,
@@ -1651,9 +1646,7 @@ def profile_index():
     error = session.get('profile_error', None)
     return render_template("index_profile.html", results=results, error=error)
 
-
 @app.route("/profile/analyze", methods=["POST"])
-@app.route("/profile/analyze/", methods=["POST"])
 def profile_analyze():
     if 'file' not in request.files:
         return jsonify({'error': 'No file uploaded'}), 400
@@ -1688,7 +1681,6 @@ def profile_analyze():
             os.remove(temp_path)
 
 @app.route("/profile/export", methods=["POST"])
-@app.route("/profile/export/", methods=["POST"])
 def profile_export():
     results = session.get('profile_results', None)
     if not results:
@@ -1736,4 +1728,5 @@ def profile_clear():
     session.pop('profile_error', None)
     return redirect(url_for('profile_index'))
 if __name__ == "__main__":
+    app.run(debug=False, host='0.0.0.0', port=5000)
     app.run(debug=False, host='0.0.0.0', port=5000)

@@ -49,10 +49,7 @@ def _ensure_state():
     if "cal_mode" not in st.session_state:
         st.session_state.cal_mode = CAL_NONE
 
-    if "calibration_offsets_by_mode" not in st.session_state:
-        st.session_state.calibration_offsets_by_mode = default_calibration_field_tokens()
-
-def _num_input(key: str, label: str, default: float, help_text: str | None = None) -> float:
+def _num_input(key: str, label: str, default: float, help_text: str | None = None, *, disabled: bool = False) -> float:
     """
     Streamlit number_input 안정화:
     - key가 없으면 default로 초기화
@@ -286,7 +283,7 @@ with st.sidebar:
     st.divider()
 
     st.header("3) RU/DU Config (Master)")
-    st.caption("Import the downloaded delay row file (CSV/XLSX), then edit each RU/DU time value manually if needed.")
+    st.caption("Import the downloaded delay row file (CSV/XLSX). Only t12_max/min are editable.")
 
     cfg = dict(st.session_state.cfg)
 
@@ -327,13 +324,13 @@ with st.sidebar:
         except Exception as e:
             st.error(str(e))
 
-    cfg["t2a_min_up"] = _num_input("cfg_t2a_min_up", "t2a_min_up (E4)", cfg["t2a_min_up"])
-    cfg["t2a_max_up"] = _num_input("cfg_t2a_max_up", "t2a_max_up (E5)", cfg["t2a_max_up"])
-    cfg["tcp_adv_dl"] = _num_input("cfg_tcp_adv_dl", "tcp_adv_dl (E8)", cfg["tcp_adv_dl"])
-    cfg["ta3_min"] = _num_input("cfg_ta3_min", "ta3_min (E9)", cfg["ta3_min"])
-    cfg["ta3_max"] = _num_input("cfg_ta3_max", "ta3_max (E10)", cfg["ta3_max"])
-    cfg["t2a_min_cp_ul"] = _num_input("cfg_t2a_min_cp_ul", "t2a_min_cp_ul (E11)", cfg["t2a_min_cp_ul"])
-    cfg["t2a_max_cp_ul"] = _num_input("cfg_t2a_max_cp_ul", "t2a_max_cp_ul (E12)", cfg["t2a_max_cp_ul"])
+    cfg["t2a_min_up"] = _num_input("cfg_t2a_min_up", "t2a_min_up (E4)", cfg["t2a_min_up"], disabled=True)
+    cfg["t2a_max_up"] = _num_input("cfg_t2a_max_up", "t2a_max_up (E5)", cfg["t2a_max_up"], disabled=True)
+    cfg["tcp_adv_dl"] = _num_input("cfg_tcp_adv_dl", "tcp_adv_dl (E8)", cfg["tcp_adv_dl"], disabled=True)
+    cfg["ta3_min"] = _num_input("cfg_ta3_min", "ta3_min (E9)", cfg["ta3_min"], disabled=True)
+    cfg["ta3_max"] = _num_input("cfg_ta3_max", "ta3_max (E10)", cfg["ta3_max"], disabled=True)
+    cfg["t2a_min_cp_ul"] = _num_input("cfg_t2a_min_cp_ul", "t2a_min_cp_ul (E11)", cfg["t2a_min_cp_ul"], disabled=True)
+    cfg["t2a_max_cp_ul"] = _num_input("cfg_t2a_max_cp_ul", "t2a_max_cp_ul (E12)", cfg["t2a_max_cp_ul"], disabled=True)
 
     if "t12_max_ui" not in st.session_state:
         st.session_state["t12_max_ui"] = abs(float(cfg["t12_max"]))

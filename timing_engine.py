@@ -39,12 +39,12 @@ def default_calibration_field_tokens() -> Dict[str, Dict[str, str]]:
     return {
         CAL_NONE: {k: "0" for k in REAL_FIELD_KEYS},
         CAL_15_30: {
-            **{k: "0" for k in REAL_FIELD_KEYS[:8]},
-            **{k: "E17" for k in REAL_FIELD_KEYS[8:]},
+            **{k: "0" for k in REAL_FIELD_KEYS[:6]},
+            **{k: "E17" for k in REAL_FIELD_KEYS[6:]},
         },
         CAL_40: {
-            **{k: "0" for k in REAL_FIELD_KEYS[:8]},
-            **{k: "E16" for k in REAL_FIELD_KEYS[8:]},
+            **{k: "0" for k in REAL_FIELD_KEYS[:6]},
+            **{k: "E16" for k in REAL_FIELD_KEYS[6:]},
         },
         CAL_MINIMUM: {k: "E16" for k in REAL_FIELD_KEYS},
     }
@@ -236,6 +236,32 @@ def compute(delay_df: pd.DataFrame, cfg: Dict[str, float], cal_mode: str) -> Mas
         oru_vals[7] + field_offsets["F45_real_Ta3_max_ul"],
     ]
 
+    # Calibration offset selection (항목 단위)
+    field_offsets = _calibration_offsets_by_field(cal_mode, E16, E17, cfg.get("calibration_offsets_by_mode  "))
+
+    # Master!F30:F37 (ODU real) / F38:F45 (ORU real)
+    # F30_37 = [v + odu_off for v in odu_vals]
+    # F38_45 = [v + oru_off for v in oru_vals]
+    F30_37 = [
+        odu_vals[0] + field_offsets["F30_real_T1a_max_up"],
+        odu_vals[1] + field_offsets["F31_real_T1a_min_up"],
+        odu_vals[2] + field_offsets["F32_real_T1a_max_cp_dl"],
+        odu_vals[3] + field_offsets["F33_real_T1a_min_cp_dl"],
+        odu_vals[4] + field_offsets["F34_real_T1a_max_cp_ul"],
+        odu_vals[5] + field_offsets["F35_real_T1a_min_cp_ul"],
+        odu_vals[6] + field_offsets["F36_real_Ta4_min_ul"],
+        odu_vals[7] + field_offsets["F37_real_Ta4_max_ul"],
+    ]
+    F38_45 = [
+        oru_vals[0] + field_offsets["F38_real_T2a_max_up"],
+        oru_vals[1] + field_offsets["F39_real_T2a_min_up"],
+        oru_vals[2] + field_offsets["F40_real_T2a_max_cp_dl"],
+        oru_vals[3] + field_offsets["F41_real_T2a_min_cp_dl"],
+        oru_vals[4] + field_offsets["F42_real_T2a_max_cp_ul"],
+        oru_vals[5] + field_offsets["F43_real_T2a_min_cp_ul"],
+        oru_vals[6] + field_offsets["F44_real_Ta3_min_ul"],
+        oru_vals[7] + field_offsets["F45_real_Ta3_max_ul"],
+    ]
     # Master dict (필요한 것만 담기 — 나중에 더 확장 가능)
     master = {
         "E4_t2a_min_up": E4,
