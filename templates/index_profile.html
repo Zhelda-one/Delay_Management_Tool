@@ -123,7 +123,7 @@
 
             document.getElementById('loading').classList.remove('hidden');
 
-            fetch('/profile/analyze', {
+            fetch("{{ url_for('profile_analyze') }}", {
                 method: 'POST',
                 body: formData
             })

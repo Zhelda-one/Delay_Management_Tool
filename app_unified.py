@@ -1646,7 +1646,45 @@ def profile_index():
     error = session.get('profile_error', None)
     return render_template("index_profile.html", results=results, error=error)
 
+
+@app.route("/profile/analyze", methods=["POST"])
+@app.route("/profile/analyze/", methods=["POST"])
+def profile_analyze():
+    if 'file' not in request.files:
+        return jsonify({'error': 'No file uploaded'}), 400
+
+    file = request.files['file']
+    if file.filename == '':
+        return jsonify({'error': 'No file selected'}), 400
+
+    temp_path = None
+    try:
+        with tempfile.NamedTemporaryFile(delete=False, suffix='.txt') as tmp:
+            temp_path = tmp.name
+        file.save(temp_path)
+
+        analysis_output = extract_delay_profile_data(temp_path)
+
+        if "error" in analysis_output:
+            session['profile_results'] = None
+            session['profile_error'] = analysis_output["error"]
+            session.modified = True
+            return jsonify({'success': False, 'error': analysis_output["error"]})
+
+        session['profile_results'] = analysis_output["data"]
+        session['profile_error'] = None
+        session.modified = True
+        return jsonify({'success': True, 'count': analysis_output["count"]})
+
+    except Exception as e:
+        return jsonify({'error': f'Analysis failed: {str(e)}'}), 500
+    finally:
+        if temp_path and os.path.exists(temp_path):
+            os.remove(temp_path)
+
+
 @app.route("/profile/export", methods=["POST"])
+@app.route("/profile/export/", methods=["POST"])
 def profile_export():
     results = session.get('profile_results', None)
     if not results:

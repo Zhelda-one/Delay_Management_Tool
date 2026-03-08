@@ -61,8 +61,7 @@ def _num_input(key: str, label: str, default: float, help_text: str | None = Non
         value=float(st.session_state[key]),
         help=help_text,
         format="%.2f",
-        step=0.01,
-        disabled=disabled,
+        step=0.01
     )
 
 
@@ -223,7 +222,7 @@ with st.sidebar:
 
     st.number_input("t12_max (µs) (enter positive)", key="t12_max_ui", format="%.2f", step=0.01)
     st.number_input("t12_min (µs) (enter positive)", key="t12_min_ui", format="%.2f", step=0.01)
-    
+
     cfg["t12_max"] = -abs(float(st.session_state["t12_max_ui"]))
     cfg["t12_min"] = -abs(float(st.session_state["t12_min_ui"]))
 
