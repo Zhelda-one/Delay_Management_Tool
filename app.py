@@ -8,13 +8,15 @@ import pandas as pd
 import streamlit as st
 from openpyxl import Workbook
 
-from constants import CAL_15_30, CAL_40, CAL_MINIMUM, CAL_NONE
+from constants import CAL_15_30, CAL_40, CAL_MINIMUM, CAL_NONE, CAL_MODES
 from io_excel import read_delay_upload_xlsx
 from timing_engine import (
     default_config,
     make_empty_delaydata,
     apply_upload_to_delaydata,
     compute,
+    default_calibration_field_tokens,
+    REAL_FIELD_KEYS,
 )
 
 st.set_page_config(page_title="Timing Web Tool", layout="wide")
@@ -100,6 +102,92 @@ def _read_profile_cfg_upload(file_obj) -> dict[str, float]:
         't2a_max_cp_ul': _to_float_micro(pick('t2a max cp ul', 't2a_max_cp_ul')),
     }
 
+def _calibration_tokens_df(tokens_by_mode: dict) -> pd.DataFrame:
+    rows = []
+    for field in REAL_FIELD_KEYS:
+        row = {"Field": field}
+        for mode in CAL_MODES:
+            row[mode] = tokens_by_mode.get(mode, {}).get(field, "0")
+        rows.append(row)
+    return pd.DataFrame(rows)
+
+
+def _normalize_token(v) -> str:
+    t = str(v).strip().upper()
+    if t in {"ZERO", "0.0", "0"}:
+        return "0"
+    if t in {"E16", "E17"}:
+        return t
+    raise ValueError(f"Invalid token '{v}'. Allowed: 0, E16, E17")
+
+
+def _tokens_by_mode_from_df(df: pd.DataFrame) -> dict:
+    out = {mode: {} for mode in CAL_MODES}
+    for _, row in df.iterrows():
+        field = str(row.get("Field", "")).strip()
+        if field not in REAL_FIELD_KEYS:
+            continue
+        for mode in CAL_MODES:
+            out[mode][field] = _normalize_token(row.get(mode, "0"))
+    return out
+
+
+def _build_real_range_debug(master: dict[str, float]) -> pd.DataFrame:
+    """real 값(F30~F45)이 기준 min/max 범위 안에 있는지 확인용 테이블 생성."""
+    checks = [
+        ("T1a UP", "E20_T1a_min_up", "E21_T1a_max_up", ["F30_real_T1a_max_up", "F31_real_T1a_min_up"]),
+        ("T1a CP DL", "E22_T1a_min_cp_dl", "E23_T1a_max_cp_dl", ["F32_real_T1a_max_cp_dl", "F33_real_T1a_min_cp_dl"]),
+        ("T1a CP UL", "E25_T1a_min_cp_ul", "E26_T1a_max_cp_ul", ["F34_real_T1a_max_cp_ul", "F35_real_T1a_min_cp_ul"]),
+        ("Ta4 UL", "E27_Ta4_min_ul", "E28_Ta4_max_ul", ["F36_real_Ta4_min_ul", "F37_real_Ta4_max_ul"]),
+    ]
+
+    # E-키 기반이 아닌 항목은 계산식으로 구성
+    computed_ranges = {
+        "F38_real_T2a_max_up": (-master["E5_t2a_max_up"], -master["E4_t2a_min_up"]),
+        "F39_real_T2a_min_up": (-master["E5_t2a_max_up"], -master["E4_t2a_min_up"]),
+        "F40_real_T2a_max_cp_dl": (-master["E7_t2a_max_cp_dl"], -master["E6_t2a_min_cp_dl"]),
+        "F41_real_T2a_min_cp_dl": (-master["E7_t2a_max_cp_dl"], -master["E6_t2a_min_cp_dl"]),
+        "F42_real_T2a_max_cp_ul": (-master["E12_t2a_max_cp_ul"], -master["E11_t2a_min_cp_ul"]),
+        "F43_real_T2a_min_cp_ul": (-master["E12_t2a_max_cp_ul"], -master["E11_t2a_min_cp_ul"]),
+        "F44_real_Ta3_min_ul": (master["E9_ta3_min"], master["E10_ta3_max"]),
+        "F45_real_Ta3_max_ul": (master["E9_ta3_min"], master["E10_ta3_max"]),
+    }
+
+    rows = []
+    for label, min_key, max_key, real_keys in checks:
+        lo = master.get(min_key)
+        hi = master.get(max_key)
+        if lo is None or hi is None:
+            continue
+        low, high = (lo, hi) if lo <= hi else (hi, lo)
+        for real_key in real_keys:
+            real_val = master.get(real_key)
+            status = "PASS" if real_val is not None and low <= real_val <= high else "OUT"
+            rows.append({
+                "Group": label,
+                "Expected Min": low,
+                "Real Key": real_key,
+                "Real Value": real_val,
+                "Expected Max": high,
+                "In Range": status,
+            })
+
+    for real_key, (lo, hi) in computed_ranges.items():
+        real_val = master.get(real_key)
+        low, high = (lo, hi) if lo <= hi else (hi, lo)
+        status = "PASS" if real_val is not None and low <= real_val <= high else "OUT"
+        rows.append({
+            "Group": "Derived",
+            "Expected Min": low,
+            "Real Key": real_key,
+            "Real Value": real_val,
+            "Expected Max": high,
+            "In Range": status,
+        })
+
+    return pd.DataFrame(rows)
+
+
 
 _ensure_state()
 
@@ -161,27 +249,44 @@ with st.sidebar:
         st.session_state.cal_mode = CAL_NONE
         st.rerun()
 
+    with st.expander("Calibration offset map (per mode / field)", expanded=False):
+        st.caption("Set each field token by mode. Allowed tokens: 0, E16, E17")
+        token_df = _calibration_tokens_df(st.session_state.calibration_offsets_by_mode)
+        edited_tokens_df = st.data_editor(
+            token_df,
+            use_container_width=True,
+            num_rows="fixed",
+            key="calibration_offsets_editor",
+            hide_index=True,
+            column_config={
+                "Field": st.column_config.TextColumn("Field", disabled=True),
+                CAL_NONE: st.column_config.SelectboxColumn(CAL_NONE, options=["0", "E16", "E17"]),
+                CAL_15_30: st.column_config.SelectboxColumn(CAL_15_30, options=["0", "E16", "E17"]),
+                CAL_40: st.column_config.SelectboxColumn(CAL_40, options=["0", "E16", "E17"]),
+                CAL_MINIMUM: st.column_config.SelectboxColumn(CAL_MINIMUM, options=["0", "E16", "E17"]),
+            },
+        )
+
+        c_apply, c_reset = st.columns(2)
+        if c_apply.button("Apply calibration offset map"):
+            try:
+                st.session_state.calibration_offsets_by_mode = _tokens_by_mode_from_df(edited_tokens_df)
+                st.success("Calibration offset map applied.")
+                st.rerun()
+            except Exception as e:
+                st.error(str(e))
+        if c_reset.button("Reset offset map", type="secondary"):
+            st.session_state.calibration_offsets_by_mode = default_calibration_field_tokens()
+            st.success("Calibration offset map reset to defaults.")
+            st.rerun()
+
     st.divider()
 
     st.header("3) RU/DU Config (Master)")
     st.caption("Import the downloaded delay row file (CSV/XLSX). Only t12_max/min are editable.")
 
-    # cfg UI inputs (key 기반)
     cfg = dict(st.session_state.cfg)
 
-    # # RU parameters
-    # cfg["t2a_min_up"] = _num_input("cfg_t2a_min_up", "t2a_min_up (E4)", cfg["t2a_min_up"])
-    # cfg["t2a_max_up"] = _num_input("cfg_t2a_max_up", "t2a_max_up (E5)", cfg["t2a_max_up"])
-    # cfg["tcp_adv_dl"] = _num_input("cfg_tcp_adv_dl", "tcp_adv_dl (E8)", cfg["tcp_adv_dl"])
-    # cfg["ta3_min"] = _num_input("cfg_ta3_min", "ta3_min (E9)", cfg["ta3_min"])
-    # cfg["ta3_max"] = _num_input("cfg_ta3_max", "ta3_max (E10)", cfg["ta3_max"])
-    # cfg["t2a_min_cp_ul"] = _num_input("cfg_t2a_min_cp_ul", "t2a_min_cp_ul (E11)", cfg["t2a_min_cp_ul"])
-    # cfg["t2a_max_cp_ul"] = _num_input("cfg_t2a_max_cp_ul", "t2a_max_cp_ul (E12)", cfg["t2a_max_cp_ul"])
-
-    # # DU parameters (Excel uses negative)
-    # # UI에서는 양수로 입력받고 내부에서 음수로 강제 (엑셀 방식과 동일하게 맞춤)
-    # st.number_input("t12_max (µs) (enter positive)", key="t12_max_ui", value=10.0)
-    # st.number_input("t12_min (µs) (enter positive)", key="t12_min_ui", value=5.0)
     profile_cfg_file = st.file_uploader(
         "Import profile delay row (Bandwidth/SCS/T2a... columns)",
         type=["csv", "xlsx"],
@@ -192,7 +297,19 @@ with st.sidebar:
     if profile_cfg_file is not None:
         try:
             imported_cfg = _read_profile_cfg_upload(profile_cfg_file)
-            if st.button("Apply imported RU config", type="primary"):
+            preview_df = pd.DataFrame([{
+                "t2a_min_up": imported_cfg["t2a_min_up"],
+                "t2a_max_up": imported_cfg["t2a_max_up"],
+                "tcp_adv_dl": imported_cfg["tcp_adv_dl"],
+                "ta3_min": imported_cfg["ta3_min"],
+                "ta3_max": imported_cfg["ta3_max"],
+                "t2a_min_cp_ul": imported_cfg["t2a_min_cp_ul"],
+                "t2a_max_cp_ul": imported_cfg["t2a_max_cp_ul"],
+            }])
+            st.caption("Imported values preview (µs):")
+            st.dataframe(preview_df, use_container_width=True)
+
+            if st.button("Apply imported RU/DU config", type="primary"):
                 cfg.update(imported_cfg)
                 st.session_state.cfg = cfg
                 st.session_state["cfg_t2a_min_up"] = cfg["t2a_min_up"]
@@ -202,7 +319,7 @@ with st.sidebar:
                 st.session_state["cfg_ta3_max"] = cfg["ta3_max"]
                 st.session_state["cfg_t2a_min_cp_ul"] = cfg["t2a_min_cp_ul"]
                 st.session_state["cfg_t2a_max_cp_ul"] = cfg["t2a_max_cp_ul"]
-                st.success("Imported RU config applied.")
+                st.success("Imported RU/DU config applied. You can edit each time value manually below.")
                 st.rerun()
         except Exception as e:
             st.error(str(e))
@@ -225,6 +342,7 @@ with st.sidebar:
 
     cfg["t12_max"] = -abs(float(st.session_state["t12_max_ui"]))
     cfg["t12_min"] = -abs(float(st.session_state["t12_min_ui"]))
+    cfg["calibration_offsets_by_mode"] = st.session_state.calibration_offsets_by_mode
 
     st.session_state.cfg = cfg
 
@@ -286,6 +404,11 @@ try:
     with st.expander("Master (debug view)"):
         master_df = pd.DataFrame([{"Key": k, "Value": v} for k, v in result.master.items()])
         st.dataframe(master_df, use_container_width=True)
+
+    with st.expander("Real vs Expected Range Check (debug)"):
+        st.caption("Check whether each real timing value is between expected min/max.")
+        range_debug_df = _build_real_range_debug(result.master)
+        st.dataframe(range_debug_df, use_container_width=True)
 
 except Exception as e:
     st.error(f"Compute failed: {e}")

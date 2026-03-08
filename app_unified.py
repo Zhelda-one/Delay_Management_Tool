@@ -23,12 +23,17 @@ except Exception:
 app = Flask(__name__)
 app.secret_key = os.environ.get('FLASK_SECRET_KEY', 'dev-only-secret')
 
-TIMING_APP_URL = os.environ.get('TIMING_APP_URL', 'http://127.0.0.1:8501')
+TIMING_APP_URL = os.environ.get('TIMING_APP_URL', '').strip()
 
-def get_timing_app_url() -> str:
+def get_timing_app_url(req_host: str | None = None) -> str:
     url = (os.environ.get('TIMING_APP_URL') or TIMING_APP_URL or '').strip()
     if not url:
-        url = 'http://127.0.0.1:8501'
+        host = (req_host or '').strip()
+        if host:
+            host = host.split(':', 1)[0]
+        else:
+            host = '127.0.0.1'
+        url = f'http://{host}:5001'
     if not re.match(r'^https?://', url):
         url = 'http://' + url.lstrip('/')
     return url.rstrip('/')
@@ -1632,7 +1637,7 @@ def ul_report_pdf():
 # ------------------------- Timing Wrapper 라우트 -------------------------
 @app.route("/timing/")
 def timing_index():
-    timing_url = get_timing_app_url()
+    timing_url = get_timing_app_url(request.host)
     return render_template(
         "timing_embed.html",
         timing_url=timing_url,
@@ -1681,7 +1686,6 @@ def profile_analyze():
     finally:
         if temp_path and os.path.exists(temp_path):
             os.remove(temp_path)
-
 
 @app.route("/profile/export", methods=["POST"])
 @app.route("/profile/export/", methods=["POST"])

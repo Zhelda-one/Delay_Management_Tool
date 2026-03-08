@@ -33,6 +33,7 @@ REAL_FIELD_KEYS = [
     "F45_real_Ta3_max_ul",
 ]
 
+
 def default_calibration_field_tokens() -> Dict[str, Dict[str, str]]:
     """모드별 F30~F45 항목에 대한 기본 오프셋 토큰(0/E16/E17)."""
     return {
@@ -138,6 +139,7 @@ def _calibration_offsets_by_field(
         out[field] = _resolve_offset_token(token, E16, E17)
     return out
 
+
 @dataclass(frozen=True)
 class MasterResult:
     master: Dict[str, float]
@@ -204,29 +206,35 @@ def compute(delay_df: pd.DataFrame, cfg: Dict[str, float], cal_mode: str) -> Mas
     odu_vals = _get_delay_block(delay_df, "ODU")  # 8
     oru_vals = _get_delay_block(delay_df, "ORU")  # 8
 
-    # # Calibration offset selection (엑셀 버튼 동작을 로직화)
-    # # 기본(엑셀 기본 수식): ODU는 +E16, ORU는 +E17
-    # odu_off = E16
-    # oru_off = E17
+    # Calibration offset selection (항목 단위)
+    field_offsets = _calibration_offsets_by_field(
+        cal_mode,
+        E16,
+        E17,
+        cfg.get("calibration_offsets_by_mode"),
+    )
 
-    # if cal_mode == CAL_NONE:
-    #     # Module8: 보정 없음 (ODU/ORU 모두 +0)
-    #     odu_off = 0.0
-    #     oru_off = 0.0
-    # elif cal_mode == CAL_15_30:
-    #     odu_off = 0.0
-    #     oru_off = E17
-    #     pass
-    # elif cal_mode == CAL_40:
-    #     # Module6: ORU도 +E16
-    #     odu_off= 0.0
-    #     oru_off = E16
-    # elif cal_mode == CAL_MINIMUM:
-    #     # Module7: 전부 +E16
-    #     odu_off = E16
-    #     oru_off = E16
-    # else:
-    #     raise ValueError(f"Unknown cal_mode: {cal_mode}")
+    # Master!F30:F37 (ODU real) / F38:F45 (ORU real)
+    F30_37 = [
+        odu_vals[0] + field_offsets["F30_real_T1a_max_up"],
+        odu_vals[1] + field_offsets["F31_real_T1a_min_up"],
+        odu_vals[2] + field_offsets["F32_real_T1a_max_cp_dl"],
+        odu_vals[3] + field_offsets["F33_real_T1a_min_cp_dl"],
+        odu_vals[4] + field_offsets["F34_real_T1a_max_cp_ul"],
+        odu_vals[5] + field_offsets["F35_real_T1a_min_cp_ul"],
+        odu_vals[6] + field_offsets["F36_real_Ta4_min_ul"],
+        odu_vals[7] + field_offsets["F37_real_Ta4_max_ul"],
+    ]
+    F38_45 = [
+        oru_vals[0] + field_offsets["F38_real_T2a_max_up"],
+        oru_vals[1] + field_offsets["F39_real_T2a_min_up"],
+        oru_vals[2] + field_offsets["F40_real_T2a_max_cp_dl"],
+        oru_vals[3] + field_offsets["F41_real_T2a_min_cp_dl"],
+        oru_vals[4] + field_offsets["F42_real_T2a_max_cp_ul"],
+        oru_vals[5] + field_offsets["F43_real_T2a_min_cp_ul"],
+        oru_vals[6] + field_offsets["F44_real_Ta3_min_ul"],
+        oru_vals[7] + field_offsets["F45_real_Ta3_max_ul"],
+    ]
 
     # Calibration offset selection (항목 단위)
     field_offsets = _calibration_offsets_by_field(cal_mode, E16, E17, cfg.get("calibration_offsets_by_mode  "))
