@@ -38,12 +38,12 @@ def default_calibration_field_tokens() -> Dict[str, Dict[str, str]]:
     return {
         CAL_NONE: {k: "0" for k in REAL_FIELD_KEYS},
         CAL_15_30: {
-            **{k: "0" for k in REAL_FIELD_KEYS[:8]},
-            **{k: "E17" for k in REAL_FIELD_KEYS[8:]},
+            **{k: "0" for k in REAL_FIELD_KEYS[:6]},
+            **{k: "E17" for k in REAL_FIELD_KEYS[6:]},
         },
         CAL_40: {
-            **{k: "0" for k in REAL_FIELD_KEYS[:8]},
-            **{k: "E16" for k in REAL_FIELD_KEYS[8:]},
+            **{k: "0" for k in REAL_FIELD_KEYS[:6]},
+            **{k: "E16" for k in REAL_FIELD_KEYS[6:]},
         },
         CAL_MINIMUM: {k: "E16" for k in REAL_FIELD_KEYS},
     }
@@ -119,13 +119,14 @@ def _calibration_offsets_by_field(
     - 기본값은 기존 모드 동작과 동일
     - custom_tokens_by_mode를 전달하면 모드/필드별로 0/E16/E17 토큰을 세부 적용
     """
-    if custom_tokens_by_mode is None:
-        tokens_by_mode = default_calibration_field_tokens()
-    else:
-        tokens_by_mode = {
-            mode: {k: str(v) for k, v in vals.items()}
-            for mode, vals in custom_tokens_by_mode.items()
-        }
+    tokens_by_mode = default_calibration_field_tokens()
+    if custom_tokens_by_mode is not None:
+        for mode, vals in custom_tokens_by_mode.items():
+            if mode not in tokens_by_mode:
+                continue
+            for k, v in vals.items():
+                if k in REAL_FIELD_KEYS:
+                    tokens_by_mode[mode][k] = str(v)
 
     mode_tokens = tokens_by_mode.get(cal_mode)
     if mode_tokens is None:
@@ -136,52 +137,6 @@ def _calibration_offsets_by_field(
         token = mode_tokens.get(field, "0")
         out[field] = _resolve_offset_token(token, E16, E17)
     return out
-
-def _calibration_offsets_by_field(cal_mode: str, E16: float, E17: float) -> Dict[str, float]:
-    """
-    F30~F45 각 항목별 calibration offset을 반환.
-    기존 ODU/ORU 블록 단위 로직과 동일한 결과를 유지하면서,
-    항목 단위로 세분화해서 모드별 보정값을 관리할 수 있게 함.
-    """
-    if cal_mode == CAL_NONE:
-        base_odu_off = 0.0
-        base_oru_off = 0.0
-    elif cal_mode == CAL_15_30:
-        base_odu_off = 0.0
-        base_oru_off = 0.0
-        base_odu_on_2 = E17
-        base_oru_on_2 = E17
-    elif cal_mode == CAL_40:
-        base_odu_off = 0.0
-        base_oru_off = 0.0
-        base_odu_on_1 = E16
-        base_oru_on_1 = E16
-    elif cal_mode == CAL_MINIMUM:
-        base_odu_off = 0.0
-        base_oru_off = 0.0
-        base_odu_on_1 = E16
-        base_oru_on_1 = E16
-    else:
-        raise ValueError(f"Unknown cal_mode: {cal_mode}")
-
-    return {
-        "F30_real_T1a_max_up": base_odu_off,
-        "F31_real_T1a_min_up": base_odu_off,
-        "F32_real_T1a_max_cp_dl": base_odu_off,
-        "F33_real_T1a_min_cp_dl": base_odu_off,
-        "F34_real_T1a_max_cp_ul": base_odu_off,
-        "F35_real_T1a_min_cp_ul": base_odu_off,
-        "F36_real_Ta4_min_ul": base_odu_off,
-        "F37_real_Ta4_max_ul": base_odu_off,
-        "F38_real_T2a_max_up": base_oru_off,
-        "F39_real_T2a_min_up": base_oru_off,
-        "F40_real_T2a_max_cp_dl": base_oru_off,
-        "F41_real_T2a_min_cp_dl": base_oru_off,
-        "F42_real_T2a_max_cp_ul": base_oru_off,
-        "F43_real_T2a_min_cp_ul": base_oru_off,
-        "F44_real_Ta3_min_ul": base_oru_off,
-        "F45_real_Ta3_max_ul": base_oru_off,
-    }
 
 @dataclass(frozen=True)
 class MasterResult:
