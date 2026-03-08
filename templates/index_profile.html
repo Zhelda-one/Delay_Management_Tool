@@ -48,6 +48,21 @@
             <div class="p-4 border-b border-slate-100 bg-slate-50 flex justify-between items-center">
                 <h3 class="font-semibold text-slate-700">Extracted Profiles ({{ results|length }})</h3>
             </div>
+            <div class="p-4 border-b border-slate-100 bg-white">
+                <form action="{{ url_for('profile_export') }}" method="post" class="flex flex-col md:flex-row gap-3 md:items-end">
+                    <div class="w-full md:w-80">
+                        <label for="bandwidth" class="block text-sm font-medium text-slate-700 mb-2">Select bandwidth to download</label>
+                        <select id="bandwidth" name="bandwidth" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm">
+                            {% for row in results %}
+                            <option value="{{ row.bandwidth }}">{{ row.bandwidth }} (SCS: {{ row.scs }})</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <button type="submit" class="nokia-blue nokia-hover text-white px-5 py-2 rounded-lg font-medium transition shadow-sm w-full md:w-auto">
+                        Download Selected Bandwidth Row (CSV)
+                    </button>
+                </form>
+            </div>
             <div class="overflow-x-auto">
                 <table class="w-full text-sm text-left text-slate-600">
                     <thead class="text-xs text-slate-700 uppercase bg-slate-100">
@@ -108,7 +123,7 @@
 
             document.getElementById('loading').classList.remove('hidden');
 
-            fetch('/profile/analyze', {
+            fetch("{{ url_for('profile_analyze') }}", {
                 method: 'POST',
                 body: formData
             })

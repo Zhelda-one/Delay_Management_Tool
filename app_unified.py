@@ -23,12 +23,17 @@ except Exception:
 app = Flask(__name__)
 app.secret_key = os.environ.get('FLASK_SECRET_KEY', 'dev-only-secret')
 
-TIMING_APP_URL = os.environ.get('TIMING_APP_URL', 'http://192.168.1.237:5001')
+TIMING_APP_URL = os.environ.get('TIMING_APP_URL', '').strip()
 
-def get_timing_app_url() -> str:
+def get_timing_app_url(req_host: str | None = None) -> str:
     url = (os.environ.get('TIMING_APP_URL') or TIMING_APP_URL or '').strip()
     if not url:
-        url = TIMING_APP_URL
+        host = (req_host or '').strip()
+        if host:
+            host = host.split(':', 1)[0]
+        else:
+            host = '127.0.0.1'
+        url = f'http://{host}:5001'
     if not re.match(r'^https?://', url):
         url = 'http://' + url.lstrip('/')
     return url.rstrip('/')
@@ -1632,7 +1637,7 @@ def ul_report_pdf():
 # ------------------------- Timing Wrapper 라우트 -------------------------
 @app.route("/timing/")
 def timing_index():
-    timing_url = get_timing_app_url()
+    timing_url = get_timing_app_url(request.host)
     return render_template(
         "timing_embed.html",
         timing_url=timing_url,
@@ -1647,6 +1652,7 @@ def profile_index():
     return render_template("index_profile.html", results=results, error=error)
 
 @app.route("/profile/analyze", methods=["POST"])
+@app.route("/profile/analyze/", methods=["POST"])
 def profile_analyze():
     if 'file' not in request.files:
         return jsonify({'error': 'No file uploaded'}), 400
@@ -1679,6 +1685,49 @@ def profile_analyze():
     finally:
         if temp_path and os.path.exists(temp_path):
             os.remove(temp_path)
+
+@app.route("/profile/export", methods=["POST"])
+@app.route("/profile/export/", methods=["POST"])
+def profile_export():
+    results = session.get('profile_results', None)
+    if not results:
+        return jsonify({'error': 'No profile results to export'}), 400
+
+    selected_bandwidth = (request.form.get('bandwidth') or '').strip()
+    if not selected_bandwidth:
+        return jsonify({'error': 'Bandwidth is required'}), 400
+
+    selected_row = next((row for row in results if str(row.get('bandwidth', '')).strip() == selected_bandwidth), None)
+    if not selected_row:
+        return jsonify({'error': 'Selected bandwidth was not found'}), 400
+
+    export_row = {
+        'Bandwidth': selected_row.get('bandwidth', ''),
+        'SCS': selected_row.get('scs', ''),
+        'T2a Min Up': selected_row.get('t2a-min-up', 'N/A'),
+        'T2a Max Up': selected_row.get('t2a-max-up', 'N/A'),
+        'T2a Min CP DL': selected_row.get('t2a-min-cp-dl', 'N/A'),
+        'T2a Max CP DL': selected_row.get('t2a-max-cp-dl', 'N/A'),
+        'TCP Adv DL': selected_row.get('tcp-adv-dl', 'N/A'),
+        'Ta3 Min': selected_row.get('ta3-min', 'N/A'),
+        'Ta3 Max': selected_row.get('ta3-max', 'N/A'),
+        'T2a Min CP UL': selected_row.get('t2a-min-cp-ul', 'N/A'),
+        'T2a Max CP UL': selected_row.get('t2a-max-cp-ul', 'N/A'),
+    }
+
+    df = pd.DataFrame([export_row])
+    output = BytesIO()
+    output.write(df.to_csv(index=False).encode('utf-8-sig'))
+    output.seek(0)
+
+    safe_bandwidth = re.sub(r'[^0-9A-Za-z._-]+', '_', selected_bandwidth)
+    filename = f"profile_{safe_bandwidth}_{dt.datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"
+    return send_file(
+        output,
+        as_attachment=True,
+        download_name=filename,
+        mimetype='text/csv'
+    )
 
 @app.route("/profile/clear")
 def profile_clear():

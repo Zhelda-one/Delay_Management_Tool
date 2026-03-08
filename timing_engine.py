@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Dict, Tuple, List
+from typing import Dict, Tuple, List, Mapping, Any
 
 import pandas as pd
 
@@ -13,6 +13,41 @@ from constants import (
     CAL_MINIMUM,
     CAL_NONE
 )
+
+REAL_FIELD_KEYS = [
+    "F30_real_T1a_max_up",
+    "F31_real_T1a_min_up",
+    "F32_real_T1a_max_cp_dl",
+    "F33_real_T1a_min_cp_dl",
+    "F34_real_T1a_max_cp_ul",
+    "F35_real_T1a_min_cp_ul",
+    "F36_real_Ta4_min_ul",
+    "F37_real_Ta4_max_ul",
+    "F38_real_T2a_max_up",
+    "F39_real_T2a_min_up",
+    "F40_real_T2a_max_cp_dl",
+    "F41_real_T2a_min_cp_dl",
+    "F42_real_T2a_max_cp_ul",
+    "F43_real_T2a_min_cp_ul",
+    "F44_real_Ta3_min_ul",
+    "F45_real_Ta3_max_ul",
+]
+
+
+def default_calibration_field_tokens() -> Dict[str, Dict[str, str]]:
+    """모드별 F30~F45 항목에 대한 기본 오프셋 토큰(0/E16/E17)."""
+    return {
+        CAL_NONE: {k: "0" for k in REAL_FIELD_KEYS},
+        CAL_15_30: {
+            **{k: "0" for k in REAL_FIELD_KEYS[:8]},
+            **{k: "E17" for k in REAL_FIELD_KEYS[8:]},
+        },
+        CAL_40: {
+            **{k: "0" for k in REAL_FIELD_KEYS[:8]},
+            **{k: "E16" for k in REAL_FIELD_KEYS[8:]},
+        },
+        CAL_MINIMUM: {k: "E16" for k in REAL_FIELD_KEYS},
+    }
 
 def default_config() -> Dict[str, float]:
     """
@@ -62,6 +97,48 @@ def apply_upload_to_delaydata(
                 raise ValueError(f"DelayData mapping error for {node}: {cat}/{met}")
             out.loc[mask, "Value(µs)"] = float(val)
     return out
+
+def _resolve_offset_token(token: Any, E16: float, E17: float) -> float:
+    tok = str(token).strip().upper()
+    if tok in {"0", "ZERO"}:
+        return 0.0
+    if tok == "E16":
+        return float(E16)
+    if tok == "E17":
+        return float(E17)
+    raise ValueError(f"Invalid calibration token: {token}. Use one of 0/E16/E17")
+
+
+def _calibration_offsets_by_field(
+    cal_mode: str,
+    E16: float,
+    E17: float,
+    custom_tokens_by_mode: Mapping[str, Mapping[str, Any]] | None = None,
+) -> Dict[str, float]:
+    """
+    F30~F45 항목별 calibration offset을 반환.
+    - 기본값은 기존 모드 동작과 동일
+    - custom_tokens_by_mode를 전달하면 모드/필드별로 0/E16/E17 토큰을 세부 적용
+    """
+    tokens_by_mode = default_calibration_field_tokens()
+    if custom_tokens_by_mode is not None:
+        for mode, vals in custom_tokens_by_mode.items():
+            if mode not in tokens_by_mode:
+                continue
+            for k, v in vals.items():
+                if k in REAL_FIELD_KEYS:
+                    tokens_by_mode[mode][k] = str(v)
+
+    mode_tokens = tokens_by_mode.get(cal_mode)
+    if mode_tokens is None:
+        raise ValueError(f"Unknown cal_mode: {cal_mode}")
+
+    out: Dict[str, float] = {}
+    for field in REAL_FIELD_KEYS:
+        token = mode_tokens.get(field, "0")
+        out[field] = _resolve_offset_token(token, E16, E17)
+    return out
+
 
 @dataclass(frozen=True)
 class MasterResult:
@@ -129,33 +206,35 @@ def compute(delay_df: pd.DataFrame, cfg: Dict[str, float], cal_mode: str) -> Mas
     odu_vals = _get_delay_block(delay_df, "ODU")  # 8
     oru_vals = _get_delay_block(delay_df, "ORU")  # 8
 
-    # Calibration offset selection (엑셀 버튼 동작을 로직화)
-    # 기본(엑셀 기본 수식): ODU는 +E16, ORU는 +E17
-    odu_off = E16
-    oru_off = E17
-
-    if cal_mode == CAL_NONE:
-        # Module8: 보정 없음 (ODU/ORU 모두 +0)
-        odu_off = 0.0
-        oru_off = 0.0
-    elif cal_mode == CAL_15_30:
-        odu_off = 0.0
-        oru_off = E17
-        pass
-    elif cal_mode == CAL_40:
-        # Module6: ORU도 +E16
-        odu_off= 0.0
-        oru_off = E16
-    elif cal_mode == CAL_MINIMUM:
-        # Module7: 전부 +E16
-        odu_off = E16
-        oru_off = E16
-    else:
-        raise ValueError(f"Unknown cal_mode: {cal_mode}")
+    # Calibration offset selection (항목 단위)
+    field_offsets = _calibration_offsets_by_field(
+        cal_mode,
+        E16,
+        E17,
+        cfg.get("calibration_offsets_by_mode"),
+    )
 
     # Master!F30:F37 (ODU real) / F38:F45 (ORU real)
-    F30_37 = [v + odu_off for v in odu_vals]
-    F38_45 = [v + oru_off for v in oru_vals]
+    F30_37 = [
+        odu_vals[0] + field_offsets["F30_real_T1a_max_up"],
+        odu_vals[1] + field_offsets["F31_real_T1a_min_up"],
+        odu_vals[2] + field_offsets["F32_real_T1a_max_cp_dl"],
+        odu_vals[3] + field_offsets["F33_real_T1a_min_cp_dl"],
+        odu_vals[4] + field_offsets["F34_real_T1a_max_cp_ul"],
+        odu_vals[5] + field_offsets["F35_real_T1a_min_cp_ul"],
+        odu_vals[6] + field_offsets["F36_real_Ta4_min_ul"],
+        odu_vals[7] + field_offsets["F37_real_Ta4_max_ul"],
+    ]
+    F38_45 = [
+        oru_vals[0] + field_offsets["F38_real_T2a_max_up"],
+        oru_vals[1] + field_offsets["F39_real_T2a_min_up"],
+        oru_vals[2] + field_offsets["F40_real_T2a_max_cp_dl"],
+        oru_vals[3] + field_offsets["F41_real_T2a_min_cp_dl"],
+        oru_vals[4] + field_offsets["F42_real_T2a_max_cp_ul"],
+        oru_vals[5] + field_offsets["F43_real_T2a_min_cp_ul"],
+        oru_vals[6] + field_offsets["F44_real_Ta3_min_ul"],
+        oru_vals[7] + field_offsets["F45_real_Ta3_max_ul"],
+    ]
 
     # Master dict (필요한 것만 담기 — 나중에 더 확장 가능)
     master = {
