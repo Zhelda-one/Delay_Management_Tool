@@ -23,15 +23,21 @@ except Exception:
 app = Flask(__name__)
 app.secret_key = os.environ.get('FLASK_SECRET_KEY', 'dev-only-secret')
 
-TIMING_APP_URL = os.environ.get('TIMING_APP_URL', 'http://127.0.0.1:8501')
+TIMING_APP_URL = os.environ.get('TIMING_APP_URL', '').strip()
 
-def get_timing_app_url() -> str:
+def get_timing_app_url(req_host: str | None = None) -> str:
     url = (os.environ.get('TIMING_APP_URL') or TIMING_APP_URL or '').strip()
     if not url:
-        url = 'http://127.0.0.1:8501'
+        host = (req_host or '').strip()
+        if host:
+            host = host.split(':', 1)[0]
+        else:
+            host = '127.0.0.1'
+        url = f'http://{host}:5001'
     if not re.match(r'^https?://', url):
         url = 'http://' + url.lstrip('/')
     return url.rstrip('/')
+
 
 # ------------------------- eCPRI 분석 함수 -------------------------
 def analyze_ecpri_data(file_path):
@@ -1632,7 +1638,7 @@ def ul_report_pdf():
 # ------------------------- Timing Wrapper 라우트 -------------------------
 @app.route("/timing/")
 def timing_index():
-    timing_url = get_timing_app_url()
+    timing_url = get_timing_app_url(request.host)
     return render_template(
         "timing_embed.html",
         timing_url=timing_url,
@@ -1645,42 +1651,6 @@ def profile_index():
     results = session.get('profile_results', None)
     error = session.get('profile_error', None)
     return render_template("index_profile.html", results=results, error=error)
-
-
-@app.route("/profile/analyze", methods=["POST"])
-@app.route("/profile/analyze/", methods=["POST"])
-def profile_analyze():
-    if 'file' not in request.files:
-        return jsonify({'error': 'No file uploaded'}), 400
-
-    file = request.files['file']
-    if file.filename == '':
-        return jsonify({'error': 'No file selected'}), 400
-
-    temp_path = None
-    try:
-        with tempfile.NamedTemporaryFile(delete=False, suffix='.txt') as tmp:
-            temp_path = tmp.name
-        file.save(temp_path)
-
-        analysis_output = extract_delay_profile_data(temp_path)
-
-        if "error" in analysis_output:
-            session['profile_results'] = None
-            session['profile_error'] = analysis_output["error"]
-            session.modified = True
-            return jsonify({'success': False, 'error': analysis_output["error"]})
-
-        session['profile_results'] = analysis_output["data"]
-        session['profile_error'] = None
-        session.modified = True
-        return jsonify({'success': True, 'count': analysis_output["count"]})
-
-    except Exception as e:
-        return jsonify({'error': f'Analysis failed: {str(e)}'}), 500
-    finally:
-        if temp_path and os.path.exists(temp_path):
-            os.remove(temp_path)
 
 
 @app.route("/profile/export", methods=["POST"])
