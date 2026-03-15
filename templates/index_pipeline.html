@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>One-Click Timing Pipeline</title>
+  <style>
+    body{font-family:system-ui,Segoe UI,Roboto,Arial,sans-serif;margin:0;background:#f8fafc;color:#0f172a}
+    .wrap{max-width:1024px;margin:0 auto;padding:24px}
+    .card{background:#fff;border:1px solid #dbe2ea;border-radius:10px;padding:16px;margin-bottom:16px}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+    label{font-size:13px;color:#475569;display:block;margin-bottom:4px}
+    input,select{width:100%;padding:9px;border:1px solid #cbd5e1;border-radius:8px}
+    .btn{display:inline-block;padding:10px 14px;border-radius:8px;border:1px solid #0f172a;background:#0f172a;color:#fff;text-decoration:none;cursor:pointer}
+    .btn.ghost{background:#fff;color:#0f172a;border-color:#cbd5e1}
+    .btnrow{display:flex;gap:8px;flex-wrap:wrap}
+    .ok{background:#ecfdf5;border:1px solid #86efac;color:#166534;padding:10px;border-radius:8px}
+    .err{background:#fef2f2;border:1px solid #fecaca;color:#991b1b;padding:10px;border-radius:8px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>⚡ One-Click Timing Pipeline</h1>
+    <p style="color:#475569">RU/DU eCPRI CSV + mPlane profile log + T12 입력 한 번으로 DL/UL 계산 결과를 생성하고 Analyzer 세션에 반영합니다.</p>
+
+    {% if pipeline_error %}
+      <div class="err">{{ pipeline_error }}</div>
+    {% endif %}
+
+    {% if result_summary %}
+      <div class="ok" style="margin-top:12px;">
+        완료: DU={{ result_summary.du_file }}, RU={{ result_summary.ru_file }}, Profile={{ result_summary.profile_file }}, BW={{ result_summary.selected_bandwidth }}
+      </div>
+    {% endif %}
+
+    <div class="card">
+      <form method="post" action="/pipeline/run" enctype="multipart/form-data">
+        <div class="row">
+          <div>
+            <label>DU eCPRI CSV</label>
+            <input type="file" name="du_file" accept=".csv" required>
+          </div>
+          <div>
+            <label>RU eCPRI CSV</label>
+            <input type="file" name="ru_file" accept=".csv" required>
+          </div>
+        </div>
+
+        <div style="margin-top:10px;">
+          <label>mPlane Profile Log (.txt/.log/.xml)</label>
+          <input type="file" name="profile_file" accept=".txt,.log,.xml" required>
+        </div>
+
+        <div class="row-3" style="margin-top:10px;">
+          <div>
+            <label>Bandwidth (optional, 비우면 첫 row 자동 선택)</label>
+            <input type="text" name="bandwidth" value="{{ selected_bw }}" placeholder="예: 100000">
+          </div>
+          <div>
+            <label>T12 max (µs, positive)</label>
+            <input type="number" step="any" name="t12_max_ui" value="10" required>
+          </div>
+          <div>
+            <label>T12 min (µs, positive)</label>
+            <input type="number" step="any" name="t12_min_ui" value="5" required>
+          </div>
+        </div>
+
+        <div class="btnrow" style="margin-top:14px;">
+          <button class="btn" type="submit">Run End-to-End Pipeline</button>
+          <a class="btn ghost" href="/">Home</a>
+        </div>
+      </form>
+    </div>
+
+    {% if result_summary %}
+    <div class="card">
+      <h3>Next Actions</h3>
+      <div class="btnrow">
+        <a class="btn" href="/pipeline/export/dl">Download Pipeline DL.xlsx</a>
+        <a class="btn" href="/pipeline/export/ul">Download Pipeline UL.xlsx</a>
+        <a class="btn ghost" href="/dl/">Open Downlink Analyzer (auto-filled)</a>
+        <a class="btn ghost" href="/ul/">Open Uplink Analyzer (auto-filled)</a>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+</body>
+</html>
