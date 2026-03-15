@@ -49,6 +49,9 @@ def _ensure_state():
     if "cal_mode" not in st.session_state:
         st.session_state.cal_mode = CAL_NONE
 
+    if "calibration_offsets_by_mode" not in st.session_state:
+        st.session_state.calibration_offsets_by_mode = default_calibration_field_tokens()
+
 def _num_input(key: str, label: str, default: float, help_text: str | None = None, *, disabled: bool = False) -> float:
     """
     Streamlit number_input 안정화:
@@ -63,7 +66,8 @@ def _num_input(key: str, label: str, default: float, help_text: str | None = Non
         value=float(st.session_state[key]),
         help=help_text,
         format="%.2f",
-        step=0.01
+        step=0.01,
+        disabled=disabled,
     )
 
 
