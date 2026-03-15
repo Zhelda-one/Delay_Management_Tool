@@ -1716,43 +1716,6 @@ def pipeline_index():
     )
 
 
-@app.route('/pipeline/profile/extract', methods=['POST'])
-def pipeline_extract_profile():
-    session.pop('pipeline_error', None)
-    profile_file = request.files.get('profile_file')
-    if not profile_file or not profile_file.filename:
-        session['pipeline_error'] = 'mPlane profile log file is required for extraction.'
-        return redirect(url_for('pipeline_index'))
-
-    temp_path = None
-    try:
-        with tempfile.NamedTemporaryFile(delete=False, suffix='.txt') as tmp:
-            temp_path = tmp.name
-        profile_file.save(temp_path)
-
-        profile_out = extract_delay_profile_data(temp_path)
-        if 'error' in profile_out:
-            raise ValueError(f"Profile analyze failed: {profile_out['error']}")
-
-        profile_rows = profile_out.get('data', [])
-        if not profile_rows:
-            raise ValueError('No profile rows were extracted from mPlane file.')
-
-        selected_bw = str(profile_rows[0].get('bandwidth', '')).strip()
-        session['pipeline_profile_rows'] = profile_rows
-        session['pipeline_selected_bandwidth'] = selected_bw
-        session['pipeline_profile_filename'] = profile_file.filename
-        session.modified = True
-        return redirect(url_for('pipeline_index'))
-    except Exception as e:
-        session['pipeline_error'] = str(e)
-        session.modified = True
-        return redirect(url_for('pipeline_index'))
-    finally:
-        if temp_path and os.path.exists(temp_path):
-            os.remove(temp_path)
-
-
 @app.route('/pipeline/run', methods=['POST'])
 def pipeline_run():
     session.pop('pipeline_error', None)
@@ -1768,6 +1731,10 @@ def pipeline_run():
     if not ru_file or not ru_file.filename:
         session['pipeline_error'] = 'RU eCPRI CSV file is required.'
         return redirect(url_for('pipeline_index'))
+    if not profile_file or not profile_file.filename:
+        session['pipeline_error'] = 'mPlane profile log file is required.'
+        return redirect(url_for('pipeline_index'))
+
     t12_max_ui = request.form.get('t12_max_ui', '10')
     t12_min_ui = request.form.get('t12_min_ui', '5')
     selected_bw = (request.form.get('bandwidth') or '').strip()
@@ -1782,6 +1749,8 @@ def pipeline_run():
 
         du_path = save_temp(du_file, '.csv')
         ru_path = save_temp(ru_file, '.csv')
+        profile_path = save_temp(profile_file, '.txt')
+
         du_results = analyze_ecpri_data(du_path)
         ru_results = analyze_ecpri_data(ru_path)
         if 'error' in du_results:
@@ -1789,20 +1758,15 @@ def pipeline_run():
         if 'error' in ru_results:
             raise ValueError(f"RU eCPRI analyze failed: {ru_results['error']}")
 
-        profile_rows = session.get('pipeline_profile_rows', [])
-        if profile_file and profile_file.filename:
-            profile_path = save_temp(profile_file, '.txt')
-            profile_out = extract_delay_profile_data(profile_path)
-            if 'error' in profile_out:
-                raise ValueError(f"Profile analyze failed: {profile_out['error']}")
-            profile_rows = profile_out.get('data', [])
-            if not profile_rows:
-                raise ValueError('No profile rows were extracted from mPlane file.')
-            session['pipeline_profile_rows'] = profile_rows
-            session['pipeline_profile_filename'] = profile_file.filename
+        profile_out = extract_delay_profile_data(profile_path)
+        if 'error' in profile_out:
+            raise ValueError(f"Profile analyze failed: {profile_out['error']}")
 
+        profile_rows = profile_out.get('data', [])
         if not profile_rows:
-            raise ValueError('No extracted profile rows found. Please click "Extract Profiles" first or upload mPlane file in this run.')
+            raise ValueError('No profile rows were extracted from mPlane file.')
+
+        session['pipeline_profile_rows'] = profile_rows
 
         selected_row = None
         if selected_bw:
@@ -1836,7 +1800,7 @@ def pipeline_run():
         session['pipeline_summary'] = {
             'du_file': du_file.filename,
             'ru_file': ru_file.filename,
-            'profile_file': session.get('pipeline_profile_filename', profile_file.filename if profile_file else ''),
+            'profile_file': profile_file.filename,
             'selected_bandwidth': selected_bw,
             'selected_scs': selected_row.get('scs', ''),
             't12_max_ui': float(t12_max_ui),
