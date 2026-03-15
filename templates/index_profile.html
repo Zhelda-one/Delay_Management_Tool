@@ -54,7 +54,9 @@
                         <label for="bandwidth" class="block text-sm font-medium text-slate-700 mb-2">Select bandwidth to download</label>
                         <select id="bandwidth" name="bandwidth" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm">
                             {% for row in results %}
-                            <option value="{{ row.bandwidth }}">{{ row.bandwidth }} (SCS: {{ row.scs }})</option>
+                            {% set bw_raw = (row.bandwidth|string).strip() %}
+                            {% set bw_mhz = ((bw_raw|float) / 1000000.0) %}
+                            <option value="{{ row.bandwidth }}">{{ '%.3f'|format(bw_mhz) }} MHz (SCS: {{ row.scs }})</option>
                             {% endfor %}
                         </select>
                     </div>
