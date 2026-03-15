@@ -13,7 +13,6 @@
     label{font-size:13px;color:#475569;display:block;margin-bottom:4px}
     input,select{width:100%;padding:9px;border:1px solid #cbd5e1;border-radius:8px}
     .btn{display:inline-block;padding:10px 14px;border-radius:8px;border:1px solid #0f172a;background:#0f172a;color:#fff;text-decoration:none;cursor:pointer}
-    .btn:disabled{background:#94a3b8;border-color:#94a3b8;cursor:not-allowed}
     .btn.ghost{background:#fff;color:#0f172a;border-color:#cbd5e1}
     .btnrow{display:flex;gap:8px;flex-wrap:wrap}
     .ok{background:#ecfdf5;border:1px solid #86efac;color:#166534;padding:10px;border-radius:8px}
@@ -36,20 +35,6 @@
     {% endif %}
 
     <div class="card">
-      <h3 style="margin-top:0;">Step 1) Extract delay profiles from mPlane</h3>
-      <form method="post" action="/pipeline/profile/extract" enctype="multipart/form-data">
-        <div>
-          <label>mPlane Profile Log (.txt/.log/.xml)</label>
-          <input type="file" name="profile_file" accept=".txt,.log,.xml" required>
-        </div>
-        <div class="btnrow" style="margin-top:10px;">
-          <button class="btn" type="submit">Extract Profiles</button>
-        </div>
-      </form>
-    </div>
-
-    <div class="card">
-      <h3 style="margin-top:0;">Step 2) Run end-to-end timing pipeline</h3>
       <form method="post" action="/pipeline/run" enctype="multipart/form-data">
         <div class="row">
           <div>
@@ -63,25 +48,14 @@
         </div>
 
         <div style="margin-top:10px;">
-          <label>mPlane Profile Log (optional, 업로드 시 재추출)</label>
-          <input type="file" name="profile_file" accept=".txt,.log,.xml">
+          <label>mPlane Profile Log (.txt/.log/.xml)</label>
+          <input type="file" name="profile_file" accept=".txt,.log,.xml" required>
         </div>
 
         <div class="row-3" style="margin-top:10px;">
           <div>
-            <label>Extracted Delay Profile 선택</label>
-            <select name="bandwidth" {% if not profile_rows %}disabled{% endif %}>
-              {% if profile_rows %}
-                {% for row in profile_rows %}
-                  {% set bw = (row.bandwidth|string).strip() %}
-                  <option value="{{ bw }}" {% if bw == selected_bw %}selected{% endif %}>
-                    {{ bw }} (SCS: {{ row.scs }})
-                  </option>
-                {% endfor %}
-              {% else %}
-                <option value="">먼저 Step 1에서 Extract Profiles를 실행하세요</option>
-              {% endif %}
-            </select>
+            <label>Bandwidth (optional, 비우면 첫 row 자동 선택)</label>
+            <input type="text" name="bandwidth" value="{{ selected_bw }}" placeholder="예: 100000">
           </div>
           <div>
             <label>T12 max (µs, positive)</label>
@@ -94,7 +68,7 @@
         </div>
 
         <div class="btnrow" style="margin-top:14px;">
-          <button class="btn" type="submit" {% if not profile_rows %}disabled{% endif %}>Run End-to-End Pipeline</button>
+          <button class="btn" type="submit">Run End-to-End Pipeline</button>
           <a class="btn ghost" href="/">Home</a>
         </div>
       </form>
