@@ -1009,7 +1009,7 @@ def extract_delay_profile_data(log_file):
 
                 if bw_num is not None:
                     # 요청사항: extracted delay profile bandwidth 표시는 MHz로 통일
-                    bw_disp = f"{bw_num / 1_000_000:.3f} MHz"
+                    bw_disp = f"{bw_num / 1_000:.3f} MHz"
 
                     if float(bw_num).is_integer():
                         bw_value = str(int(bw_num))
