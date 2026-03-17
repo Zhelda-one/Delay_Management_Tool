@@ -31,26 +31,14 @@
 
     {% if result_summary %}
       <div class="ok" style="margin-top:12px;">
-        완료: DU={{ result_summary.du_file }}, RU={{ result_summary.ru_file }}, Profile={{ result_summary.profile_file }}, BW={{ result_summary.selected_bandwidth }}
+        완료: DU={{ result_summary.du_file }}, RU={{ result_summary.ru_file }}, Profile={{ result_summary.profile_file }}, BW={{ result_summary.selected_bandwidth_display or result_summary.selected_bandwidth }}
+        {% if result_summary.message %}<br>{{ result_summary.message }}{% endif %}
       </div>
     {% endif %}
 
     <div class="card">
-      <h3 style="margin-top:0;">Step 1) Extract delay profiles from mPlane</h3>
-      <form method="post" action="/pipeline/profile/extract" enctype="multipart/form-data">
-        <div>
-          <label>mPlane Profile Log (.txt/.log/.xml)</label>
-          <input type="file" name="profile_file" accept=".txt,.log,.xml" required>
-        </div>
-        <div class="btnrow" style="margin-top:10px;">
-          <button class="btn" type="submit">Extract Profiles</button>
-        </div>
-      </form>
-    </div>
-
-    <div class="card">
-      <h3 style="margin-top:0;">Step 2) Run end-to-end timing pipeline</h3>
-      <form method="post" action="/pipeline/run" enctype="multipart/form-data">
+      <h3 style="margin-top:0;">One-Step Input & Monitoring</h3>
+      <form method="post" action="/pipeline/prepare" enctype="multipart/form-data">
         <div class="row">
           <div>
             <label>DU eCPRI CSV</label>
@@ -63,9 +51,45 @@
         </div>
 
         <div style="margin-top:10px;">
-          <label>mPlane Profile Log (optional, 업로드 시 재추출)</label>
-          <input type="file" name="profile_file" accept=".txt,.log,.xml">
+          <label>mPlane Profile Log (.txt/.log/.xml)</label>
+          <input type="file" name="profile_file" accept=".txt,.log,.xml" required>
         </div>
+
+        <div class="btnrow" style="margin-top:14px;">
+          <button class="btn" type="submit">Load Profiles & Analyze CSV</button>
+        </div>
+      </form>
+
+      {% if du_monitor and du_monitor.rows %}
+      <div style="margin-top:14px;">
+        <h4 style="margin:0 0 8px 0;">DU eCPRI Extracted Values ({{ du_monitor.source_file }})</h4>
+        <table style="width:100%;border-collapse:collapse;font-size:13px;">
+          <thead>
+            <tr>
+              <th style="border:1px solid #e2e8f0;padding:6px;background:#f8fafc;text-align:left;">Category</th>
+              <th style="border:1px solid #e2e8f0;padding:6px;background:#f8fafc;text-align:right;">Min</th>
+              <th style="border:1px solid #e2e8f0;padding:6px;background:#f8fafc;text-align:right;">Max</th>
+              <th style="border:1px solid #e2e8f0;padding:6px;background:#f8fafc;text-align:right;">Count</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in du_monitor.rows %}
+            <tr>
+              <td style="border:1px solid #e2e8f0;padding:6px;">{{ row.category }}</td>
+              <td style="border:1px solid #e2e8f0;padding:6px;text-align:right;">{{ row.min }}</td>
+              <td style="border:1px solid #e2e8f0;padding:6px;text-align:right;">{{ row.max }}</td>
+              <td style="border:1px solid #e2e8f0;padding:6px;text-align:right;">{{ row.count }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% endif %}
+    </div>
+
+    <div class="card">
+      <h3 style="margin-top:0;">Run End-to-End Pipeline</h3>
+      <form method="post" action="/pipeline/run">
 
         <div class="row-3" style="margin-top:10px;">
           <div>
@@ -79,19 +103,33 @@
                   </option>
                 {% endfor %}
               {% else %}
-                <option value="">먼저 Step 1에서 Extract Profiles를 실행하세요</option>
+                <option value="">먼저 "Load Profiles & Analyze CSV"를 실행하세요</option>
               {% endif %}
             </select>
           </div>
           <div>
             <label>T12 max (µs, positive)</label>
-            <input type="number" step="any" name="t12_max_ui" value="10" required>
+            <input type="number" step="any" name="t12_max_ui" value="{{ form_state.t12_max_ui if form_state else '10' }}" required>
           </div>
           <div>
             <label>T12 min (µs, positive)</label>
-            <input type="number" step="any" name="t12_min_ui" value="5" required>
+            <input type="number" step="any" name="t12_min_ui" value="{{ form_state.t12_min_ui if form_state else '5' }}" required>
           </div>
         </div>
+
+        {% if selected_profile %}
+        <div style="margin-top:12px;">
+          <h4 style="margin:0 0 8px 0;">Selected Profile Monitor</h4>
+          <div style="font-size:13px;color:#334155;line-height:1.7;">
+            <div><b>Bandwidth:</b> {{ selected_profile.bandwidth_display or selected_profile.bandwidth }}</div>
+            <div><b>SCS:</b> {{ selected_profile.scs }}</div>
+            <div><b>T2a Min Up:</b> {{ selected_profile['t2a-min-up'] }} | <b>T2a Max Up:</b> {{ selected_profile['t2a-max-up'] }}</div>
+            <div><b>TCP Adv DL:</b> {{ selected_profile['tcp-adv-dl'] }}</div>
+            <div><b>Ta3 Min/Max:</b> {{ selected_profile['ta3-min'] }} / {{ selected_profile['ta3-max'] }}</div>
+            <div><b>T2a Min/Max CP UL:</b> {{ selected_profile['t2a-min-cp-ul'] }} / {{ selected_profile['t2a-max-cp-ul'] }}</div>
+          </div>
+        </div>
+        {% endif %}
 
         <div class="btnrow" style="margin-top:14px;">
           <button class="btn" type="submit" {% if not profile_rows %}disabled{% endif %}>Run End-to-End Pipeline</button>
