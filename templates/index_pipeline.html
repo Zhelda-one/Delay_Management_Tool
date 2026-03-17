@@ -32,6 +32,7 @@
     {% if result_summary %}
       <div class="ok" style="margin-top:12px;">
         완료: DU={{ result_summary.du_file }}, RU={{ result_summary.ru_file }}, Profile={{ result_summary.profile_file }}, BW={{ result_summary.selected_bandwidth }}
+        {% if result_summary.message %}<br>{{ result_summary.message }}{% endif %}
       </div>
     {% endif %}
 
@@ -85,11 +86,11 @@
           </div>
           <div>
             <label>T12 max (µs, positive)</label>
-            <input type="number" step="any" name="t12_max_ui" value="10" required>
+            <input type="number" step="any" name="t12_max_ui" value="{{ form_state.t12_max_ui if form_state else '10' }}" required>
           </div>
           <div>
             <label>T12 min (µs, positive)</label>
-            <input type="number" step="any" name="t12_min_ui" value="5" required>
+            <input type="number" step="any" name="t12_min_ui" value="{{ form_state.t12_min_ui if form_state else '5' }}" required>
           </div>
         </div>
 
