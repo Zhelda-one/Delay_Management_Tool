@@ -997,12 +997,27 @@ def extract_delay_profile_data(log_file):
                 scs = get_val("subcarrier-spacing")
 
                 # 포맷팅(표시용) + 원본값(매칭용) 분리
-                if bw.isdigit() and int(bw) >= 1000000:
-                    bw_disp = f"{int(bw) / 1000000:.3f} MHz"
-                elif bw.isdigit():
-                    bw_disp = f"{bw} Hz"
+                # - 숫자/소수/콤마/단위 혼합 문자열도 최대한 안전하게 처리
+                bw_raw_text = str(bw).strip()
+                bw_num = None
+                m_bw = re.search(r'[-+]?\d*\.?\d+', bw_raw_text.replace(',', ''))
+                if m_bw:
+                    try:
+                        bw_num = float(m_bw.group(0))
+                    except Exception:
+                        bw_num = None
+
+                if bw_num is not None:
+                    # 요청사항: extracted delay profile bandwidth 표시는 MHz로 통일
+                    bw_disp = f"{bw_num / 1_000_000:.3f} MHz"
+
+                    if float(bw_num).is_integer():
+                        bw_value = str(int(bw_num))
+                    else:
+                        bw_value = f"{bw_num:g}"
                 else:
-                    bw_disp = str(bw)
+                    bw_disp = bw_raw_text
+                    bw_value = bw_raw_text
                 
                 scs_disp = f"{scs} Hz"
 
@@ -1016,7 +1031,7 @@ def extract_delay_profile_data(log_file):
                 
                 row_data = {
                     "id": i + 1,
-                    "bandwidth": str(bw),
+                    "bandwidth": bw_value,
                     "bandwidth_display": bw_disp,
                     "scs": scs_disp,
                     "raw_block": block # 필요시 원본 확인용
@@ -1710,12 +1725,14 @@ def pipeline_index():
     pipeline_error = session.get('pipeline_error')
     profile_rows = session.get('pipeline_profile_rows', [])
     selected_bw = session.get('pipeline_selected_bandwidth', '')
+    form_state = session.get('pipeline_form_state', {'t12_max_ui': '10', 't12_min_ui': '5'})
     return render_template(
         'index_pipeline.html',
         result_summary=result_summary,
         pipeline_error=pipeline_error,
         profile_rows=profile_rows,
         selected_bw=selected_bw,
+        form_state=form_state,
     )
 
 
@@ -1774,6 +1791,10 @@ def pipeline_run():
     t12_max_ui = request.form.get('t12_max_ui', '10')
     t12_min_ui = request.form.get('t12_min_ui', '5')
     selected_bw = (request.form.get('bandwidth') or '').strip()
+    session['pipeline_form_state'] = {
+        't12_max_ui': t12_max_ui,
+        't12_min_ui': t12_min_ui,
+    }
 
     temp_paths = []
     try:
@@ -1844,6 +1865,7 @@ def pipeline_run():
             'selected_scs': selected_row.get('scs', ''),
             't12_max_ui': float(t12_max_ui),
             't12_min_ui': float(t12_min_ui),
+            'message': 'Pipeline completed. DL/UL analyzer values were updated.',
         }
         session['pipeline_error'] = None
         session.modified = True
