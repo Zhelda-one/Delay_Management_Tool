@@ -15,6 +15,9 @@ import os
 import traceback
 import tempfile
 
+from timing_engine import make_empty_delaydata, apply_upload_to_delaydata, compute
+from constants import DELAY_KEYS_ORDER, CAL_NONE
+
 try:
     import cairosvg
 except Exception:
@@ -212,6 +215,59 @@ def build_basic_csv_stats(file_path):
         'columns': list(df.columns),
         'data_types': {col: str(dtype) for col, dtype in df.dtypes.items()}
     }, df
+
+
+def _build_upload_values_from_ecpri_results(results: dict) -> dict:
+    upload_values = {}
+    for category, metric, key in [
+        ("User plane DL", "Min Delay (µs)", "min"),
+        ("User plane DL", "Max Delay (µs)", "max"),
+        ("Control Plane DL", "Min Delay (µs)", "min"),
+        ("Control Plane DL", "Max Delay (µs)", "max"),
+        ("Control Plane UL", "Min Delay (µs)", "min"),
+        ("Control Plane UL", "Max Delay (µs)", "max"),
+        ("User plane UL", "Min Delay (µs)", "min"),
+        ("User plane UL", "Max Delay (µs)", "max"),
+    ]:
+        data = results.get(category, {}) if isinstance(results, dict) else {}
+        val = nnum(data.get(key))
+        if val is None:
+            raise ValueError(f"Missing or invalid {category} / {metric} from eCPRI analysis")
+        upload_values[(category, metric)] = float(val)
+
+    missing = [k for k in DELAY_KEYS_ORDER if k not in upload_values]
+    if missing:
+        raise ValueError(f"eCPRI analysis does not provide all required DelayData keys: {missing}")
+
+    return upload_values
+
+
+def _to_float_micro_from_profile(value) -> float:
+    s = str(value).strip()
+    s = s.replace(',', '').replace('Hz', '').replace('hz', '').strip()
+    return float(s) / 1000.0
+
+
+def _cfg_from_profile_row(row: dict, t12_max_ui: float, t12_min_ui: float) -> dict:
+    return {
+        't2a_min_up': _to_float_micro_from_profile(row.get('t2a-min-up', '')),
+        't2a_max_up': _to_float_micro_from_profile(row.get('t2a-max-up', '')),
+        'tcp_adv_dl': _to_float_micro_from_profile(row.get('tcp-adv-dl', '')),
+        'ta3_min': _to_float_micro_from_profile(row.get('ta3-min', '')),
+        'ta3_max': _to_float_micro_from_profile(row.get('ta3-max', '')),
+        't2a_min_cp_ul': _to_float_micro_from_profile(row.get('t2a-min-cp-ul', '')),
+        't2a_max_cp_ul': _to_float_micro_from_profile(row.get('t2a-max-cp-ul', '')),
+        't12_max': -abs(float(t12_max_ui)),
+        't12_min': -abs(float(t12_min_ui)),
+    }
+
+
+def _xlsx_bytes_from_parameter_df(sheet_name: str, df: pd.DataFrame) -> bytes:
+    output = BytesIO()
+    with pd.ExcelWriter(output, engine='openpyxl') as writer:
+        df.to_excel(writer, sheet_name=sheet_name, index=False)
+    output.seek(0)
+    return output.getvalue()
 
 # ------------------------- Excel 출력 기능 -------------------------
 def save_ecpri_results_to_excel(results, filename=None):
@@ -940,11 +996,28 @@ def extract_delay_profile_data(log_file):
                 bw = get_val("bandwidth")
                 scs = get_val("subcarrier-spacing")
 
-                # 포맷팅
-                if bw.isdigit() and int(bw) >= 1000000:
-                    bw_disp = f"{int(bw)//1000000} MHz"
+                # 포맷팅(표시용) + 원본값(매칭용) 분리
+                # - 숫자/소수/콤마/단위 혼합 문자열도 최대한 안전하게 처리
+                bw_raw_text = str(bw).strip()
+                bw_num = None
+                m_bw = re.search(r'[-+]?\d*\.?\d+', bw_raw_text.replace(',', ''))
+                if m_bw:
+                    try:
+                        bw_num = float(m_bw.group(0))
+                    except Exception:
+                        bw_num = None
+
+                if bw_num is not None:
+                    # Delay profile의 bandwidth 단위는 kHz -> MHz 표시는 /1000
+                    bw_disp = f"{bw_num / 1_000:.3f} MHz"
+
+                    if float(bw_num).is_integer():
+                        bw_value = str(int(bw_num))
+                    else:
+                        bw_value = f"{bw_num:g}"
                 else:
-                    bw_disp = f"{bw} Hz"
+                    bw_disp = bw_raw_text
+                    bw_value = bw_raw_text
                 
                 scs_disp = f"{scs} Hz"
 
@@ -958,7 +1031,8 @@ def extract_delay_profile_data(log_file):
                 
                 row_data = {
                     "id": i + 1,
-                    "bandwidth": bw_disp,
+                    "bandwidth": bw_value,
+                    "bandwidth_display": bw_disp,
                     "scs": scs_disp,
                     "raw_block": block # 필요시 원본 확인용
                 }
@@ -1642,6 +1716,216 @@ def timing_index():
         "timing_embed.html",
         timing_url=timing_url,
         timing_host=timing_url,
+    )
+
+
+@app.route('/pipeline/')
+def pipeline_index():
+    result_summary = session.get('pipeline_summary')
+    pipeline_error = session.get('pipeline_error')
+    profile_rows = session.get('pipeline_profile_rows', [])
+    selected_bw = session.get('pipeline_selected_bandwidth', '')
+    form_state = session.get('pipeline_form_state', {'t12_max_ui': '10', 't12_min_ui': '5'})
+    du_monitor = session.get('pipeline_du_monitor')
+    result_preview = session.get('pipeline_result_preview')
+    selected_profile = next((r for r in profile_rows if str(r.get('bandwidth', '')).strip() == selected_bw), None)
+    if selected_profile is None and profile_rows:
+        selected_profile = profile_rows[0]
+    return render_template(
+        'index_pipeline.html',
+        result_summary=result_summary,
+        pipeline_error=pipeline_error,
+        profile_rows=profile_rows,
+        selected_bw=selected_bw,
+        form_state=form_state,
+        du_monitor=du_monitor,
+        result_preview=result_preview,
+        selected_profile=selected_profile,
+    )
+
+
+@app.route('/pipeline/prepare', methods=['POST'])
+def pipeline_prepare():
+    session.pop('pipeline_error', None)
+    session.pop('pipeline_summary', None)
+    session.pop('pipeline_result_preview', None)
+
+    du_file = request.files.get('du_file')
+    ru_file = request.files.get('ru_file')
+    profile_file = request.files.get('profile_file')
+
+    if not du_file or not du_file.filename:
+        session['pipeline_error'] = 'DU eCPRI CSV file is required.'
+        return redirect(url_for('pipeline_index'))
+    if not ru_file or not ru_file.filename:
+        session['pipeline_error'] = 'RU eCPRI CSV file is required.'
+        return redirect(url_for('pipeline_index'))
+    if not profile_file or not profile_file.filename:
+        session['pipeline_error'] = 'mPlane profile log file is required.'
+        return redirect(url_for('pipeline_index'))
+
+    temp_paths = []
+    try:
+        def save_temp(upload, suffix):
+            with tempfile.NamedTemporaryFile(delete=False, suffix=suffix) as tmp:
+                upload.save(tmp.name)
+                temp_paths.append(tmp.name)
+                return tmp.name
+
+        du_path = save_temp(du_file, '.csv')
+        ru_path = save_temp(ru_file, '.csv')
+        profile_path = save_temp(profile_file, '.txt')
+
+        du_results = analyze_ecpri_data(du_path)
+        ru_results = analyze_ecpri_data(ru_path)
+        if 'error' in du_results:
+            raise ValueError(f"DU eCPRI analyze failed: {du_results['error']}")
+        if 'error' in ru_results:
+            raise ValueError(f"RU eCPRI analyze failed: {ru_results['error']}")
+
+        profile_out = extract_delay_profile_data(profile_path)
+        if 'error' in profile_out:
+            raise ValueError(f"Profile analyze failed: {profile_out['error']}")
+
+        profile_rows = profile_out.get('data', [])
+        if not profile_rows:
+            raise ValueError('No profile rows were extracted from mPlane file.')
+
+        selected_bw = str(profile_rows[0].get('bandwidth', '')).strip()
+        session['pipeline_du_results'] = du_results
+        session['pipeline_ru_results'] = ru_results
+        session['pipeline_du_monitor'] = {
+            'source_file': du_file.filename,
+            'rows': [
+                {
+                    'category': c,
+                    'min': du_results.get(c, {}).get('min', 'N/A'),
+                    'max': du_results.get(c, {}).get('max', 'N/A'),
+                    'count': du_results.get(c, {}).get('count', 0),
+                }
+                for c in ["User plane DL", "Control Plane DL", "Control Plane UL", "User plane UL"]
+            ]
+        }
+        session['pipeline_profile_rows'] = profile_rows
+        session['pipeline_selected_bandwidth'] = selected_bw
+        session['pipeline_profile_filename'] = profile_file.filename
+        session['pipeline_error'] = None
+        session.modified = True
+        return redirect(url_for('pipeline_index'))
+    except Exception as e:
+        session['pipeline_error'] = str(e)
+        session.modified = True
+        return redirect(url_for('pipeline_index'))
+    finally:
+        for p in temp_paths:
+            if p and os.path.exists(p):
+                os.remove(p)
+
+
+@app.route('/pipeline/run', methods=['POST'])
+def pipeline_run():
+    session.pop('pipeline_error', None)
+    session.pop('pipeline_summary', None)
+
+    t12_max_ui = request.form.get('t12_max_ui', '10')
+    t12_min_ui = request.form.get('t12_min_ui', '5')
+    selected_bw = (request.form.get('bandwidth') or '').strip()
+    session['pipeline_form_state'] = {
+        't12_max_ui': t12_max_ui,
+        't12_min_ui': t12_min_ui,
+    }
+
+    try:
+        du_results = session.get('pipeline_du_results')
+        ru_results = session.get('pipeline_ru_results')
+        if not du_results or not ru_results:
+            raise ValueError('Please run "Load Profiles & Analyze CSV" first.')
+
+        if 'error' in du_results:
+            raise ValueError(f"DU eCPRI analyze failed: {du_results['error']}")
+        if 'error' in ru_results:
+            raise ValueError(f"RU eCPRI analyze failed: {ru_results['error']}")
+
+        profile_rows = session.get('pipeline_profile_rows', [])
+        if not profile_rows:
+            raise ValueError('No extracted profile rows found. Please run "Load Profiles & Analyze CSV" first.')
+
+        selected_row = None
+        if selected_bw:
+            selected_row = next((r for r in profile_rows if str(r.get('bandwidth', '')).strip() == selected_bw), None)
+        if selected_row is None:
+            selected_row = profile_rows[0]
+            selected_bw = str(selected_row.get('bandwidth', '')).strip()
+
+        session['pipeline_selected_bandwidth'] = selected_bw
+
+        du_upload_values = _build_upload_values_from_ecpri_results(du_results)
+        ru_upload_values = _build_upload_values_from_ecpri_results(ru_results)
+
+        delay_df = make_empty_delaydata()
+        delay_df = apply_upload_to_delaydata(delay_df, du_upload_values, target='ODU')
+        delay_df = apply_upload_to_delaydata(delay_df, ru_upload_values, target='ORU')
+
+        cfg = _cfg_from_profile_row(selected_row, t12_max_ui, t12_min_ui)
+        result = compute(delay_df=delay_df, cfg=cfg, cal_mode=CAL_NONE)
+
+        dl_map = dict(PARAM_DEFAULTS_DL)
+        dl_map.update(dict(zip(result.dl['Parameter'], result.dl['Value'])))
+
+        ul_map = dict(PARAM_DEFAULTS_UL)
+        ul_map.update(dict(zip(result.ul['Parameter'], result.ul['Value'])))
+
+        session['dl_params'] = dl_map
+        session['ul_params'] = ul_map
+        session['pipeline_dl_xlsx'] = _xlsx_bytes_from_parameter_df('DL', result.dl)
+        session['pipeline_ul_xlsx'] = _xlsx_bytes_from_parameter_df('UL', result.ul)
+        session['pipeline_result_preview'] = {
+            'dl': result.dl.to_dict(orient='records'),
+            'ul': result.ul.to_dict(orient='records'),
+        }
+        session['pipeline_summary'] = {
+            'du_file': session.get('pipeline_du_monitor', {}).get('source_file', ''),
+            'ru_file': 'uploaded in prepare step',
+            'profile_file': session.get('pipeline_profile_filename', ''),
+            'selected_bandwidth': selected_bw,
+            'selected_bandwidth_display': selected_row.get('bandwidth_display', selected_bw),
+            'selected_scs': selected_row.get('scs', ''),
+            't12_max_ui': float(t12_max_ui),
+            't12_min_ui': float(t12_min_ui),
+            'message': 'Pipeline completed. DL/UL analyzer values were updated.',
+        }
+        session['pipeline_error'] = None
+        session.modified = True
+        return redirect(url_for('pipeline_index'))
+    except Exception as e:
+        session['pipeline_error'] = str(e)
+        session.modified = True
+        return redirect(url_for('pipeline_index'))
+
+
+@app.route('/pipeline/export/dl')
+def pipeline_export_dl():
+    data = session.get('pipeline_dl_xlsx')
+    if not data:
+        return jsonify({'error': 'No pipeline DL result to export'}), 400
+    return send_file(
+        BytesIO(data),
+        as_attachment=True,
+        download_name=f"pipeline_DL_{dt.datetime.now().strftime('%Y%m%d_%H%M%S')}.xlsx",
+        mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    )
+
+
+@app.route('/pipeline/export/ul')
+def pipeline_export_ul():
+    data = session.get('pipeline_ul_xlsx')
+    if not data:
+        return jsonify({'error': 'No pipeline UL result to export'}), 400
+    return send_file(
+        BytesIO(data),
+        as_attachment=True,
+        download_name=f"pipeline_UL_{dt.datetime.now().strftime('%Y%m%d_%H%M%S')}.xlsx",
+        mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     )
 
 # ------------------------- Profile Extractor 라우트 -------------------------

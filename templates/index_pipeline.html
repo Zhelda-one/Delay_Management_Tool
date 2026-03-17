@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>One-Click Timing Pipeline</title>
+  <style>
+    body{font-family:system-ui,Segoe UI,Roboto,Arial,sans-serif;margin:0;background:#f8fafc;color:#0f172a}
+    .wrap{max-width:1024px;margin:0 auto;padding:24px}
+    .card{background:#fff;border:1px solid #dbe2ea;border-radius:10px;padding:16px;margin-bottom:16px}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+    label{font-size:13px;color:#475569;display:block;margin-bottom:4px}
+    input,select{width:100%;padding:9px;border:1px solid #cbd5e1;border-radius:8px}
+    .btn{display:inline-block;padding:10px 14px;border-radius:8px;border:1px solid #0f172a;background:#0f172a;color:#fff;text-decoration:none;cursor:pointer}
+    .btn:disabled{background:#94a3b8;border-color:#94a3b8;cursor:not-allowed}
+    .btn.ghost{background:#fff;color:#0f172a;border-color:#cbd5e1}
+    .btnrow{display:flex;gap:8px;flex-wrap:wrap}
+    .ok{background:#ecfdf5;border:1px solid #86efac;color:#166534;padding:10px;border-radius:8px}
+    .err{background:#fef2f2;border:1px solid #fecaca;color:#991b1b;padding:10px;border-radius:8px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>⚡ One-Click Timing Pipeline</h1>
+    <p style="color:#475569">RU/DU eCPRI CSV + mPlane profile log + T12 입력 한 번으로 DL/UL 계산 결과를 생성하고 Analyzer 세션에 반영합니다.</p>
+
+    {% if pipeline_error %}
+      <div class="err">{{ pipeline_error }}</div>
+    {% endif %}
+
+    {% if result_summary %}
+      <div class="ok" style="margin-top:12px;">
+        완료: DU={{ result_summary.du_file }}, RU={{ result_summary.ru_file }}, Profile={{ result_summary.profile_file }}, BW={{ result_summary.selected_bandwidth_display or result_summary.selected_bandwidth }}
+        {% if result_summary.message %}<br>{{ result_summary.message }}{% endif %}
+      </div>
+    {% endif %}
+
+    <div class="card">
+      <h3 style="margin-top:0;">One-Step Input & Monitoring</h3>
+      <form method="post" action="/pipeline/prepare" enctype="multipart/form-data">
+        <div class="row">
+          <div>
+            <label>DU eCPRI CSV</label>
+            <input type="file" name="du_file" accept=".csv" required>
+          </div>
+          <div>
+            <label>RU eCPRI CSV</label>
+            <input type="file" name="ru_file" accept=".csv" required>
+          </div>
+        </div>
+
+        <div style="margin-top:10px;">
+          <label>mPlane Profile Log (.txt/.log/.xml)</label>
+          <input type="file" name="profile_file" accept=".txt,.log,.xml" required>
+        </div>
+
+        <div class="btnrow" style="margin-top:14px;">
+          <button class="btn" type="submit">Load Profiles & Analyze CSV</button>
+        </div>
+      </form>
+
+      {% if du_monitor and du_monitor.rows %}
+      <div style="margin-top:14px;">
+        <h4 style="margin:0 0 8px 0;">DU eCPRI Extracted Values ({{ du_monitor.source_file }})</h4>
+        <table style="width:100%;border-collapse:collapse;font-size:13px;">
+          <thead>
+            <tr>
+              <th style="border:1px solid #e2e8f0;padding:6px;background:#f8fafc;text-align:left;">Category</th>
+              <th style="border:1px solid #e2e8f0;padding:6px;background:#f8fafc;text-align:right;">Min</th>
+              <th style="border:1px solid #e2e8f0;padding:6px;background:#f8fafc;text-align:right;">Max</th>
+              <th style="border:1px solid #e2e8f0;padding:6px;background:#f8fafc;text-align:right;">Count</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in du_monitor.rows %}
+            <tr>
+              <td style="border:1px solid #e2e8f0;padding:6px;">{{ row.category }}</td>
+              <td style="border:1px solid #e2e8f0;padding:6px;text-align:right;">{{ row.min }}</td>
+              <td style="border:1px solid #e2e8f0;padding:6px;text-align:right;">{{ row.max }}</td>
+              <td style="border:1px solid #e2e8f0;padding:6px;text-align:right;">{{ row.count }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% endif %}
+    </div>
+
+    <div class="card">
+      <h3 style="margin-top:0;">Run End-to-End Pipeline</h3>
+      <form method="post" action="/pipeline/run">
+
+        <div class="row-3" style="margin-top:10px;">
+          <div>
+            <label>Extracted Delay Profile 선택</label>
+            <select name="bandwidth" {% if not profile_rows %}disabled{% endif %}>
+              {% if profile_rows %}
+                {% for row in profile_rows %}
+                  {% set bw = (row.bandwidth|string).strip() %}
+                  <option value="{{ bw }}" {% if bw == selected_bw %}selected{% endif %}>
+                    {{ row.bandwidth_display or bw }} (SCS: {{ row.scs }})
+                  </option>
+                {% endfor %}
+              {% else %}
+                <option value="">먼저 "Load Profiles & Analyze CSV"를 실행하세요</option>
+              {% endif %}
+            </select>
+          </div>
+          <div>
+            <label>T12 max (µs, positive)</label>
+            <input type="number" step="any" name="t12_max_ui" value="{{ form_state.t12_max_ui if form_state else '10' }}" required>
+          </div>
+          <div>
+            <label>T12 min (µs, positive)</label>
+            <input type="number" step="any" name="t12_min_ui" value="{{ form_state.t12_min_ui if form_state else '5' }}" required>
+          </div>
+        </div>
+
+        {% if selected_profile %}
+        <div style="margin-top:12px;">
+          <h4 style="margin:0 0 8px 0;">Selected Profile Monitor</h4>
+          <div style="font-size:13px;color:#334155;line-height:1.7;">
+            <div><b>Bandwidth:</b> {{ selected_profile.bandwidth_display or selected_profile.bandwidth }}</div>
+            <div><b>SCS:</b> {{ selected_profile.scs }}</div>
+            <div><b>T2a Min Up:</b> {{ selected_profile['t2a-min-up'] }} | <b>T2a Max Up:</b> {{ selected_profile['t2a-max-up'] }}</div>
+            <div><b>TCP Adv DL:</b> {{ selected_profile['tcp-adv-dl'] }}</div>
+            <div><b>Ta3 Min/Max:</b> {{ selected_profile['ta3-min'] }} / {{ selected_profile['ta3-max'] }}</div>
+            <div><b>T2a Min/Max CP UL:</b> {{ selected_profile['t2a-min-cp-ul'] }} / {{ selected_profile['t2a-max-cp-ul'] }}</div>
+          </div>
+        </div>
+        {% endif %}
+
+        <div class="btnrow" style="margin-top:14px;">
+          <button class="btn" type="submit" {% if not profile_rows %}disabled{% endif %}>Run End-to-End Pipeline</button>
+          <a class="btn ghost" href="/">Home</a>
+        </div>
+      </form>
+    </div>
+
+    {% if result_summary %}
+    <div class="card">
+      <h3>Next Actions</h3>
+      <div class="btnrow">
+        <a class="btn" href="/pipeline/export/dl">Download Pipeline DL.xlsx</a>
+        <a class="btn" href="/pipeline/export/ul">Download Pipeline UL.xlsx</a>
+        <a class="btn ghost" href="/dl/">Open Downlink Analyzer (auto-filled)</a>
+        <a class="btn ghost" href="/ul/">Open Uplink Analyzer (auto-filled)</a>
+      </div>
+    </div>
+    {% endif %}
+
+    {% if result_preview %}
+    <div class="card">
+      <h3 style="margin-top:0;">Latest Computed Values (Monitor)</h3>
+      <div class="row" style="grid-template-columns:1fr 1fr;">
+        <div>
+          <h4 style="margin:0 0 8px 0;">DL</h4>
+          <table style="width:100%;border-collapse:collapse;font-size:13px;">
+            <thead>
+              <tr>
+                <th style="border:1px solid #e2e8f0;padding:6px;background:#f8fafc;text-align:left;">Parameter</th>
+                <th style="border:1px solid #e2e8f0;padding:6px;background:#f8fafc;text-align:right;">Value</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for row in result_preview.dl %}
+              <tr>
+                <td style="border:1px solid #e2e8f0;padding:6px;">{{ row.Parameter }}</td>
+                <td style="border:1px solid #e2e8f0;padding:6px;text-align:right;">{{ row.Value }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <div>
+          <h4 style="margin:0 0 8px 0;">UL</h4>
+          <table style="width:100%;border-collapse:collapse;font-size:13px;">
+            <thead>
+              <tr>
+                <th style="border:1px solid #e2e8f0;padding:6px;background:#f8fafc;text-align:left;">Parameter</th>
+                <th style="border:1px solid #e2e8f0;padding:6px;background:#f8fafc;text-align:right;">Value</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for row in result_preview.ul %}
+              <tr>
+                <td style="border:1px solid #e2e8f0;padding:6px;">{{ row.Parameter }}</td>
+                <td style="border:1px solid #e2e8f0;padding:6px;text-align:right;">{{ row.Value }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+</body>
+</html>
