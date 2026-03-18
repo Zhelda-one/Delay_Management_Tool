@@ -989,7 +989,11 @@ def extract_delay_profile_data(log_file):
             try:
                 def get_val(tag):
                     # 태그 사이의 값만 엄격하게 추출
-                    p = re.compile(r'<[\w\-\:]*'+tag+r'.*?>\s*([^<]+)\s*<\/', re.DOTALL)
+                    tag_escaped = re.escape(tag)
+                    p = re.compile(
+                        rf'<(?:[\w\-]+:)?{tag_escaped}(?:\s[^>]*)?>\s*([^<]+)\s*</(?:[\w\-]+:)?{tag_escaped}\s*>',
+                        re.DOTALL,
+                    )
                     m = p.search(block)
                     return m.group(1).strip() if m else "N/A"
 
