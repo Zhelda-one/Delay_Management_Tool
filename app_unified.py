@@ -1788,7 +1788,54 @@ def pipeline_prepare():
             raise ValueError(f"RU eCPRI analyze failed: {ru_results['error']}")
 
         profile_out = extract_delay_profile_data(profile_path)
-    )
+        if 'error' in profile_out:
+            raise ValueError(f"Profile analyze failed: {profile_out['error']}")
+
+        profile_rows = profile_out.get('data', [])
+        if not profile_rows:
+            raise ValueError('No profile rows were extracted from mPlane file.')
+
+        selected_bw = str(profile_rows[0].get('bandwidth', '')).strip()
+        session['pipeline_du_results'] = du_results
+        session['pipeline_ru_results'] = ru_results
+        session['pipeline_du_monitor'] = {
+            'source_file': du_file.filename,
+            'rows': [
+                {
+                    'category': c,
+                    'min': du_results.get(c, {}).get('min', 'N/A'),
+                    'max': du_results.get(c, {}).get('max', 'N/A'),
+                    'count': du_results.get(c, {}).get('count', 0),
+                }
+                for c in ["User plane DL", "Control Plane DL", "Control Plane UL", "User plane UL"]
+            ]
+        }
+        session['pipeline_ru_monitor'] = {
+            'source_file': ru_file.filename,
+            'rows': [
+                {
+                    'category': c,
+                    'min': ru_results.get(c, {}).get('min', 'N/A'),
+                    'max': ru_results.get(c, {}).get('max', 'N/A'),
+                    'count': ru_results.get(c, {}).get('count', 0),
+                }
+                for c in ["User plane DL", "Control Plane DL", "Control Plane UL", "User plane UL"]
+            ]
+        }
+        session['pipeline_profile_rows'] = profile_rows
+        session['pipeline_selected_bandwidth'] = selected_bw
+        session['pipeline_profile_filename'] = profile_file.filename
+        session['pipeline_error'] = None
+        session.modified = True
+        return redirect(url_for('pipeline_index'))
+    except Exception as e:
+        session['pipeline_error'] = str(e)
+        session.modified = True
+        return redirect(url_for('pipeline_index'))
+    finally:
+        for p in temp_paths:
+            if p and os.path.exists(p):
+                os.remove(p)
 
 
 @app.route('/pipeline/profile/extract', methods=['POST'])
@@ -1814,27 +1861,10 @@ def pipeline_extract_profile():
             raise ValueError('No profile rows were extracted from mPlane file.')
 
         selected_bw = str(profile_rows[0].get('bandwidth', '')).strip()
-        session['pipeline_du_results'] = du_results
-        session['pipeline_ru_results'] = ru_results
-        session['pipeline_du_monitor'] = {
-            'source_file': du_file.filename,
-            'rows': [
-                {
-                    'category': c,
-                    'min': du_results.get(c, {}).get('min', 'N/A'),
-                    'max': du_results.get(c, {}).get('max', 'N/A'),
-                    'count': du_results.get(c, {}).get('count', 0),
-                }
-                for c in ["User plane DL", "Control Plane DL", "Control Plane UL", "User plane UL"]
-            ]
-        }
         session['pipeline_profile_rows'] = profile_rows
         session['pipeline_selected_bandwidth'] = selected_bw
         session['pipeline_profile_filename'] = profile_file.filename
         session['pipeline_error'] = None
-        session['pipeline_profile_rows'] = profile_rows
-        session['pipeline_selected_bandwidth'] = selected_bw
-        session['pipeline_profile_filename'] = profile_file.filename
         session.modified = True
         return redirect(url_for('pipeline_index'))
     except Exception as e:
@@ -1842,9 +1872,6 @@ def pipeline_extract_profile():
         session.modified = True
         return redirect(url_for('pipeline_index'))
     finally:
-        for p in temp_paths:
-            if p and os.path.exists(p):
-                os.remove(p)
         if temp_path and os.path.exists(temp_path):
             os.remove(temp_path)
 
@@ -1854,6 +1881,9 @@ def pipeline_run():
     session.pop('pipeline_error', None)
     session.pop('pipeline_summary', None)
 
+    du_file = request.files.get('du_file')
+    ru_file = request.files.get('ru_file')
+    profile_file = request.files.get('profile_file')
     t12_max_ui = request.form.get('t12_max_ui', '10')
     t12_min_ui = request.form.get('t12_min_ui', '5')
     selected_bw = (request.form.get('bandwidth') or '').strip()
@@ -1862,25 +1892,12 @@ def pipeline_run():
         't12_min_ui': t12_min_ui,
     }
 
-    try:
-        du_results = session.get('pipeline_du_results')
-        ru_results = session.get('pipeline_ru_results')
-        if not du_results or not ru_results:
-            raise ValueError('Please run "Load Profiles & Analyze CSV" first.')
-
-    du_file = request.files.get('du_file')
-    ru_file = request.files.get('ru_file')
-    profile_file = request.files.get('profile_file')
-
     if not du_file or not du_file.filename:
         session['pipeline_error'] = 'DU eCPRI CSV file is required.'
         return redirect(url_for('pipeline_index'))
     if not ru_file or not ru_file.filename:
         session['pipeline_error'] = 'RU eCPRI CSV file is required.'
         return redirect(url_for('pipeline_index'))
-    t12_max_ui = request.form.get('t12_max_ui', '10')
-    t12_min_ui = request.form.get('t12_min_ui', '5')
-    selected_bw = (request.form.get('bandwidth') or '').strip()
 
     temp_paths = []
     try:
@@ -1950,23 +1967,15 @@ def pipeline_run():
             'ul': result.ul.to_dict(orient='records'),
         }
         session['pipeline_summary'] = {
-            'du_file': session.get('pipeline_du_monitor', {}).get('source_file', ''),
-            'ru_file': 'uploaded in prepare step',
-            'profile_file': session.get('pipeline_profile_filename', ''),
+            'du_file': du_file.filename,
+            'ru_file': ru_file.filename,
+            'profile_file': session.get('pipeline_profile_filename', profile_file.filename if profile_file else ''),
             'selected_bandwidth': selected_bw,
             'selected_bandwidth_display': selected_row.get('bandwidth_display', selected_bw),
             'selected_scs': selected_row.get('scs', ''),
             't12_max_ui': float(t12_max_ui),
             't12_min_ui': float(t12_min_ui),
             'message': 'Pipeline completed. DL/UL analyzer values were updated.',
-        session['pipeline_summary'] = {
-            'du_file': du_file.filename,
-            'ru_file': ru_file.filename,
-            'profile_file': session.get('pipeline_profile_filename', profile_file.filename if profile_file else ''),
-            'selected_bandwidth': selected_bw,
-            'selected_scs': selected_row.get('scs', ''),
-            't12_max_ui': float(t12_max_ui),
-            't12_min_ui': float(t12_min_ui),
         }
         session['pipeline_error'] = None
         session.modified = True
