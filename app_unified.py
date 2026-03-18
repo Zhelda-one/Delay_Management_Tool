@@ -1035,7 +1035,9 @@ def extract_delay_profile_data(log_file):
                     "id": i + 1,
                     "bandwidth": bw_value,
                     "bandwidth_display": bw_disp,
+                    "bandwidth_display_mhz": bw_disp,
                     "scs": scs_disp,
+                    "select_label": f"{bw_disp} (SCS: {scs_disp})",
                     "raw_block": block # 필요시 원본 확인용
                 }
                 
