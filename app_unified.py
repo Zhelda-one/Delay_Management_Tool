@@ -1029,12 +1029,12 @@ def extract_delay_profile_data(log_file):
                     't2a-min-cp-ul', 't2a-max-cp-ul'
                 ]
                 
+                # Flask 기본 세션은 쿠키 기반이므로 큰 XML 원문은 저장하지 않는다.
                 row_data = {
                     "id": i + 1,
                     "bandwidth": bw_value,
                     "bandwidth_display": bw_disp,
                     "scs": scs_disp,
-                    "raw_block": block # 필요시 원본 확인용
                 }
                 
                 for k in keys:
